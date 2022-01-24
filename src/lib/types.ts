@@ -1,0 +1,115 @@
+export type Login = {
+	email: string,
+	senha: string
+}
+
+export type CotacaoTDO = {
+	codigo: string;
+	item: string
+	produto: string;
+	descricao: string;
+	marca: string;
+	quantidade: number;
+	valordoproduto: number;
+	frete: number;
+	st: number;
+	icms: number;
+	formaPagamento: string;
+	ipi: number;
+	status: boolean;
+	mva: number;
+	codbarras: string;
+
+}
+export type CotacaoTDOPayload = {
+	codigo: string;
+	fornecedor: string;
+	codigoEmpresa: string;
+	flag: string;
+	contratoEmpresa: string;
+
+}
+export type ItemCotacaoTDO = {
+	contratoEmpresa: string;
+	codigo: string | undefined;
+	item: string | undefined;
+	codigoInterno: string | undefined;
+	descricao: string | undefined;
+	marca: string | undefined;
+	quantidade: number | undefined;
+	valorProduto: number | undefined;
+	frete: number | undefined;
+	st: number | undefined;
+	icms: number | undefined;
+	formaPagamento: string | undefined;
+	fornecedor: string | undefined;
+	ipi: number | undefined;
+	status: boolean;
+	mva: number;
+	data: string;
+	codbarras: string | undefined;
+}
+export type Fornecedor = {
+	email: string;
+	cnpj: string;
+	razaoSocial: string;
+	cnpjClienteSuccess: string;
+	razaoSocialClienteSuccess: string;
+	numeroContratoClienteSuccess: string;
+	cotacaoHabilitado: number
+}
+export type FornecedorCredencials = {
+	email: string,
+	senha: string
+}
+export type LoginTDOEmail = {
+	email: string;
+}
+export type LoginTDOSenha = {
+	senha: string;
+}
+export type Cotacao = {
+	codigo: string;
+	data: string;
+}
+export type Empresa = {
+	codigo: string
+	razao: string
+	empresa: string
+	cnpj: string
+	cidade: string
+}
+export type HistoricoProdutosTDO = {
+	icms: number;
+	st: number;
+	ipi: number;
+	mva: number;
+	fornecedor: string;
+	produto6: string;
+}
+export type HistoricoProdutosTDOBoolean = {
+	icms: boolean;
+	st: boolean;
+	ipi: boolean;
+	mva: boolean;
+}
+export type HistoricoProdutosParametro = {
+	fornecedor: string;
+	produto6: string;
+	contratoEmpresa: string;
+	numeroEmpresa: string;
+}
+export type Flag = {
+	melcot16: string;
+	codigo6: string;
+	item6: string;
+	flag6: string;
+}
+
+export type UrlData = {
+	contratoEmpresa: string,
+	numeroEmpresa: string,
+	numeroCotacao: string,
+	cnpjFornecedor: string,
+	codigoFornecedor: string
+}

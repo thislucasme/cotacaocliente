@@ -2,6 +2,7 @@ import { Text } from "@chakra-ui/layout";
 import { Input, Select, SimpleGrid, VStack } from "@chakra-ui/react";
 import React from "react";
 //hello
+//sd
 export const Busca = () => {
 	return (
 		<VStack border={"2px"} borderColor={"gray.200"} borderRadius={3} p={3} w={"full"} bg={"gray.100"} alignItems="flex-start">

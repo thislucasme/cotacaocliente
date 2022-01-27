@@ -40,11 +40,8 @@ export const TesteLayout = () => {
 
 	useEffect(() => {
 
-		console.log("========TestLayout.tsx========")
 		const url: UrlData = JSON.parse(localStorage.getItem('url') as string);
 		setUrl(url)
-		console.log(url)
-		console.log("======================")
 
 		if (vendedor?.data === null) navigate('/')
 		// eslint-disable-next-line react-hooks/exhaustive-deps

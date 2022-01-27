@@ -49,7 +49,7 @@ export const ProfileMenu = () => {
 						<HStack><Text>CNPJ:</Text><Text strong>{fornecedor?.cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5")}</Text></HStack>
 						<BsInfoCircleFill color='#538EC6' cursor={"pointer"} />
 
-						<Button onClick={onOpen} type={"primary"} icon={<CaretDownOutlined />}>Editar dados</Button>
+						<Button onClick={onOpen} type={"primary"} icon={<CaretDownOutlined />}>Ver detalhes</Button>
 					</HStack>
 					:
 					<HStack>

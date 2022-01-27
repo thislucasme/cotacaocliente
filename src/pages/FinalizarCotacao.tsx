@@ -8,6 +8,7 @@ import { Button, message, Space, Typography } from "antd"
 import React, { useEffect, useState } from "react"
 import { AiOutlineInfoCircle } from "react-icons/ai"
 import { useRecoilState, useRecoilValue } from "recoil"
+import { KeyedMutator } from "swr"
 import { percentual, urlDataState } from "../context/atom"
 import { useFlagFornecedor } from '../hooks/useFlagFornecedor'
 import { CotacaoTDOPayload } from "../lib/types"
@@ -20,6 +21,7 @@ type Props = {
 	loading: boolean,
 	setEnviado: React.Dispatch<React.SetStateAction<boolean>>,
 	parametro: any,
+	mutate: KeyedMutator<any>
 
 }
 export const FinalizarCotacao = (props: Props) => {
@@ -159,6 +161,6 @@ export const FinalizarCotacao = (props: Props) => {
 				</ModalFooter>
 			</ModalContent>
 		</Modal>
-		<ModalDesconto isOpen={isOpenDesconto} onClose={onCloseDesconto} onOpen={onOpenDesconto} />
+		<ModalDesconto mutate={props.mutate} isOpen={isOpenDesconto} onClose={onCloseDesconto} onOpen={onOpenDesconto} />
 	</>
 }

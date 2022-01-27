@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CotacaoTDO, CotacaoTDOPayload, Flag, HistoricoProdutosParametro, UrlData } from "./types";
+import { CotacaoTDO, CotacaoTDOPayload, DescontoGeral, DescontoTDO, Flag, HistoricoProdutosParametro, UrlData } from "./types";
 
 export const apiEndPoint = 'http://localhost:3000';
 
@@ -77,6 +77,10 @@ export const apiPostFlag = async (cotacaoTDOPayload: CotacaoTDOPayload): Promise
 			throw e;
 		}
 	}
+}
+export const apiPutDescontoAll = async (descontoTO: DescontoGeral | null): Promise<any> => {
+	const res = await api.put('desconto', descontoTO);
+	return res;
 }
 export const apiGetEmpresa = async (numero: string) => {
 	try {

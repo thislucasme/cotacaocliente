@@ -6,29 +6,29 @@ import { Button, Layout, message, Result, Table, Tag, Tooltip, Typography } from
 import 'antd/dist/antd.css';
 import { ColumnType } from "antd/lib/table";
 import { encode } from "base-64";
+import jsPDF from "jspdf";
 import moment from "moment";
 import React, { useEffect, useMemo, useState } from "react";
 import { BiEdit } from 'react-icons/bi';
 import { useParams } from "react-router-dom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { Caminho } from "../components/CaminhoIndicador";
 import { InfoEmpresa } from "../components/InfoEmpresa";
 import { QuantidadeTotal } from "../components/QuantidadeTotal";
+import { urlDataState } from "../context/atom";
 import { useCotacao } from "../hooks/useCotacao";
 import { useFlagFornecedor } from '../hooks/useFlagFornecedor';
 import { useHistorico } from '../hooks/useHistorico';
 import { useItem } from '../hooks/useItens';
 import { useSetStatusLocalmente } from "../hooks/useSetStatusLocalmente";
 import { api } from "../lib/api";
-import { CotacaoTDO, CotacaoTDOPayload, HistoricoProdutosParametro, HistoricoProdutosTDO, HistoricoProdutosTDOBoolean, ItemCotacaoTDO, Login, UrlData } from "../lib/types";
+import { CotacaoTDO, HistoricoProdutosParametro, HistoricoProdutosTDO, HistoricoProdutosTDOBoolean, ItemCotacaoTDO, UrlData } from "../lib/types";
 import '../theme/styles.css';
 import '../theme/tabela.css';
 import { FinalizarCotacao } from './FinalizarCotacao';
 import { HistoricoTributosModal } from './HistoricoTributosModal';
 import { IntensCotacaoTabela } from "./ItensCotacaoTabela";
 
-import { urlDataState } from "../context/atom";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import jsPDF from "jspdf";
 const { Content } = Layout;
 
 const { Text } = Typography;
@@ -65,7 +65,7 @@ export function CotacoesAbertas() {
 
 	const [isLoading, setLoading] = useState(false);
 	const [isUpdateLoading, setUpdateLoading] = useState(false);
-	const { cotacoes, total, mutate, setFornecedorCode, setCotacaoCode, setEmpresaContratoCode, setEmpresaCode } = useCotacao();
+	const { cotacoes, total, totalDesconto, mutate, setFornecedorCode, setCotacaoCode, setEmpresaContratoCode, setEmpresaCode } = useCotacao();
 
 	// const { isOpen, onOpen, onClose } = useDisclosure();
 	const { isOpen: isOpenSegundo, onOpen: onOpenSegundo, onClose: onCloseSegundo } = useDisclosure();
@@ -548,7 +548,6 @@ export function CotacoesAbertas() {
 					</Tooltip>
 				},
 			},
-
 			{
 				title: 'Custo',
 				dataIndex: 'valordoproduto',
@@ -689,7 +688,8 @@ export function CotacoesAbertas() {
 								<Caminho caminhoMain={"Cotação"} caminhoAtual={urlData?.numeroCotacao} />
 							</VStack>
 							<Spacer />
-							<QuantidadeTotal total={total.data === undefined ? 0 : total?.data[0]?.total} />
+							{console.log("POWERRANGER", totalDesconto)}
+							<QuantidadeTotal totalDesconto={totalDesconto.data === undefined ? 0 : totalDesconto?.data[0]?.totalDesconto} total={total.data === undefined ? 0 : total?.data[0]?.total} />
 						</Flex>
 
 						<Divider />
@@ -706,7 +706,7 @@ export function CotacoesAbertas() {
 									pagination={{ pageSize: 10 }}
 									scroll={{ y: "200px", x: 1500 }}
 								/>
-								<FinalizarCotacao parametro={parametro} setEnviado={setEnviado} loading={!isEnviado} setAllPreenchido={setAllPreenchido} />
+								<FinalizarCotacao mutate={mutate} parametro={parametro} setEnviado={setEnviado} loading={!isEnviado} setAllPreenchido={setAllPreenchido} />
 							</> : <Result
 								status="success"
 								title="Dados enviados com sucesso!"

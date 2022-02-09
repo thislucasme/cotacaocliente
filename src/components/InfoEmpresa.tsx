@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Box, VStack, Text, HStack, Spacer, Stack, Skeleton } from '@chakra-ui/react';
 import { apiGetEmpresa } from "../lib/api";
-import { Empresa, UrlData } from "../lib/types";
+import { Empresa } from "../lib/types";
 import { useRecoilValue } from "recoil";
 import { urlDataState } from "../context/atom";
 export const InfoEmpresa = () => {

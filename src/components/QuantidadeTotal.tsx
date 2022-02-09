@@ -1,8 +1,6 @@
 import { Row, Statistic } from "antd";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
-import { percentual } from "../context/atom";
 
 type Props = {
 	total: number,
@@ -13,7 +11,6 @@ moment.locale();
 export const QuantidadeTotal = (props: Props) => {
 
 
-	const dataDesconto = useRecoilValue(percentual);
 
 	const [isLoading] = useState(false);
 

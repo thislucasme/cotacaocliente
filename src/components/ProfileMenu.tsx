@@ -12,7 +12,6 @@ import { BsInfoCircleFill } from 'react-icons/bs';
 import { useRecoilValue } from 'recoil';
 import { urlDataState } from '../context/atom';
 import { apiGetEmpresa } from '../lib/api';
-import { UrlData } from '../lib/types';
 
 const { Text } = Typography;
 
@@ -31,10 +30,6 @@ export const ProfileMenu = () => {
 		const result = apiGetEmpresa(url)
 		result.then((result) => {
 			setFornecedor(result.data)
-			const a = "kk";
-			a.toLowerCase();
-			console.log("===================")
-			console.log(fornecedor)
 		}).catch(error => {
 		})
 	}, [data])

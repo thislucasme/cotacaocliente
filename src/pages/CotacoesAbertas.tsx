@@ -1,6 +1,6 @@
 import {
 	Center,
-	Divider, Editable, EditableInput, EditablePreview, Flex, Spacer, Spinner, useDisclosure, VStack
+	Divider, Editable, EditableInput, EditablePreview, Flex, HStack, Spacer, Spinner, useDisclosure, VStack
 } from "@chakra-ui/react";
 import { Button, Layout, message, Result, Table, Tag, Tooltip, Typography } from "antd";
 import 'antd/dist/antd.css';
@@ -683,13 +683,13 @@ export function CotacoesAbertas() {
 							minHeight: 280,
 						}}>
 						<Flex mb={3}>
-							<VStack>
-								<InfoEmpresa />
-								<Caminho caminhoMain={"Cotação"} caminhoAtual={urlData?.numeroCotacao} />
+							<VStack mb={3}>
+								<HStack w="full">
+									<InfoEmpresa />
+								</HStack>
 							</VStack>
 							<Spacer />
-							{console.log("POWERRANGER", totalDesconto)}
-							<QuantidadeTotal totalDesconto={totalDesconto.data === undefined ? 0 : totalDesconto?.data[0]?.totalDesconto} total={total.data === undefined ? 0 : total?.data[0]?.total} />
+
 						</Flex>
 
 						<Divider />
@@ -706,6 +706,7 @@ export function CotacoesAbertas() {
 									pagination={{ pageSize: 10 }}
 									scroll={{ y: "200px", x: 1500 }}
 								/>
+								<QuantidadeTotal mutate={mutate} totalDesconto={totalDesconto.data === undefined ? 0 : totalDesconto?.data[0]?.totalDesconto} total={total.data === undefined ? 0 : total?.data[0]?.total} />
 								<FinalizarCotacao mutate={mutate} parametro={parametro} setEnviado={setEnviado} loading={!isEnviado} setAllPreenchido={setAllPreenchido} />
 							</> : <Result
 								status="success"

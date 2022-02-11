@@ -6,13 +6,11 @@ import { Button, message, Result, Table, Tag, Tooltip, Typography } from "antd";
 import { ColumnType } from "antd/lib/table";
 import { jsPDF } from "jspdf";
 import React, { useEffect, useMemo, useState } from "react";
+import { Caminho } from "../components/CaminhoIndicador";
 import { InfoEmpresa } from "../components/InfoEmpresa";
 import { useCotacao } from "../hooks/useCotacao";
 import { useFlagFornecedor } from "../hooks/useFlagFornecedor";
 import { CotacaoTDO, CotacaoTDOPayload } from "../lib/types";
-import { useStatusEnvio } from '../hooks/useStatusEnvio'
-import { Caminho } from "../components/CaminhoIndicador";
-import { QuantidadeTotal } from "../components/QuantidadeTotal";
 
 const { Text } = Typography;
 
@@ -20,7 +18,7 @@ const { Text } = Typography;
 
 export const Report = () => {
 
-	const { vendedor } = useStatusEnvio();
+
 	const [isLoadingPage, setIsLoadingPage] = useState(false);
 
 
@@ -28,7 +26,7 @@ export const Report = () => {
 	const success = () => {
 		message.success('Baixando relatório!');
 	};
-	const { cotacoes, total } = useCotacao();
+	const { cotacoes } = useCotacao();
 	const [isGerando, setIsGerando] = useState(false);
 	const [isEnviado, setEnviado] = useState(false);
 	const { apiPostVerificarFlagFornecedor } = useFlagFornecedor();
@@ -404,7 +402,7 @@ export const Report = () => {
 							<Caminho caminhoMain={"Cotação"} caminhoAtual={"00000001"} />
 						</VStack>
 						<Spacer />
-						<QuantidadeTotal total={total.data === undefined ? 0 : total?.data[0]?.total} />
+						{/*<QuantidadeTotal total={total.data === undefined ? 0 : total?.data[0]?.total} />*/}
 					</Flex>
 					<Divider />
 					{

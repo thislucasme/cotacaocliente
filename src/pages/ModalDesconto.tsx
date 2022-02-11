@@ -19,7 +19,7 @@ export const ModalDesconto = (props: Props) => {
 	const [url, setUrl] = useState<UrlData | null>(null);
 	const { desconto } = useDesconto();
 
-	const [isLoading, setIsLoading] = useState(false);
+	const [, setIsLoading] = useState(false);
 
 	const setDesconto = useSetRecoilState(percentual);
 	//const { } = useDesconto()

@@ -12,12 +12,11 @@ import React, { useEffect, useMemo, useState } from "react";
 import { BiEdit } from 'react-icons/bi';
 import { useParams } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { Caminho } from "../components/CaminhoIndicador";
 import { InfoEmpresa } from "../components/InfoEmpresa";
 import { QuantidadeTotal } from "../components/QuantidadeTotal";
 import { urlDataState } from "../context/atom";
 import { useCotacao } from "../hooks/useCotacao";
-import { useFlagFornecedor } from '../hooks/useFlagFornecedor';
+
 import { useHistorico } from '../hooks/useHistorico';
 import { useItem } from '../hooks/useItens';
 import { useSetStatusLocalmente } from "../hooks/useSetStatusLocalmente";
@@ -54,7 +53,7 @@ export function CotacoesAbertas() {
 	const pdfGerado = () => {
 		message.success('Relatório gerado com sucesso!');
 	};
-	const [quantidade, setQuantidade] = useState('');
+	const [quantidade] = useState('');
 	const {
 		abrirModal, onClose, isOpen, icms, setIcms, frete, setFrete,
 		valorProduto, setValorProduto, st, setSt, mva, setMva, ipi, setIpi,
@@ -81,7 +80,7 @@ export function CotacoesAbertas() {
 	const [historicoBoolean, setHistoricoBoolean] = useState<HistoricoProdutosTDOBoolean>();
 	const [isAllPreenchido, setAllPreenchido] = useState(false);
 
-	const { apiPostVerificarFlagFornecedor } = useFlagFornecedor();
+
 
 	const { isEnviado, statusLocalmente, setEnviado } = useSetStatusLocalmente();
 

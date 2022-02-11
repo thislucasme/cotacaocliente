@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CotacaoTDO, CotacaoTDOPayload, DescontoGeral, DescontoTDO, Flag, HistoricoProdutosParametro, UrlData } from "./types";
+import { CotacaoTDO, CotacaoTDOPayload, DescontoGeral, UrlData } from "./types";
 
 export const apiEndPoint = 'http://localhost:3000';
 

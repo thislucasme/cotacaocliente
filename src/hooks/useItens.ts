@@ -1,9 +1,7 @@
 import { useDisclosure } from "@chakra-ui/react";
 import { useState } from "react";
-import { CotacaoTDO, CotacaoTDOPayload, HistoricoProdutosTDO, HistoricoProdutosTDOBoolean } from "../lib/types";
-type Props = {
+import { CotacaoTDO } from "../lib/types";
 
-}
 export const useItem = () => {
 
 	const [valorProduto, setValorProduto] = useState('');

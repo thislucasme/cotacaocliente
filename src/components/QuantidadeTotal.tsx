@@ -1,7 +1,7 @@
 import { Button, HStack, Text, useDisclosure, VStack } from '@chakra-ui/react';
-import { Select, Tooltip } from "antd";
+import { Tooltip } from "antd";
 import moment from "moment";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { AiFillEdit } from 'react-icons/ai';
 import { KeyedMutator } from 'swr';
 import { ModalDesconto } from '../pages/ModalDesconto';
@@ -15,9 +15,6 @@ type Props = {
 moment.locale();
 export const QuantidadeTotal = (props: Props) => {
 
-	const { Option } = Select;
-
-	const [isLoading] = useState(false);
 	const { isOpen: isOpenDesconto, onOpen: onOpenDesconto, onClose: onCloseDesconto } = useDisclosure()
 
 	useEffect(() => {

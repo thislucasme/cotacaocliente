@@ -1,35 +1,58 @@
-import { Row, Statistic } from "antd";
+import { Button, HStack, Text, useDisclosure, VStack } from '@chakra-ui/react';
+import { Tooltip } from "antd";
 import moment from "moment";
-import React, { useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
-import { percentual } from "../context/atom";
+import React, { useEffect } from "react";
+import { AiFillEdit } from 'react-icons/ai';
+import { KeyedMutator } from 'swr';
+import { ModalDesconto } from '../pages/ModalDesconto';
+
 type Props = {
 	total: number,
+	totalDesconto: number,
+	mutate: KeyedMutator<any>
 }
 //app 
 moment.locale();
 export const QuantidadeTotal = (props: Props) => {
 
-
-	const dataDesconto = useRecoilValue(percentual);
-
-	const [isLoading] = useState(false);
+	const { isOpen: isOpenDesconto, onOpen: onOpenDesconto, onClose: onCloseDesconto } = useDisclosure()
 
 	useEffect(() => {
 	}, [])
 
 	return (
 		<>
-			<Row gutter={16}>
-
-				{dataDesconto ?
-					<Statistic loading={isLoading} style={{ margin: "10px" }} title="Total Geral" value={(props.total - (dataDesconto / 100 * props.total)).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })} />
-					:
-					<>
-					</>
+			<HStack>
+				<Tooltip title={"Editar informações: Frete e desconto."}>
+					<Button onClick={onOpenDesconto} rightIcon={<AiFillEdit />}>
+						Editar
+					</Button>
+				</Tooltip>
+				<VStack alignItems={"start"} >
+					<Text color={"gray.500"}>Frete</Text>
+					<Text fontWeight={"semibold"}>{(19.90).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
+				</VStack>
+				<VStack alignItems={"start"} >
+					<Text color={"gray.500"}>Subtotal</Text>
+					<Text mr={5} fontWeight={"semibold"}>{(props.total).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
+				</VStack>
+				<VStack alignItems={"start"} >
+					<Text color={"gray.500"}>Desconto</Text>
+					<Text fontWeight={"semibold"}>{(12.90).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
+				</VStack>
+				{
+					props.totalDesconto > 0 ?
+						<VStack alignItems={"start"}>
+							<Text color={"gray.500"}>Total geral</Text>
+							<Text fontWeight={"semibold"}>{(props.totalDesconto).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
+						</VStack>
+						: <></>
 				}
-				<Statistic loading={isLoading} style={{ margin: "10px" }} title="Subtotal" value={(props.total).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })} />
-			</Row>
+
+
+
+			</HStack>
+			<ModalDesconto mutate={props.mutate} isOpen={isOpenDesconto} onClose={onCloseDesconto} onOpen={onOpenDesconto} />
 		</>
 	);
 }

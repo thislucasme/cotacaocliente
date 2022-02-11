@@ -1,34 +1,33 @@
 import {
 	Center,
-	Divider, Editable, EditableInput, EditablePreview, Flex, Spacer, Spinner, useDisclosure, VStack
+	Divider, Editable, EditableInput, EditablePreview, Flex, HStack, Spacer, Spinner, useDisclosure, VStack
 } from "@chakra-ui/react";
 import { Button, Layout, message, Result, Table, Tag, Tooltip, Typography } from "antd";
 import 'antd/dist/antd.css';
 import { ColumnType } from "antd/lib/table";
 import { encode } from "base-64";
+import jsPDF from "jspdf";
 import moment from "moment";
 import React, { useEffect, useMemo, useState } from "react";
 import { BiEdit } from 'react-icons/bi';
 import { useParams } from "react-router-dom";
-import { Caminho } from "../components/CaminhoIndicador";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { InfoEmpresa } from "../components/InfoEmpresa";
 import { QuantidadeTotal } from "../components/QuantidadeTotal";
+import { urlDataState } from "../context/atom";
 import { useCotacao } from "../hooks/useCotacao";
-import { useFlagFornecedor } from '../hooks/useFlagFornecedor';
+
 import { useHistorico } from '../hooks/useHistorico';
 import { useItem } from '../hooks/useItens';
 import { useSetStatusLocalmente } from "../hooks/useSetStatusLocalmente";
 import { api } from "../lib/api";
-import { CotacaoTDO, CotacaoTDOPayload, HistoricoProdutosParametro, HistoricoProdutosTDO, HistoricoProdutosTDOBoolean, ItemCotacaoTDO, Login, UrlData } from "../lib/types";
+import { CotacaoTDO, HistoricoProdutosParametro, HistoricoProdutosTDO, HistoricoProdutosTDOBoolean, ItemCotacaoTDO, UrlData } from "../lib/types";
 import '../theme/styles.css';
 import '../theme/tabela.css';
 import { FinalizarCotacao } from './FinalizarCotacao';
 import { HistoricoTributosModal } from './HistoricoTributosModal';
 import { IntensCotacaoTabela } from "./ItensCotacaoTabela";
 
-import { urlDataState } from "../context/atom";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import jsPDF from "jspdf";
 const { Content } = Layout;
 
 const { Text } = Typography;
@@ -54,7 +53,7 @@ export function CotacoesAbertas() {
 	const pdfGerado = () => {
 		message.success('Relatório gerado com sucesso!');
 	};
-	const [quantidade, setQuantidade] = useState('');
+	const [quantidade] = useState('');
 	const {
 		abrirModal, onClose, isOpen, icms, setIcms, frete, setFrete,
 		valorProduto, setValorProduto, st, setSt, mva, setMva, ipi, setIpi,
@@ -65,7 +64,7 @@ export function CotacoesAbertas() {
 
 	const [isLoading, setLoading] = useState(false);
 	const [isUpdateLoading, setUpdateLoading] = useState(false);
-	const { cotacoes, total, mutate, setFornecedorCode, setCotacaoCode, setEmpresaContratoCode, setEmpresaCode } = useCotacao();
+	const { cotacoes, total, totalDesconto, mutate, setFornecedorCode, setCotacaoCode, setEmpresaContratoCode, setEmpresaCode } = useCotacao();
 
 	// const { isOpen, onOpen, onClose } = useDisclosure();
 	const { isOpen: isOpenSegundo, onOpen: onOpenSegundo, onClose: onCloseSegundo } = useDisclosure();
@@ -81,7 +80,7 @@ export function CotacoesAbertas() {
 	const [historicoBoolean, setHistoricoBoolean] = useState<HistoricoProdutosTDOBoolean>();
 	const [isAllPreenchido, setAllPreenchido] = useState(false);
 
-	const { apiPostVerificarFlagFornecedor } = useFlagFornecedor();
+
 
 	const { isEnviado, statusLocalmente, setEnviado } = useSetStatusLocalmente();
 
@@ -418,29 +417,21 @@ export function CotacoesAbertas() {
 				shouldCellUpdate: () => true,
 				width: '100px',
 				render: (value: boolean, record: CotacaoTDO) => {
-					const item = localStorage.getItem(`@App:${record.item}`) as string;
-					const result: CotacaoTDO = JSON.parse(item);
-					if (item) {
-						if (result.item === record.item) {
-							// let quant: number = Number(localStorage.getItem(`@App:count`));
-							// localStorage.setItem(`@App:count`, (quant + 1).toString());
-							// quant = Number(localStorage.getItem(`@App:count`));
-							setQuantidadeItensPreenchidos(quantidadeItensPreenchidos + 1);
-							return <>
-								<Tag style={{ fontSize: "12px" }} color="success">
-									EDITADO
-								</Tag>
-							</>
-						}
+
+					if (record.valordoproduto > 0) {
+						setQuantidadeItensPreenchidos(quantidadeItensPreenchidos + 1);
+						return <>
+							<Tag style={{ fontSize: "12px" }} color="#87D068">
+								MODIFICADO
+							</Tag>
+						</>
 					} else {
 						return <>
-							<Tag style={{ fontSize: "12px" }} color="orange">
-								AGUARDANDO
+							<Tag style={{ fontSize: "12px", width: "90px" }} color="#808080">
+								PENDENTE
 							</Tag>
 						</>
 					}
-
-
 				},
 			},
 
@@ -548,7 +539,6 @@ export function CotacoesAbertas() {
 					</Tooltip>
 				},
 			},
-
 			{
 				title: 'Custo',
 				dataIndex: 'valordoproduto',
@@ -684,12 +674,13 @@ export function CotacoesAbertas() {
 							minHeight: 280,
 						}}>
 						<Flex mb={3}>
-							<VStack>
-								<InfoEmpresa />
-								<Caminho caminhoMain={"Cotação"} caminhoAtual={urlData?.numeroCotacao} />
+							<VStack mb={3}>
+								<HStack w="full">
+									<InfoEmpresa />
+								</HStack>
 							</VStack>
 							<Spacer />
-							<QuantidadeTotal total={total.data === undefined ? 0 : total?.data[0]?.total} />
+
 						</Flex>
 
 						<Divider />
@@ -706,7 +697,8 @@ export function CotacoesAbertas() {
 									pagination={{ pageSize: 10 }}
 									scroll={{ y: "200px", x: 1500 }}
 								/>
-								<FinalizarCotacao parametro={parametro} setEnviado={setEnviado} loading={!isEnviado} setAllPreenchido={setAllPreenchido} />
+								<QuantidadeTotal mutate={mutate} totalDesconto={totalDesconto.data === undefined ? 0 : totalDesconto?.data[0]?.totalDesconto} total={total.data === undefined ? 0 : total?.data[0]?.total} />
+								<FinalizarCotacao mutate={mutate} parametro={parametro} setEnviado={setEnviado} loading={!isEnviado} setAllPreenchido={setAllPreenchido} />
 							</> : <Result
 								status="success"
 								title="Dados enviados com sucesso!"

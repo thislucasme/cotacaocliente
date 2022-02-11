@@ -20,7 +20,7 @@ type Props = {
 export const HistoricoTributosModal = (props: Props) => {
 
 
-	const [isLoading, setIsLoading] = useState();
+	const [isLoading,] = useState();
 
 	const salvarItem = () => {
 		props.salvarItem();

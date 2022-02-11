@@ -7,8 +7,9 @@ import {
 import { Button, message, Space, Typography } from "antd"
 import React, { useEffect, useState } from "react"
 import { AiOutlineInfoCircle } from "react-icons/ai"
-import { useRecoilState, useRecoilValue } from "recoil"
-import { percentual, urlDataState } from "../context/atom"
+import { useRecoilValue } from "recoil"
+import { KeyedMutator } from "swr"
+import { urlDataState } from "../context/atom"
 import { useFlagFornecedor } from '../hooks/useFlagFornecedor'
 import { CotacaoTDOPayload } from "../lib/types"
 import { ModalDesconto } from '../pages/ModalDesconto'
@@ -20,23 +21,18 @@ type Props = {
 	loading: boolean,
 	setEnviado: React.Dispatch<React.SetStateAction<boolean>>,
 	parametro: any,
+	mutate: KeyedMutator<any>
 
 }
 export const FinalizarCotacao = (props: Props) => {
 
-	const [contratoEmpresa, setContratoEmpresa] = useState('');
-	const [numeroEmpresa, setNumeroEmpresa] = useState('');
-	const [numeroCotacao, setNumeroCotacao] = useState('');
-	const [cnpjFornecedor, setCnjFornecedor] = useState('');
-	const [codigoFornecedor, setCodigoFornecedor] = useState('');
+	const [, setContratoEmpresa] = useState('');
+	const [, setNumeroEmpresa] = useState('');
+	const [, setNumeroCotacao] = useState('');
+	const [, setCnjFornecedor] = useState('');
+	const [, setCodigoFornecedor] = useState('');
 
-	const payload: CotacaoTDOPayload = {
-		codigo: numeroCotacao,
-		fornecedor: codigoFornecedor,
-		flag: "xx",
-		contratoEmpresa: "",
-		codigoEmpresa: ""
-	}
+
 	//const { dados } = useCotacaoFlag(payload);
 
 	const success = () => {
@@ -53,11 +49,11 @@ export const FinalizarCotacao = (props: Props) => {
 
 	const [isLoading, setIsLoading] = useState(false);
 
-	const { apiPostFlagFornecedor, apiPostVerificarFlagFornecedor } = useFlagFornecedor();
+	const { apiPostFlagFornecedor } = useFlagFornecedor();
 
 	const dataUrl = useRecoilValue(urlDataState)
 
-	const desconto = useRecoilState(percentual);
+
 
 	const { isOpen: isOpenDesconto, onOpen: onOpenDesconto, onClose: onCloseDesconto } = useDisclosure()
 
@@ -127,7 +123,6 @@ export const FinalizarCotacao = (props: Props) => {
 		<Button type="primary" disabled={!props.loading} onClick={() => { salvar() }}>
 			Confirmar envio
 		</Button>
-		<Button onClick={onOpenDesconto} style={{ "marginLeft": "5px" }}>Aplicar desconto</Button>
 
 		<Space />
 
@@ -159,6 +154,6 @@ export const FinalizarCotacao = (props: Props) => {
 				</ModalFooter>
 			</ModalContent>
 		</Modal>
-		<ModalDesconto isOpen={isOpenDesconto} onClose={onCloseDesconto} onOpen={onOpenDesconto} />
+		<ModalDesconto mutate={props.mutate} isOpen={isOpenDesconto} onClose={onCloseDesconto} onOpen={onOpenDesconto} />
 	</>
 }

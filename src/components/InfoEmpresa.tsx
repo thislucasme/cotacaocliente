@@ -1,9 +1,9 @@
+import { HStack, Skeleton, Stack, Text } from '@chakra-ui/react';
 import React, { useEffect, useState } from "react";
-import { Box, VStack, Text, HStack, Spacer, Stack, Skeleton } from '@chakra-ui/react';
-import { apiGetEmpresa } from "../lib/api";
-import { Empresa, UrlData } from "../lib/types";
 import { useRecoilValue } from "recoil";
 import { urlDataState } from "../context/atom";
+import { apiGetEmpresa } from "../lib/api";
+import { Empresa } from "../lib/types";
 export const InfoEmpresa = () => {
 	const [empresa, setEmpresa] = useState<Empresa | null>();
 
@@ -23,24 +23,21 @@ export const InfoEmpresa = () => {
 	}, [data])
 	return (
 		empresa ?
-			<Box minWidth='250px' fontWeight='medium' color='blue.400' mb={5}>
-				<VStack alignItems={"flex-start"}>
-					<Text as='span' color='blue.300' mr={2} flex={0} fontWeight='normal'>
-						{empresa?.razao}
-					</Text>
-					<Box fontWeight='medium'>
-						<HStack>
-							<Text fontSize={"sm"} color='gray.500'>
-								CNPJ: {empresa?.cnpj}
-							</Text>{' '}
-							<Text fontSize={"sm"} color='gray.500'>
-								CIDADE: {empresa?.cidade}
-							</Text>
-							<Spacer />
-						</HStack>
-					</Box>
-				</VStack>
-			</Box>
+			<HStack>
+				<Text as='span' color='blue.300' fontWeight='normal'>
+					{empresa?.razao}
+				</Text>
+				<Text fontSize={"sm"} color='gray.500'>
+					CNPJ: {empresa?.cnpj}
+				</Text>
+				<Text fontSize={"sm"} color='gray.500'>
+					CIDADE: {empresa?.cidade}
+				</Text>
+				<Text fontSize={"sm"} color='gray.500'>
+					COTAÇÃO: {data[0].numeroCotacao ? data[0].numeroCotacao : 0}
+				</Text>
+
+			</HStack>
 			:
 			<Stack >
 				<Skeleton height='20px' w="170px" />

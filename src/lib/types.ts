@@ -2,7 +2,12 @@ export type Login = {
 	email: string,
 	senha: string
 }
+export type DescontoTDO = {
+	percentual: number;
+	item: ItemCotacaoTDO,
+	dados: CotacaoTDOPayload
 
+}
 export type CotacaoTDO = {
 	codigo: string;
 	item: string
@@ -112,4 +117,14 @@ export type UrlData = {
 	numeroCotacao: string,
 	cnpjFornecedor: string,
 	codigoFornecedor: string
+}
+
+export type DescontoGeral = {
+	percentual: number;
+	dados: {
+		codigo: string | undefined;
+		codigoEmpresa: string | undefined;
+		fornecedor: string | undefined;
+		contratoEmpresa: string | undefined;
+	}
 }

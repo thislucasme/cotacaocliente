@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
 	Alert,
 	AlertIcon, Center, Divider, Editable, EditableInput, EditablePreview, Flex, Spacer, Spinner, VStack
@@ -169,8 +170,6 @@ export const Report = () => {
 				shouldCellUpdate: () => true,
 				width: '100px',
 				render: (value: boolean, record: CotacaoTDO) => {
-					const item = localStorage.getItem(`@App:${record.item}`) as string;
-					const result: CotacaoTDO = JSON.parse(item);
 					return (
 						<Tag style={{ fontSize: "12px" }} color="success">
 							PREENCHIDO

@@ -66,7 +66,7 @@ export const FinalizarCotacao = (props: Props) => {
 		setNumeroCotacao(dataUrl[0]?.numeroCotacao)
 		setCnjFornecedor(dataUrl[0]?.cnpjFornecedor)
 		setCodigoFornecedor(dataUrl[0]?.codigoFornecedor)
-
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
 

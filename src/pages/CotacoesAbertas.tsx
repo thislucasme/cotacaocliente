@@ -140,6 +140,7 @@ export function CotacoesAbertas() {
 
 
 
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [codigoCotacao])
 
 
@@ -649,7 +650,7 @@ export function CotacoesAbertas() {
 					</Editable>;
 				},
 			},
-
+			// eslint-disable-next-line react-hooks/exhaustive-deps
 		], []
 	)
 

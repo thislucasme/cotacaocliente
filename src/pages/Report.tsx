@@ -61,6 +61,7 @@ export const Report = () => {
 
 	useEffect(() => {
 		teste();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
 	var generateData = function (amount: number) {

@@ -39,9 +39,9 @@ export const ProfileMenu = () => {
 			<Box px={3} display="flex" alignItems="center" alignContent="center" minH="full">
 
 				{fornecedor ?
-					<HStack borderRadius={5} p={1}>
-						<HStack><Text>Nome:</Text><Text strong>{fornecedor?.nome.toLowerCase()}</Text></HStack>
-						<HStack><Text>CNPJ:</Text><Text strong>{fornecedor?.cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5")}</Text></HStack>
+					<HStack borderRadius={5} >
+						<HStack><Text style={{ color: "gray" }} strong>Razão social:</Text><Text style={{ fontSize: "14px" }} strong>{fornecedor?.nome.trim().toLowerCase()}</Text></HStack>
+						<HStack><Text style={{ color: "gray" }} strong>CNPJ:</Text><Text strong>{fornecedor?.cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5")}</Text></HStack>
 						<BsInfoCircleFill color='#538EC6' cursor={"pointer"} />
 
 						<Button onClick={onOpen} type={"primary"} icon={<CaretDownOutlined />}>Ver detalhes</Button>

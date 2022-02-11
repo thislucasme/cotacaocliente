@@ -418,29 +418,21 @@ export function CotacoesAbertas() {
 				shouldCellUpdate: () => true,
 				width: '100px',
 				render: (value: boolean, record: CotacaoTDO) => {
-					const item = localStorage.getItem(`@App:${record.item}`) as string;
-					const result: CotacaoTDO = JSON.parse(item);
-					if (item) {
-						if (result.item === record.item) {
-							// let quant: number = Number(localStorage.getItem(`@App:count`));
-							// localStorage.setItem(`@App:count`, (quant + 1).toString());
-							// quant = Number(localStorage.getItem(`@App:count`));
-							setQuantidadeItensPreenchidos(quantidadeItensPreenchidos + 1);
-							return <>
-								<Tag style={{ fontSize: "12px" }} color="success">
-									EDITADO
-								</Tag>
-							</>
-						}
+
+					if (record.valordoproduto > 0) {
+						setQuantidadeItensPreenchidos(quantidadeItensPreenchidos + 1);
+						return <>
+							<Tag style={{ fontSize: "12px" }} color="#87D068">
+								MODIFICADO
+							</Tag>
+						</>
 					} else {
 						return <>
-							<Tag style={{ fontSize: "12px" }} color="orange">
-								AGUARDANDO
+							<Tag style={{ fontSize: "12px", width: "90px" }} color="#808080">
+								PENDENTE
 							</Tag>
 						</>
 					}
-
-
 				},
 			},
 

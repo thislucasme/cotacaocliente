@@ -1,12 +1,11 @@
+import { HStack, Modal, Select, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text } from "@chakra-ui/react";
+import { Button, Input, message, Space } from "antd";
 import React, { useEffect, useState } from "react";
-import { HStack, Modal, Text, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure, useStyleConfig } from "@chakra-ui/react";
-import { Button, Space, Input, message } from "antd";
-import { AiOutlineInfoCircle } from "react-icons/ai";
 import { useSetRecoilState } from "recoil";
+import { KeyedMutator } from "swr";
 import { percentual } from "../context/atom";
 import { useDesconto } from "../hooks/useDesconto";
 import { DescontoGeral, UrlData } from "../lib/types";
-import { KeyedMutator, mutate } from "swr";
 
 type Props = {
 	isOpen: boolean,
@@ -14,6 +13,7 @@ type Props = {
 	onOpen: () => void,
 	mutate: KeyedMutator<any>
 }
+
 export const ModalDesconto = (props: Props) => {
 
 	const [url, setUrl] = useState<UrlData | null>(null);
@@ -53,6 +53,7 @@ export const ModalDesconto = (props: Props) => {
 		props.onClose();
 	}
 
+
 	useEffect(() => {
 		const url: UrlData = JSON.parse(localStorage.getItem('urlData') as string);
 		setUrl(url)
@@ -67,13 +68,25 @@ export const ModalDesconto = (props: Props) => {
 				<ModalContent>
 					<ModalHeader fontWeight="normal">
 						<HStack>
-							<AiOutlineInfoCircle size="20px" color="#3182ce" />
-							<Text>Desconto</Text>
+							<Text>Editar</Text>
 						</HStack>
 					</ModalHeader>
 					<ModalCloseButton _focus={{ boxShadow: "none" }} />
 					<ModalBody>
-						No campo abaixo digite o quanto de desconto deseja aplicar no valor total (%).
+						<Text mb={3}>
+							Desconto
+						</Text>
+						<HStack>
+
+							<Select size="sm">
+								<option value='option2'>R$</option>
+								<option value='option1'>%</option>
+							</Select>
+							<Input name={value} onChange={(e) => { setValue(e.target.value) }} />
+						</HStack>
+						<Text mb={3}>
+							Frete
+						</Text>
 						<Input name={value} onChange={(e) => { setValue(e.target.value) }} />
 					</ModalBody>
 

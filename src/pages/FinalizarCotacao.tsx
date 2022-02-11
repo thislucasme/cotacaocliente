@@ -129,7 +129,7 @@ export const FinalizarCotacao = (props: Props) => {
 		<Button type="primary" disabled={!props.loading} onClick={() => { salvar() }}>
 			Confirmar envio
 		</Button>
-		<Button onClick={onOpenDesconto} style={{ "marginLeft": "5px" }}>Aplicar desconto</Button>
+
 
 		<Space />
 

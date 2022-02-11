@@ -1,30 +1,26 @@
-import React, { useEffect, useState } from "react";
-import { FilePdfOutlined, FolderOpenOutlined, MailOutlined, MenuOutlined, SettingOutlined } from '@ant-design/icons';
+import { FolderOpenOutlined, MenuOutlined, SettingOutlined } from '@ant-design/icons';
 import { Box, chakra, Flex, Image, Spacer } from "@chakra-ui/react";
 import { Layout, Menu } from "antd";
 import 'antd/dist/antd.css';
-
+import React, { useEffect, useState } from "react";
 import { BiHomeAlt } from 'react-icons/bi';
 import { Outlet, useNavigate, useParams } from "react-router-dom";
+import { useRecoilValue } from "recoil";
 import LogoMenor from '../assets/logo-icon-48x48.png';
 import LogoMaior from '../assets/logonomesuc.f5f52e7a.png';
 import { Loading } from '../components/Loading';
 import { ProfileMenu } from "../components/ProfileMenu";
-import { useVendedor } from '../hooks/useVendedor';
-import '../theme/styles.css';
 import { Result } from '../components/Result';
-import { useRecoilValue } from "recoil";
 import { urlDataState } from "../context/atom";
+import { useVendedor } from '../hooks/useVendedor';
 import { UrlData } from "../lib/types";
+import '../theme/styles.css';
+
 const { Header, Sider, Content } = Layout;
 
 const LayoutChakara = chakra(Layout);
 export const TesteLayout = () => {
 
-
-	const dataUrl = useRecoilValue(urlDataState);
-
-	const { codigoCotacao } = useParams();
 
 	const [url, setUrl] = useState<UrlData>();
 	const [collapsed, setCollapsed] = useState(true);

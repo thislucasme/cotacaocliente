@@ -22,8 +22,11 @@ export const ModalDesconto = (props: Props) => {
 	const [, setIsLoading] = useState(false);
 
 	const setDesconto = useSetRecoilState(percentual);
+
+	const [tipoValor, setTipoValor] = useState('');
 	//const { } = useDesconto()
 	const [value, setValue] = useState("");
+	const [frete, setFrete] = useState("");
 
 	async function salvarDesconto() {
 		setDesconto(value);
@@ -35,7 +38,9 @@ export const ModalDesconto = (props: Props) => {
 				codigoEmpresa: url?.numeroEmpresa,
 				fornecedor: url?.codigoFornecedor,
 				contratoEmpresa: url?.contratoEmpresa
-			}
+			},
+			frete: Number.parseInt(frete),
+			tipo: tipoValor
 		}
 		setIsLoading(true);
 		const status = await desconto(data);
@@ -77,17 +82,16 @@ export const ModalDesconto = (props: Props) => {
 							Desconto
 						</Text>
 						<HStack>
-
-							<Select size="sm">
-								<option value='option2'>R$</option>
-								<option value='option1'>%</option>
+							<Select onChange={(event: any) => { setTipoValor(event.target.value) }} size="sm">
+								<option value='V'>R$</option>
+								<option value='P'>%</option>
 							</Select>
 							<Input name={value} onChange={(e) => { setValue(e.target.value) }} />
 						</HStack>
 						<Text mb={3}>
 							Frete
 						</Text>
-						<Input name={value} onChange={(e) => { setValue(e.target.value) }} />
+						<Input name={frete} onChange={(e) => { setFrete(e.target.value) }} />
 					</ModalBody>
 
 					<ModalFooter>

@@ -121,6 +121,8 @@ export type UrlData = {
 
 export type DescontoGeral = {
 	percentual: number;
+	frete: number;
+	tipo: string;
 	dados: {
 		codigo: string | undefined;
 		codigoEmpresa: string | undefined;

@@ -9,6 +9,7 @@ import { ModalDesconto } from '../pages/ModalDesconto';
 type Props = {
 	total: number,
 	totalDesconto: number,
+	totalFrete: number,
 	mutate: KeyedMutator<any>
 }
 //app 
@@ -30,7 +31,7 @@ export const QuantidadeTotal = (props: Props) => {
 				</Tooltip>
 				<VStack alignItems={"start"} >
 					<Text color={"gray.500"}>Frete</Text>
-					<Text fontWeight={"semibold"}>{(19.90).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
+					<Text fontWeight={"semibold"}>{(props.totalFrete).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
 				</VStack>
 				<VStack alignItems={"start"} >
 					<Text color={"gray.500"}>Subtotal</Text>

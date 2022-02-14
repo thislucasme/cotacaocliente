@@ -64,7 +64,7 @@ export function CotacoesAbertas() {
 
 	const [isLoading, setLoading] = useState(false);
 	const [isUpdateLoading, setUpdateLoading] = useState(false);
-	const { cotacoes, total, totalDesconto, mutate, setFornecedorCode, setCotacaoCode, setEmpresaContratoCode, setEmpresaCode } = useCotacao();
+	const { cotacoes, total, totalFrete, totalDesconto, mutate, setFornecedorCode, setCotacaoCode, setEmpresaContratoCode, setEmpresaCode } = useCotacao();
 
 	// const { isOpen, onOpen, onClose } = useDisclosure();
 	const { isOpen: isOpenSegundo, onOpen: onOpenSegundo, onClose: onCloseSegundo } = useDisclosure();
@@ -698,7 +698,7 @@ export function CotacoesAbertas() {
 									pagination={{ pageSize: 10 }}
 									scroll={{ y: "200px", x: 1500 }}
 								/>
-								<QuantidadeTotal mutate={mutate} totalDesconto={totalDesconto.data === undefined ? 0 : totalDesconto?.data[0]?.totalDesconto} total={total.data === undefined ? 0 : total?.data[0]?.total} />
+								<QuantidadeTotal totalFrete={totalFrete.data === undefined ? 0 : totalFrete?.data[0]?.totalFrete} mutate={mutate} totalDesconto={totalDesconto.data === undefined ? 0 : totalDesconto?.data[0]?.totalDesconto} total={total.data === undefined ? 0 : total?.data[0]?.total} />
 								<FinalizarCotacao mutate={mutate} parametro={parametro} setEnviado={setEnviado} loading={!isEnviado} setAllPreenchido={setAllPreenchido} />
 							</> : <Result
 								status="success"

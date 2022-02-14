@@ -44,6 +44,7 @@ export const useCotacao = () => {
 		dadosTyped: items,
 		total: { data: data?.data[1] },
 		totalDesconto: { data: data?.data[2] },
+		totalFrete: { data: data?.data[3] },
 		error,
 		mutate,
 		loading,

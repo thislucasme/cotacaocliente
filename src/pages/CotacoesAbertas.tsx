@@ -141,7 +141,7 @@ export function CotacoesAbertas() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [codigoCotacao])
 
-
+	//aastat
 	var generateData = function (amount: number) {
 
 		const itens: Array<CotacaoTDO> = [

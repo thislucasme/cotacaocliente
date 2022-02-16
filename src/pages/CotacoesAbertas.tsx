@@ -141,9 +141,6 @@ export function CotacoesAbertas() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [codigoCotacao])
 
-	function vazia() {
-
-	}
 
 	var generateData = function (amount: number) {
 

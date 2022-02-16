@@ -64,7 +64,7 @@ export function CotacoesAbertas() {
 
 	const [isLoading, setLoading] = useState(false);
 	const [isUpdateLoading, setUpdateLoading] = useState(false);
-	const { cotacoes, total, totalFrete, totalDesconto, mutate, setFornecedorCode, setCotacaoCode, setEmpresaContratoCode, setEmpresaCode } = useCotacao();
+	const { cotacoes, total, totalFrete, totalDesconto, mutate, setFornecedorCode, setCotacaoCode, setEmpresaContratoCode, setEmpresaCode, isReady } = useCotacao();
 
 	// const { isOpen, onOpen, onClose } = useDisclosure();
 	const { isOpen: isOpenSegundo, onOpen: onOpenSegundo, onClose: onCloseSegundo } = useDisclosure();
@@ -92,6 +92,7 @@ export function CotacoesAbertas() {
 	const dataUrl = useRecoilValue(urlDataState)
 
 	const [gerandoPDF, setGerandoPDF] = useState(false);
+
 
 
 
@@ -137,13 +138,12 @@ export function CotacoesAbertas() {
 		// setFornecedorCode(fornecedor)
 		// setCotacaoCode('0000000001')
 
-
-
-
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [codigoCotacao])
 
+	function vazia() {
 
+	}
 
 	var generateData = function (amount: number) {
 
@@ -377,6 +377,19 @@ export function CotacoesAbertas() {
 			// }
 			// await apiPostVerificarFlagFornecedor(payload);
 
+
+			// dados.forEach((item: any) => {
+			// 	if (item.valordoproduto === 0) {
+			// 		console.log("==========verificação=========")
+			// 		console.log(false)
+			// 		return false;
+			// 	} else {
+			// 		console.log("==========verificação=========")
+			// 		console.log(true)
+			// 		return true;
+			// 	}
+			// });
+
 			setLoading(false);
 			onClose();
 			mutate();
@@ -389,7 +402,6 @@ export function CotacoesAbertas() {
 		} catch (e: any) {
 			setUpdateLoading(false)
 			onCloseSegundo()
-			console.log("error:" + e)
 		}
 
 	}
@@ -699,7 +711,8 @@ export function CotacoesAbertas() {
 									scroll={{ y: "200px", x: 1500 }}
 								/>
 								<QuantidadeTotal totalFrete={totalFrete.data === undefined ? 0 : totalFrete?.data[0]?.totalFrete} mutate={mutate} totalDesconto={totalDesconto.data === undefined ? 0 : totalDesconto?.data[0]?.totalDesconto} total={total.data === undefined ? 0 : total?.data[0]?.total} />
-								<FinalizarCotacao mutate={mutate} parametro={parametro} setEnviado={setEnviado} loading={!isEnviado} setAllPreenchido={setAllPreenchido} />
+								{/* {console.log("RIGATTI", isReady?.data ? isReady?.data[0].isReady : false)} */}
+								<FinalizarCotacao readyToSend={isReady?.data ? isReady?.data[0].isReady : false} mutate={mutate} parametro={parametro} setEnviado={setEnviado} loading={!isEnviado} setAllPreenchido={setAllPreenchido} />
 							</> : <Result
 								status="success"
 								title="Dados enviados com sucesso!"

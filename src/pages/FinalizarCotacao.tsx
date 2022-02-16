@@ -21,7 +21,8 @@ type Props = {
 	loading: boolean,
 	setEnviado: React.Dispatch<React.SetStateAction<boolean>>,
 	parametro: any,
-	mutate: KeyedMutator<any>
+	mutate: KeyedMutator<any>,
+	readyToSend: boolean
 
 }
 export const FinalizarCotacao = (props: Props) => {
@@ -58,6 +59,7 @@ export const FinalizarCotacao = (props: Props) => {
 	const { isOpen: isOpenDesconto, onOpen: onOpenDesconto, onClose: onCloseDesconto } = useDisclosure()
 
 
+
 	useEffect(() => {
 
 
@@ -66,6 +68,8 @@ export const FinalizarCotacao = (props: Props) => {
 		setNumeroCotacao(dataUrl[0]?.numeroCotacao)
 		setCnjFornecedor(dataUrl[0]?.cnpjFornecedor)
 		setCodigoFornecedor(dataUrl[0]?.codigoFornecedor)
+
+
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
@@ -120,7 +124,7 @@ export const FinalizarCotacao = (props: Props) => {
 			<AlertIcon />
 			Antes de efetuar o envio, certifique-se de preencher todos os itens da tabela.
 		</Alert>
-		<Button type="primary" disabled={!props.loading} onClick={() => { salvar() }}>
+		<Button type="primary" disabled={!props.readyToSend} onClick={() => { salvar() }}>
 			Confirmar envio
 		</Button>
 

@@ -150,7 +150,6 @@ export const IntensCotacaoTabela = (props: Props) => {
 									prefix="R$"
 									decimalScale={2}
 									onValueChange={(value: any, name: any, float: any) => {
-										console.log(float, "LUCAS")
 										props.setValorProduto(float?.float ? (float.float).toString() : (0).toString())
 										console.log("valorProduto", props.valorProduto);
 									}}

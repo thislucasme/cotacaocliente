@@ -76,7 +76,6 @@ export const FinalizarCotacao = (props: Props) => {
 
 	function salvar() {
 		onOpen();
-		//props.salvarItensLocalmente()
 	}
 
 	async function updateFlagFornecedor() {
@@ -90,16 +89,6 @@ export const FinalizarCotacao = (props: Props) => {
 			codigoEmpresa: dataUrl[0]?.numeroEmpresa
 		}
 
-		// const payLoad: CotacaoTDOPayload = {
-		// 	codigo: numeroCotacao,
-		// 	fornecedor: codigoFornecedor,
-		// 	flag: "P",
-		// 	contratoEmpresa: contratoEmpresa,
-		// 	codigoEmpresa: numeroEmpresa
-		// }
-
-		//chamada da API para atualizar as flags para (P)
-		//endpoint localhost:/apiFornecedor/
 		const result = await apiPostFlagFornecedor(payLoad)
 		if (result.data.data === 201) {
 			onClose();

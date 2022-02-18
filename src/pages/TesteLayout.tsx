@@ -73,9 +73,9 @@ export const TesteLayout = () => {
 						Relatórios
 				</Menu.Item>*/}
 
-					<Menu.Item key="5" onClick={() => { navigate('configuracao/' + url) }} icon={<SettingOutlined />}>
+					{/* <Menu.Item key="5" onClick={() => { navigate('configuracao/' + url) }} icon={<SettingOutlined />}>
 						Configurar usuários
-					</Menu.Item>
+					</Menu.Item> */}
 				</Menu>
 			</Sider>
 			<Layout className="site-layout">

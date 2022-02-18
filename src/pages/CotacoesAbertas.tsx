@@ -120,7 +120,7 @@ export function CotacoesAbertas() {
 		//codigoCotacao: string, fornecedor: string, contratoEmpresa: string
 
 		setIsVerificandoFlag(true);
-		statusLocalmente(urlData?.numeroCotacao, urlData?.codigoFornecedor, urlData?.contratoEmpresa, dataUrl[0]?.numeroEmpresa);
+		statusLocalmente(urlData?.numeroCotacao, urlData?.codigoFornecedor, urlData?.contratoEmpresa, urlData?.numeroEmpresa);
 		setIsVerificandoFlag(false);
 
 		localStorage.removeItem('urlData');
@@ -332,7 +332,8 @@ export function CotacoesAbertas() {
 			status: true,
 			codbarras: cotacao?.codbarras,
 			data: moment(Date()).format('YYYYMMDDHHmm'),
-			contratoEmpresa: ""
+			contratoEmpresa: "",
+			codigoEmpresa: urlData?.numeroEmpresa || ""
 		};
 
 		localStorage.setItem(`@App:${item.item}`, JSON.stringify(item));
@@ -361,7 +362,8 @@ export function CotacoesAbertas() {
 			status: false,
 			codbarras: cotacao?.codbarras,
 			data: moment(Date()).format('YYYYMMDDHHmm'),
-			contratoEmpresa: urlData?.contratoEmpresa || ""
+			contratoEmpresa: urlData?.contratoEmpresa || "",
+			codigoEmpresa: urlData?.numeroEmpresa || ""
 		};
 
 		try {
@@ -485,6 +487,7 @@ export function CotacoesAbertas() {
 				title: 'Código interno',
 				dataIndex: 'produto',
 				key: 'produto',
+				align: 'center',
 				width: "70px",
 				ellipsis: {
 					showTitle: false
@@ -517,6 +520,7 @@ export function CotacoesAbertas() {
 			{
 				title: 'marca',
 				dataIndex: 'marca',
+				align: 'center',
 				key: 'marca',
 				width: '60px',
 				shouldCellUpdate: () => false,
@@ -534,7 +538,7 @@ export function CotacoesAbertas() {
 				dataIndex: 'quantidade',
 				key: 'quantidade',
 				align: 'center',
-				width: '80px',
+				width: '60px',
 				ellipsis: {
 					showTitle: false
 				},
@@ -558,7 +562,7 @@ export function CotacoesAbertas() {
 					showTitle: false
 				},
 				shouldCellUpdate: () => true,
-				width: '100px',
+				width: '70px',
 				render: (value: string, record: any) => {
 					return <Editable fontSize={"12px"} >
 						{Number(value).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
@@ -571,7 +575,7 @@ export function CotacoesAbertas() {
 				title: 'Frete',
 				dataIndex: 'frete',
 				key: 'frete',
-				width: '100px',
+				width: '70px',
 				ellipsis: {
 					showTitle: false
 				},
@@ -590,55 +594,55 @@ export function CotacoesAbertas() {
 				dataIndex: 'st',
 				key: 'st',
 				align: 'center',
-				width: '40px',
+				width: '50px',
 				shouldCellUpdate: () => true,
 				render: (value: string, record: any) => {
 					return <Editable fontSize={"12px"}>
-						{value}
+						{Number.parseInt(value).toFixed(2)}
 						<EditablePreview />
 						<EditableInput />
 					</Editable>;
 				},
 			},
 			{
-				title: 'ICMS',
+				title: '% ICMS',
 				dataIndex: 'icms',
 				key: 'icms',
 				align: 'center',
-				width: '8%',
+				width: '50px',
 				shouldCellUpdate: () => true,
 				render: (value: string, record: any) => {
 					return <Editable fontSize={"12px"} >
-						{value}
+						{Number.parseFloat(value).toFixed(2)}
 						<EditablePreview />
 						<EditableInput />
 					</Editable>;
 				},
 			},
-			{
-				title: 'Forma de pagamento',
-				dataIndex: 'formapagamento',
-				align: 'center',
-				key: 'formapagamento',
-				shouldCellUpdate: () => true,
-				width: '150px',
-				render: (value: string, record: any) => {
-					return <Editable fontSize={"12px"} defaultValue='BOLETO BANCARIO'>
-						<EditablePreview />
-						<EditableInput />
-					</Editable>;
-				},
-			},
+			// {
+			// 	title: 'Forma de pagamento',
+			// 	dataIndex: 'formapagamento',
+			// 	align: 'center',
+			// 	key: 'formapagamento',
+			// 	shouldCellUpdate: () => true,
+			// 	width: '150px',
+			// 	render: (value: string, record: any) => {
+			// 		return <Editable fontSize={"12px"} defaultValue='BOLETO BANCARIO'>
+			// 			<EditablePreview />
+			// 			<EditableInput />
+			// 		</Editable>;
+			// 	},
+			// },
 			{
 				title: '% IPI',
 				dataIndex: 'ipi',
 				align: 'center',
 				key: 'ipi',
 				shouldCellUpdate: () => true,
-				width: '8%',
+				width: '50px',
 				render: (value: string, record: any) => {
 					return <Editable fontSize={"12px"}>
-						{value}
+						{Number.parseFloat(value).toFixed(2)}
 						<EditablePreview />
 						<EditableInput />
 					</Editable>;
@@ -650,10 +654,10 @@ export function CotacoesAbertas() {
 				align: 'center',
 				key: 'mva',
 				shouldCellUpdate: () => true,
-				width: '8%',
+				width: '50px',
 				render: (value: string, record: any) => {
 					return <Editable fontSize={"12px"}>
-						{value}
+						{Number.parseFloat(value).toFixed(2)}
 						<EditablePreview />
 						<EditableInput />
 					</Editable>;

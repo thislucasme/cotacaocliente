@@ -1,6 +1,6 @@
-import { FormControl, FormLabel, HStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select } from "@chakra-ui/react";
+import { Alert, AlertIcon, FormControl, FormLabel, HStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select } from "@chakra-ui/react";
 import { Button, Input, Space, Table, Tooltip, Typography } from "antd";
-import React from "react";
+import React, { useState } from "react";
 import CurrencyInput from "react-currency-input-field";
 import { CotacaoTDO } from "../lib/types";
 import { useToReal } from "../hooks/useToReal";
@@ -32,6 +32,19 @@ type Props = {
 }
 
 export const IntensCotacaoTabela = (props: Props) => {
+
+	const [alertCusto, setAlertCusto] = useState(false);
+
+	function verificarHistorico() {
+		const custo = Number.parseFloat(props.valorProduto);
+		if (custo === 0 || custo < 0) {
+			setAlertCusto(true)
+		} else {
+			setAlertCusto(false)
+			props.verificarHistorico()
+		}
+
+	}
 
 	const colunas: ColumnType<any>[] = [
 		{
@@ -143,7 +156,7 @@ export const IntensCotacaoTabela = (props: Props) => {
 								<Text style={{ fontSize: "10px", color: "gray" }}>{toReal(props.valorProduto)}</Text>
 								<CurrencyInput
 									className="ant-input"
-									id="input-example"
+									id="input-custo-produto"
 									name="input-name"
 									placeholder="Please enter a number"
 									defaultValue={Number(props.valorProduto)}
@@ -151,6 +164,13 @@ export const IntensCotacaoTabela = (props: Props) => {
 									decimalScale={2}
 									onValueChange={(value: any, name: any, float: any) => {
 										props.setValorProduto(float?.float ? (float.float).toString() : (0).toString())
+
+										if (float?.float ? true : false) {
+											const valor = Number.parseFloat(float.float);
+											if (valor !== 0 || valor > 0) {
+												setAlertCusto(false)
+											}
+										}
 										console.log("valorProduto", props.valorProduto);
 									}}
 								/>
@@ -174,20 +194,6 @@ export const IntensCotacaoTabela = (props: Props) => {
 								<Text style={{ fontSize: "10px", color: "gray" }}>{`${props.mva}%`}</Text>
 								<Input name={props.mva?.toString()} value={props.mva} onChange={(e) => { props.setMva(e.target.value) }} placeholder='MVA' />
 							</FormControl>
-						</HStack>
-
-						<HStack>
-							<FormControl>
-								<FormLabel fontSize={"14px"}>Forma de pagamento</FormLabel>
-								<Text style={{ fontSize: "10px", color: "gray" }}>{`Boleto bancário`}</Text>
-								<Select size="sm">
-									<option value='option1'>TRANF. BANCARIA</option>
-									<option value='option2'>PIX</option>
-									<option value='option3'>CHEQUE</option>
-									<option value='option4'>BOLETO</option>
-								</Select>
-							</FormControl>
-
 							<FormControl mt={4}>
 								<FormLabel fontSize={"14px"}>% IPI</FormLabel>
 								<Text style={{ fontSize: "10px", color: "gray" }}>{`${props.ipi}%`}</Text>
@@ -195,11 +201,30 @@ export const IntensCotacaoTabela = (props: Props) => {
 							</FormControl>
 						</HStack>
 
+						<HStack>
+							{
+								alertCusto ?
+									<Alert status='warning' my={4}>
+										<AlertIcon />
+										O campo custo do produto precisa ser preenchido.
+									</Alert>
+
+									: <></>
+							}
+							{
+								alertCusto ?
+									document.getElementById("input-custo-produto")?.focus()
+									: <></>
+							}
+
+
+						</HStack>
+
 					</ModalBody>
 
 					<ModalFooter>
 						<Space>
-							<Button disabled={props.isAllPreenchido} loading={props.isLoading} onClick={() => { props.verificarHistorico() }}>
+							<Button disabled={props.isAllPreenchido} loading={props.isLoading} onClick={() => { verificarHistorico() }}>
 								Modificar
 							</Button>
 							<Button type="primary" onClick={props.onClose}>Cancelar</Button>

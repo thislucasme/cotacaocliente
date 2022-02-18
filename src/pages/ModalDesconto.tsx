@@ -1,9 +1,11 @@
-import { HStack, Modal, Select, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text } from "@chakra-ui/react";
+import { HStack, Modal, Select, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, AlertIcon, Alert, FormControl, FormLabel } from "@chakra-ui/react";
 import { Button, Input, message, Space } from "antd";
 import React, { useEffect, useState } from "react";
+import CurrencyInput from "react-currency-input-field";
 import { useSetRecoilState } from "recoil";
 import { KeyedMutator } from "swr";
 import { percentual } from "../context/atom";
+import { FormaPagamento } from "../enuns/enuns";
 import { useDesconto } from "../hooks/useDesconto";
 import { DescontoGeral, UrlData } from "../lib/types";
 
@@ -24,6 +26,7 @@ export const ModalDesconto = (props: Props) => {
 	const setDesconto = useSetRecoilState(percentual);
 
 	const [tipoValor, setTipoValor] = useState('');
+	const [formaPagamento, setFormaPagamento] = useState(0);
 	//const { } = useDesconto()
 	const [value, setValue] = useState("");
 	const [frete, setFrete] = useState("");
@@ -32,15 +35,16 @@ export const ModalDesconto = (props: Props) => {
 		setDesconto(value);
 
 		const data: DescontoGeral = {
-			percentual: Number.parseInt(value),
+			percentual: Number.parseFloat(value),
 			dados: {
 				codigo: url?.numeroCotacao,
 				codigoEmpresa: url?.numeroEmpresa,
 				fornecedor: url?.codigoFornecedor,
 				contratoEmpresa: url?.contratoEmpresa
 			},
-			frete: Number.parseInt(frete),
-			tipo: tipoValor
+			frete: Number.parseFloat(frete),
+			tipo: tipoValor,
+			formaPagamento: formaPagamento
 		}
 		setIsLoading(true);
 		const status = await desconto(data);
@@ -78,20 +82,63 @@ export const ModalDesconto = (props: Props) => {
 					</ModalHeader>
 					<ModalCloseButton _focus={{ boxShadow: "none" }} />
 					<ModalBody>
-						<Text mb={3}>
-							Desconto
-						</Text>
+
 						<HStack>
-							<Select onChange={(event: any) => { setTipoValor(event.target.value) }} size="sm">
-								<option value='V'>R$</option>
-								<option value='P'>%</option>
-							</Select>
-							<Input name={value} onChange={(e) => { setValue(e.target.value) }} />
+							<FormControl mt={0}>
+								<FormLabel fontSize={"14px"}>Tipo desconto</FormLabel>
+								<Select _focus={{ boxShadow: "none" }} onChange={(event: any) => { setTipoValor(event.target.value) }} size="sm">
+									<option value='V'>R$</option>
+									<option value='P'>%</option>
+								</Select>
+							</FormControl>
+							<FormControl mt={4}>
+								<FormLabel fontSize={"14px"}>Desconto</FormLabel>
+								<CurrencyInput
+									className="ant-input"
+									id="input-custo-produtosddsds"
+									name="input-name"
+									placeholder="Please enter a number"
+									defaultValue={Number(value)}
+									prefix="R$"
+									decimalScale={2}
+									onValueChange={(value: any, name: any, float: any) => {
+										setValue(float?.float ? (float.float).toString() : (0).toString())
+									}}
+								/>
+							</FormControl>
 						</HStack>
-						<Text mb={3}>
-							Frete
-						</Text>
-						<Input name={frete} onChange={(e) => { setFrete(e.target.value) }} />
+						<FormControl mt={4}>
+							<FormLabel fontSize={"14px"}>Pagamento</FormLabel>
+							<Select _focus={{ boxShadow: "none" }} onChange={(event: any) => { setFormaPagamento(Number.parseInt(event.target.value)) }} size="sm">
+								<option value={FormaPagamento.BOLETO_BANCARIO}>Boleto Bancário</option>
+								<option value={FormaPagamento.DINHEIRO}>Dinheiro</option>
+								<option value={FormaPagamento.CHEQUE}>Cheque</option>
+								<option value={FormaPagamento.OUTROS}>Outros</option>
+							</Select>
+						</FormControl>
+
+						<FormControl mt={4}>
+							<FormLabel fontSize={"14px"}>Frete</FormLabel>
+							{/* <Text style={{ fontSize: "10px", color: "gray" }}>{toReal(props.valorProduto)}</Text> */}
+							<CurrencyInput
+								className="ant-input"
+								id="input-custo-produto"
+								name="input-name"
+								placeholder="Please enter a number"
+								defaultValue={Number(frete)}
+								prefix="R$"
+								decimalScale={2}
+								onValueChange={(value: any, name: any, float: any) => {
+									setFrete(float?.float ? (float.float).toString() : (0).toString())
+								}}
+							/>
+
+						</FormControl>
+
+						<Alert status='warning' my={4}>
+							<AlertIcon />
+							É necessário preencher todos os campos.
+						</Alert>
 					</ModalBody>
 
 					<ModalFooter>

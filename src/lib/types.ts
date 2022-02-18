@@ -35,6 +35,7 @@ export type CotacaoTDOPayload = {
 
 }
 export type ItemCotacaoTDO = {
+	codigoEmpresa: string;
 	contratoEmpresa: string;
 	codigo: string | undefined;
 	item: string | undefined;
@@ -123,6 +124,7 @@ export type DescontoGeral = {
 	percentual: number;
 	frete: number;
 	tipo: string;
+	formaPagamento: number;
 	dados: {
 		codigo: string | undefined;
 		codigoEmpresa: string | undefined;

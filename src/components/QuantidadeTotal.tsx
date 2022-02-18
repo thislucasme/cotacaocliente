@@ -39,13 +39,13 @@ export const QuantidadeTotal = (props: Props) => {
 				</VStack>
 				<VStack alignItems={"start"} >
 					<Text color={"gray.500"}>Desconto</Text>
-					<Text fontWeight={"semibold"}>{(12.90).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
+					<Text fontWeight={"semibold"}>{(props.totalDesconto).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
 				</VStack>
 				{
 					props.totalDesconto > 0 ?
 						<VStack alignItems={"start"}>
 							<Text color={"gray.500"}>Total geral</Text>
-							<Text fontWeight={"semibold"}>{(props.totalDesconto).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
+							<Text fontWeight={"semibold"}>{(props.total + props.totalFrete - props.totalDesconto).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
 						</VStack>
 						: <></>
 				}

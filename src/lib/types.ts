@@ -123,7 +123,7 @@ export type UrlData = {
 export type DescontoGeral = {
 	percentual: number;
 	frete: number;
-	tipo: string;
+	tipo: number;
 	formaPagamento: number;
 	dados: {
 		codigo: string | undefined;

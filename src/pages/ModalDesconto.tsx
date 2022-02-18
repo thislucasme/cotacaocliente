@@ -1,11 +1,11 @@
-import { HStack, Modal, Select, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, AlertIcon, Alert, FormControl, FormLabel } from "@chakra-ui/react";
-import { Button, Input, message, Space } from "antd";
+import { Alert, AlertIcon, FormControl, FormLabel, HStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, Text } from "@chakra-ui/react";
+import { Button, message, Space } from "antd";
 import React, { useEffect, useState } from "react";
 import CurrencyInput from "react-currency-input-field";
 import { useSetRecoilState } from "recoil";
 import { KeyedMutator } from "swr";
 import { percentual } from "../context/atom";
-import { FormaPagamento } from "../enuns/enuns";
+import { FormaPagamento, TipoDesconto } from "../enuns/enuns";
 import { useDesconto } from "../hooks/useDesconto";
 import { DescontoGeral, UrlData } from "../lib/types";
 
@@ -13,7 +13,10 @@ type Props = {
 	isOpen: boolean,
 	onClose: () => void,
 	onOpen: () => void,
-	mutate: KeyedMutator<any>
+	mutate: KeyedMutator<any>,
+	total: number,
+	totalDesconto: number,
+	totalFrete: number,
 }
 
 export const ModalDesconto = (props: Props) => {
@@ -25,24 +28,24 @@ export const ModalDesconto = (props: Props) => {
 
 	const setDesconto = useSetRecoilState(percentual);
 
-	const [tipoValor, setTipoValor] = useState('');
-	const [formaPagamento, setFormaPagamento] = useState(0);
+	const [tipoValor, setTipoValor] = useState<number>(TipoDesconto.VALOR);
+	const [formaPagamento, setFormaPagamento] = useState(FormaPagamento.BOLETO_BANCARIO);
 	//const { } = useDesconto()
-	const [value, setValue] = useState("");
-	const [frete, setFrete] = useState("");
+	const [value, setValue] = useState<number>(props.totalDesconto);
+	const [frete, setFrete] = useState<number>(props.totalFrete);
 
 	async function salvarDesconto() {
 		setDesconto(value);
 
 		const data: DescontoGeral = {
-			percentual: Number.parseFloat(value),
+			percentual: Number.parseFloat(value.toString()),
 			dados: {
 				codigo: url?.numeroCotacao,
 				codigoEmpresa: url?.numeroEmpresa,
 				fornecedor: url?.codigoFornecedor,
 				contratoEmpresa: url?.contratoEmpresa
 			},
-			frete: Number.parseFloat(frete),
+			frete: Number.parseFloat(frete.toString()),
 			tipo: tipoValor,
 			formaPagamento: formaPagamento
 		}
@@ -82,13 +85,12 @@ export const ModalDesconto = (props: Props) => {
 					</ModalHeader>
 					<ModalCloseButton _focus={{ boxShadow: "none" }} />
 					<ModalBody>
-
 						<HStack>
 							<FormControl mt={0}>
 								<FormLabel fontSize={"14px"}>Tipo desconto</FormLabel>
-								<Select _focus={{ boxShadow: "none" }} onChange={(event: any) => { setTipoValor(event.target.value) }} size="sm">
-									<option value='V'>R$</option>
-									<option value='P'>%</option>
+								<Select _focus={{ boxShadow: "none" }} onChange={(event: any) => { setTipoValor(Number.parseInt(event.target.value)) }} size="sm">
+									<option value={TipoDesconto.VALOR}>R$</option>
+									<option value={TipoDesconto.PERCENTUAL}>%</option>
 								</Select>
 							</FormControl>
 							<FormControl mt={4}>

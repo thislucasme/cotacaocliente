@@ -105,6 +105,8 @@ export const ModalDesconto = (props: Props) => {
 									decimalScale={2}
 									onValueChange={(value: any, name: any, float: any) => {
 										setValue(float?.float ? (float.float).toString() : (0).toString())
+										float?.float === 0 ? setValue(props.totalDesconto): setValue(float?.float ? (float.float).toString() : (0).toString())
+										
 									}}
 								/>
 							</FormControl>

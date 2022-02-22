@@ -6,11 +6,12 @@ import {
 	ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure
 } from "@chakra-ui/react"
 import { Button, message, Space, Typography } from "antd"
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { AiOutlineInfoCircle } from "react-icons/ai"
 import { useRecoilValue } from "recoil"
 import { KeyedMutator } from "swr"
 import { urlDataState } from "../context/atom"
+import { UrlContext } from "../context/UrlContext"
 import { useFlagFornecedor } from '../hooks/useFlagFornecedor'
 import { CotacaoTDOPayload } from "../lib/types"
 import { ModalDesconto } from '../pages/ModalDesconto'
@@ -53,7 +54,7 @@ export const FinalizarCotacao = (props: Props) => {
 
 	const { apiPostFlagFornecedor } = useFlagFornecedor();
 
-	const dataUrl = useRecoilValue(urlDataState)
+	const dadosUrl = useContext(UrlContext);
 
 
 
@@ -64,11 +65,11 @@ export const FinalizarCotacao = (props: Props) => {
 	useEffect(() => {
 
 
-		setContratoEmpresa(dataUrl[0]?.contratoEmpresa)
-		setNumeroEmpresa(dataUrl[0]?.numeroEmpresa)
-		setNumeroCotacao(dataUrl[0]?.numeroCotacao)
-		setCnjFornecedor(dataUrl[0]?.cnpjFornecedor)
-		setCodigoFornecedor(dataUrl[0]?.codigoFornecedor)
+		setContratoEmpresa(dadosUrl?.contratoEmpresa ? dadosUrl?.contratoEmpresa : "")
+		setNumeroEmpresa(dadosUrl?.numeroEmpresa ? dadosUrl?.numeroEmpresa : "")
+		setNumeroCotacao(dadosUrl?.numeroCotacao ? dadosUrl?.numeroCotacao : "")
+		setCnjFornecedor(dadosUrl?.cnpjFornecedor)
+		setCodigoFornecedor(dadosUrl.codigoFornecedor)
 
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps

@@ -1,13 +1,14 @@
 import { Alert, AlertIcon, FormControl, FormLabel, HStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, Text } from "@chakra-ui/react";
 import { Button, message, Space } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import CurrencyInput from "react-currency-input-field";
 import { useSetRecoilState } from "recoil";
 import { KeyedMutator } from "swr";
 import { percentual } from "../context/atom";
+import { UrlContext } from "../context/UrlContext";
 import { FormaPagamento, TipoDesconto } from "../enuns/enuns";
 import { useDesconto } from "../hooks/useDesconto";
-import { DescontoGeral, UrlData } from "../lib/types";
+import { DescontoGeral } from "../lib/types";
 
 //lucas
 
@@ -23,7 +24,8 @@ type Props = {
 
 export const ModalDesconto = (props: Props) => {
 
-	const [url, setUrl] = useState<UrlData | null>(null);
+	const dadosUrl = useContext(UrlContext);
+
 	const { desconto } = useDesconto();
 
 	const [, setIsLoading] = useState(false);
@@ -42,10 +44,10 @@ export const ModalDesconto = (props: Props) => {
 		const data: DescontoGeral = {
 			percentual: Number.parseFloat(value.toString()),
 			dados: {
-				codigo: url?.numeroCotacao,
-				codigoEmpresa: url?.numeroEmpresa,
-				fornecedor: url?.codigoFornecedor,
-				contratoEmpresa: url?.contratoEmpresa
+				codigo: dadosUrl?.numeroCotacao,
+				codigoEmpresa: dadosUrl?.numeroEmpresa,
+				fornecedor: dadosUrl?.codigoFornecedor,
+				contratoEmpresa: dadosUrl?.contratoEmpresa
 			},
 			frete: Number.parseFloat(frete.toString()),
 			tipo: tipoValor,
@@ -68,10 +70,6 @@ export const ModalDesconto = (props: Props) => {
 	}
 
 
-	useEffect(() => {
-		const url: UrlData = JSON.parse(localStorage.getItem('urlData') as string);
-		setUrl(url)
-	}, [])
 	return (
 		<>
 			<Modal
@@ -102,7 +100,7 @@ export const ModalDesconto = (props: Props) => {
 									id="input-custo-produtosddsds"
 									name="input-name"
 									placeholder="Please enter a number"
-									defaultValue={Number(value)}
+									defaultValue={Number("23")}
 									prefix="R$"
 									decimalScale={2}
 									onValueChange={(value: any, name: any, float: any) => {

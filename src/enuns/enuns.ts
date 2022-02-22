@@ -9,3 +9,14 @@ export enum TipoDesconto {
 	VALOR = 0,
 	PERCENTUAL = 1
 }
+
+export enum UrlVazioEnum {
+	VAZIO = "-1"
+}
+export enum UrlDataPosition {
+	CONTRATO_EMPRESA = 0,
+	NUMERO_EMPRESA = 1,
+	NUMERO_COTACAO = 2,
+	CNPJ_FORNECEDOR = 3,
+	CODIGO_FORNECEDOR = 4
+}

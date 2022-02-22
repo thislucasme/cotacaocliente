@@ -1,7 +1,7 @@
 import { Button, HStack, Text, useDisclosure, VStack } from '@chakra-ui/react';
 import { Tooltip } from "antd";
 import moment from "moment";
-import React, { useEffect } from "react";
+import React from "react";
 import { AiFillEdit } from 'react-icons/ai';
 import { KeyedMutator } from 'swr';
 import { ModalDesconto } from '../pages/ModalDesconto';
@@ -18,8 +18,6 @@ export const QuantidadeTotal = (props: Props) => {
 
 	const { isOpen: isOpenDesconto, onOpen: onOpenDesconto, onClose: onCloseDesconto } = useDisclosure()
 
-	useEffect(() => {
-	}, [])
 
 	return (
 		<>

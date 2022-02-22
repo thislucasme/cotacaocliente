@@ -11,7 +11,7 @@ export const Loading = () => {
 					color="blue.500"
 					size="xl"
 				/>
-				<Text mt={3}>CarregSando...</Text>
+				<Text mt={3}>Carregando...</Text>
 			</VStack>
 		</Center>
 	);

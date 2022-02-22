@@ -7,10 +7,9 @@ import {
 	ModalFooter, ModalHeader, ModalOverlay, Skeleton, useDisclosure, VStack
 } from "@chakra-ui/react";
 import { Button, Checkbox, Input, Space, Typography } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BsInfoCircleFill } from 'react-icons/bs';
-import { useRecoilValue } from 'recoil';
-import { urlDataState } from '../context/atom';
+import { UrlContext } from '../context/UrlContext';
 import { apiGetEmpresa } from '../lib/api';
 
 const { Text } = Typography;
@@ -18,21 +17,20 @@ const { Text } = Typography;
 export const ProfileMenu = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure()
 	const [fornecedor, setFornecedor] = useState<any>();
-	const data = useRecoilValue(urlDataState)
 
-	//	const { logout } = useVendedor();
+
+	const dadosUrl = useContext(UrlContext);
 
 	useEffect(() => {
 
 		//const data: UrlData = JSON.parse(localStorage.getItem('urlData') as string);
-
-		const url = 'empresa/fornecedor/' + data[0]?.contratoEmpresa + '/' + data[0]?.codigoFornecedor + '/' + data[0]?.numeroEmpresa
+		const url = 'empresa/fornecedor/' + dadosUrl.contratoEmpresa + '/' + dadosUrl.codigoFornecedor + '/' + dadosUrl.numeroEmpresa
 		const result = apiGetEmpresa(url)
 		result.then((result) => {
 			setFornecedor(result.data)
 		}).catch(error => {
 		})
-	}, [data])
+	}, [dadosUrl])
 
 	return (
 		<>

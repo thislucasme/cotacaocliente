@@ -1,26 +1,27 @@
 import { HStack, Skeleton, Stack, Text } from '@chakra-ui/react';
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { urlDataState } from "../context/atom";
+import { UrlContext } from '../context/UrlContext';
 import { apiGetEmpresa } from "../lib/api";
 import { Empresa } from "../lib/types";
 export const InfoEmpresa = () => {
 	const [empresa, setEmpresa] = useState<Empresa | null>();
 
-	const data = useRecoilValue(urlDataState)
+	const dadosUrl = useContext(UrlContext);
 
 
 	useEffect(() => {
 
 		//const data: UrlData = JSON.parse(localStorage.getItem('urlData') as string);
 
-		const url = 'empresa/' + data[0]?.contratoEmpresa + '/' + data[0]?.codigoFornecedor + '/' + data[0]?.numeroEmpresa
+		const url = 'empresa/' + dadosUrl?.contratoEmpresa + '/' + dadosUrl?.codigoFornecedor + '/' + dadosUrl?.numeroEmpresa
 		const result = apiGetEmpresa(url)
 		result.then((result) => {
 			setEmpresa(result.data);
 		}).catch(error => {
 		})
-	}, [data])
+	}, [dadosUrl])
 	return (
 		empresa ?
 			<HStack>
@@ -34,7 +35,7 @@ export const InfoEmpresa = () => {
 					CIDADE: {empresa?.cidade}
 				</Text>
 				<Text fontSize={"sm"} color='gray.500'>
-					COTAÇÃO: {data[0].numeroCotacao ? data[0].numeroCotacao : 0}
+					COTAÇÃO: {dadosUrl?.numeroCotacao ? dadosUrl?.numeroCotacao : 0}
 				</Text>
 
 			</HStack>

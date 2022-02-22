@@ -9,6 +9,8 @@ import { FormaPagamento, TipoDesconto } from "../enuns/enuns";
 import { useDesconto } from "../hooks/useDesconto";
 import { DescontoGeral, UrlData } from "../lib/types";
 
+//lucas
+
 type Props = {
 	isOpen: boolean,
 	onClose: () => void,
@@ -105,8 +107,8 @@ export const ModalDesconto = (props: Props) => {
 									decimalScale={2}
 									onValueChange={(value: any, name: any, float: any) => {
 										setValue(float?.float ? (float.float).toString() : (0).toString())
-										float?.float === 0 ? setValue(props.totalDesconto): setValue(float?.float ? (float.float).toString() : (0).toString())
-										
+										float?.float === 0 ? setValue(props.totalDesconto) : setValue(float?.float ? (float.float).toString() : (0).toString())
+
 									}}
 								/>
 							</FormControl>
@@ -120,6 +122,7 @@ export const ModalDesconto = (props: Props) => {
 								<option value={FormaPagamento.OUTROS}>Outros</option>
 							</Select>
 						</FormControl>
+
 
 						<FormControl mt={4}>
 							<FormLabel fontSize={"14px"}>Frete</FormLabel>

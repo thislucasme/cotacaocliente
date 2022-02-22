@@ -18,7 +18,7 @@ export const useSetStatusLocalmente = () => {
 		const payload: CotacaoTDOPayload = {
 			codigo: codigoCotacao,
 			fornecedor: fornecedor,
-			flag: ".",
+			flag: "xx",
 			contratoEmpresa: contratoEmpresa,
 			codigoEmpresa: codigoEmpresa
 		}

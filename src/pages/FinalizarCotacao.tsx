@@ -22,7 +22,8 @@ type Props = {
 	loading: boolean,
 	setEnviado: React.Dispatch<React.SetStateAction<boolean>>,
 	parametro: any,
-	mutate: KeyedMutator<any>
+	mutate: KeyedMutator<any>,
+	readyToSend: boolean
 
 }
 export const FinalizarCotacao = (props: Props) => {
@@ -59,6 +60,7 @@ export const FinalizarCotacao = (props: Props) => {
 	const { isOpen: isOpenDesconto, onOpen: onOpenDesconto, onClose: onCloseDesconto } = useDisclosure()
 
 
+
 	useEffect(() => {
 
 
@@ -68,12 +70,13 @@ export const FinalizarCotacao = (props: Props) => {
 		setCnjFornecedor(dataUrl[0]?.cnpjFornecedor)
 		setCodigoFornecedor(dataUrl[0]?.codigoFornecedor)
 
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
 
 	function salvar() {
 		onOpen();
-		//props.salvarItensLocalmente()
 	}
 
 	async function updateFlagFornecedor() {
@@ -87,16 +90,6 @@ export const FinalizarCotacao = (props: Props) => {
 			codigoEmpresa: dataUrl[0]?.numeroEmpresa
 		}
 
-		// const payLoad: CotacaoTDOPayload = {
-		// 	codigo: numeroCotacao,
-		// 	fornecedor: codigoFornecedor,
-		// 	flag: "P",
-		// 	contratoEmpresa: contratoEmpresa,
-		// 	codigoEmpresa: numeroEmpresa
-		// }
-
-		//chamada da API para atualizar as flags para (P)
-		//endpoint localhost:/apiFornecedor/
 		const result = await apiPostFlagFornecedor(payLoad)
 		if (result.data.data === 201) {
 			onClose();
@@ -121,7 +114,7 @@ export const FinalizarCotacao = (props: Props) => {
 			<AlertIcon />
 			Antes de efetuar o envio, certifique-se de preencher todos os itens da tabela.
 		</Alert>
-		<Button type="primary" disabled={!props.loading} onClick={() => { salvar() }}>
+		<Button type="primary" disabled={!props.readyToSend} onClick={() => { salvar() }}>
 			Confirmar envio
 		</Button>
 

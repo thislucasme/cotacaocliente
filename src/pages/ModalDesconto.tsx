@@ -1,17 +1,24 @@
-import { HStack, Modal, Select, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text } from "@chakra-ui/react";
-import { Button, Input, message, Space } from "antd";
+import { Alert, AlertIcon, FormControl, FormLabel, HStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, Text } from "@chakra-ui/react";
+import { Button, message, Space } from "antd";
 import React, { useEffect, useState } from "react";
+import CurrencyInput from "react-currency-input-field";
 import { useSetRecoilState } from "recoil";
 import { KeyedMutator } from "swr";
 import { percentual } from "../context/atom";
+import { FormaPagamento, TipoDesconto } from "../enuns/enuns";
 import { useDesconto } from "../hooks/useDesconto";
 import { DescontoGeral, UrlData } from "../lib/types";
+
+//lucas
 
 type Props = {
 	isOpen: boolean,
 	onClose: () => void,
 	onOpen: () => void,
-	mutate: KeyedMutator<any>
+	mutate: KeyedMutator<any>,
+	total: number,
+	totalDesconto: number,
+	totalFrete: number,
 }
 
 export const ModalDesconto = (props: Props) => {
@@ -22,20 +29,27 @@ export const ModalDesconto = (props: Props) => {
 	const [, setIsLoading] = useState(false);
 
 	const setDesconto = useSetRecoilState(percentual);
+
+	const [tipoValor, setTipoValor] = useState<number>(TipoDesconto.VALOR);
+	const [formaPagamento, setFormaPagamento] = useState(FormaPagamento.BOLETO_BANCARIO);
 	//const { } = useDesconto()
-	const [value, setValue] = useState("");
+	const [value, setValue] = useState<number>(props.totalDesconto);
+	const [frete, setFrete] = useState<number>(props.totalFrete);
 
 	async function salvarDesconto() {
 		setDesconto(value);
 
 		const data: DescontoGeral = {
-			percentual: Number.parseInt(value),
+			percentual: Number.parseFloat(value.toString()),
 			dados: {
 				codigo: url?.numeroCotacao,
 				codigoEmpresa: url?.numeroEmpresa,
 				fornecedor: url?.codigoFornecedor,
 				contratoEmpresa: url?.contratoEmpresa
-			}
+			},
+			frete: Number.parseFloat(frete.toString()),
+			tipo: tipoValor,
+			formaPagamento: formaPagamento
 		}
 		setIsLoading(true);
 		const status = await desconto(data);
@@ -73,21 +87,65 @@ export const ModalDesconto = (props: Props) => {
 					</ModalHeader>
 					<ModalCloseButton _focus={{ boxShadow: "none" }} />
 					<ModalBody>
-						<Text mb={3}>
-							Desconto
-						</Text>
 						<HStack>
+							<FormControl mt={0}>
+								<FormLabel fontSize={"14px"}>Tipo desconto</FormLabel>
+								<Select _focus={{ boxShadow: "none" }} onChange={(event: any) => { setTipoValor(Number.parseInt(event.target.value)) }} size="sm">
+									<option value={TipoDesconto.VALOR}>R$</option>
+									<option value={TipoDesconto.PERCENTUAL}>%</option>
+								</Select>
+							</FormControl>
+							<FormControl mt={4}>
+								<FormLabel fontSize={"14px"}>Desconto</FormLabel>
+								<CurrencyInput
+									className="ant-input"
+									id="input-custo-produtosddsds"
+									name="input-name"
+									placeholder="Please enter a number"
+									defaultValue={Number(value)}
+									prefix="R$"
+									decimalScale={2}
+									onValueChange={(value: any, name: any, float: any) => {
+										setValue(float?.float ? (float.float).toString() : (0).toString())
+										float?.float === 0 ? setValue(props.totalDesconto) : setValue(float?.float ? (float.float).toString() : (0).toString())
 
-							<Select size="sm">
-								<option value='option2'>R$</option>
-								<option value='option1'>%</option>
-							</Select>
-							<Input name={value} onChange={(e) => { setValue(e.target.value) }} />
+									}}
+								/>
+							</FormControl>
 						</HStack>
-						<Text mb={3}>
-							Frete
-						</Text>
-						<Input name={value} onChange={(e) => { setValue(e.target.value) }} />
+						<FormControl mt={4}>
+							<FormLabel fontSize={"14px"}>Pagamento</FormLabel>
+							<Select _focus={{ boxShadow: "none" }} onChange={(event: any) => { setFormaPagamento(Number.parseInt(event.target.value)) }} size="sm">
+								<option value={FormaPagamento.BOLETO_BANCARIO}>Boleto Bancário</option>
+								<option value={FormaPagamento.DINHEIRO}>Dinheiro</option>
+								<option value={FormaPagamento.CHEQUE}>Cheque</option>
+								<option value={FormaPagamento.OUTROS}>Outros</option>
+							</Select>
+						</FormControl>
+
+
+						<FormControl mt={4}>
+							<FormLabel fontSize={"14px"}>Frete</FormLabel>
+							{/* <Text style={{ fontSize: "10px", color: "gray" }}>{toReal(props.valorProduto)}</Text> */}
+							<CurrencyInput
+								className="ant-input"
+								id="input-custo-produto"
+								name="input-name"
+								placeholder="Please enter a number"
+								defaultValue={Number(frete)}
+								prefix="R$"
+								decimalScale={2}
+								onValueChange={(value: any, name: any, float: any) => {
+									setFrete(float?.float ? (float.float).toString() : (0).toString())
+								}}
+							/>
+
+						</FormControl>
+
+						<Alert status='warning' my={4}>
+							<AlertIcon />
+							É necessário preencher todos os campos.
+						</Alert>
 					</ModalBody>
 
 					<ModalFooter>

@@ -65,7 +65,7 @@ export function CotacoesAbertas() {
 
 	const [isLoading, setLoading] = useState(false);
 	const [isUpdateLoading, setUpdateLoading] = useState(false);
-	const { cotacoes, total, totalDesconto, mutate, setFornecedorCode, setCotacaoCode, setEmpresaContratoCode, setEmpresaCode } = useCotacao();
+	const { cotacoes, total, totalFrete, totalDesconto, mutate, setFornecedorCode, setCotacaoCode, setEmpresaContratoCode, setEmpresaCode, isReady } = useCotacao();
 
 	// const { isOpen, onOpen, onClose } = useDisclosure();
 	const { isOpen: isOpenSegundo, onOpen: onOpenSegundo, onClose: onCloseSegundo } = useDisclosure();
@@ -97,6 +97,7 @@ export function CotacoesAbertas() {
 
 
 
+
 	useEffect(() => {
 
 
@@ -120,7 +121,7 @@ export function CotacoesAbertas() {
 		//codigoCotacao: string, fornecedor: string, contratoEmpresa: string
 
 		setIsVerificandoFlag(true);
-		statusLocalmente(urlData?.numeroCotacao, urlData?.codigoFornecedor, urlData?.contratoEmpresa, dataUrl[0]?.numeroEmpresa);
+		statusLocalmente(urlData?.numeroCotacao, urlData?.codigoFornecedor, urlData?.contratoEmpresa, urlData?.numeroEmpresa);
 		setIsVerificandoFlag(false);
 
 		localStorage.removeItem('urlData');
@@ -138,13 +139,10 @@ export function CotacoesAbertas() {
 		// setFornecedorCode(fornecedor)
 		// setCotacaoCode('0000000001')
 
-
-
-
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [codigoCotacao])
 
-
-
+	//aastat
 	var generateData = function (amount: number) {
 
 		const itens: Array<CotacaoTDO> = [
@@ -335,7 +333,8 @@ export function CotacoesAbertas() {
 			status: true,
 			codbarras: cotacao?.codbarras,
 			data: moment(Date()).format('YYYYMMDDHHmm'),
-			contratoEmpresa: ""
+			contratoEmpresa: "",
+			codigoEmpresa: urlData?.numeroEmpresa || ""
 		};
 
 		localStorage.setItem(`@App:${item.item}`, JSON.stringify(item));
@@ -364,7 +363,8 @@ export function CotacoesAbertas() {
 			status: false,
 			codbarras: cotacao?.codbarras,
 			data: moment(Date()).format('YYYYMMDDHHmm'),
-			contratoEmpresa: urlData?.contratoEmpresa || ""
+			contratoEmpresa: urlData?.contratoEmpresa || "",
+			codigoEmpresa: urlData?.numeroEmpresa || ""
 		};
 
 		try {
@@ -376,6 +376,19 @@ export function CotacoesAbertas() {
 			// 	codigoEmpresa: ""
 			// }
 			// await apiPostVerificarFlagFornecedor(payload);
+
+
+			// dados.forEach((item: any) => {
+			// 	if (item.valordoproduto === 0) {
+			// 		console.log("==========verificação=========")
+			// 		console.log(false)
+			// 		return false;
+			// 	} else {
+			// 		console.log("==========verificação=========")
+			// 		console.log(true)
+			// 		return true;
+			// 	}
+			// });
 
 			setLoading(false);
 			onClose();
@@ -389,7 +402,6 @@ export function CotacoesAbertas() {
 		} catch (e: any) {
 			setUpdateLoading(false)
 			onCloseSegundo()
-			console.log("error:" + e)
 		}
 
 	}
@@ -476,6 +488,7 @@ export function CotacoesAbertas() {
 				title: 'Código interno',
 				dataIndex: 'produto',
 				key: 'produto',
+				align: 'center',
 				width: "70px",
 				ellipsis: {
 					showTitle: false
@@ -508,6 +521,7 @@ export function CotacoesAbertas() {
 			{
 				title: 'marca',
 				dataIndex: 'marca',
+				align: 'center',
 				key: 'marca',
 				width: '60px',
 				shouldCellUpdate: () => false,
@@ -525,7 +539,7 @@ export function CotacoesAbertas() {
 				dataIndex: 'quantidade',
 				key: 'quantidade',
 				align: 'center',
-				width: '80px',
+				width: '60px',
 				ellipsis: {
 					showTitle: false
 				},
@@ -549,7 +563,7 @@ export function CotacoesAbertas() {
 					showTitle: false
 				},
 				shouldCellUpdate: () => true,
-				width: '100px',
+				width: '70px',
 				render: (value: string, record: any) => {
 					return <Editable fontSize={"12px"} >
 						{Number(value).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
@@ -562,7 +576,7 @@ export function CotacoesAbertas() {
 				title: 'Frete',
 				dataIndex: 'frete',
 				key: 'frete',
-				width: '100px',
+				width: '70px',
 				ellipsis: {
 					showTitle: false
 				},
@@ -581,55 +595,55 @@ export function CotacoesAbertas() {
 				dataIndex: 'st',
 				key: 'st',
 				align: 'center',
-				width: '40px',
+				width: '50px',
 				shouldCellUpdate: () => true,
 				render: (value: string, record: any) => {
 					return <Editable fontSize={"12px"}>
-						{value}
+						{Number.parseInt(value).toFixed(2)}
 						<EditablePreview />
 						<EditableInput />
 					</Editable>;
 				},
 			},
 			{
-				title: 'ICMS',
+				title: '% ICMS',
 				dataIndex: 'icms',
 				key: 'icms',
 				align: 'center',
-				width: '8%',
+				width: '50px',
 				shouldCellUpdate: () => true,
 				render: (value: string, record: any) => {
 					return <Editable fontSize={"12px"} >
-						{value}
+						{Number.parseFloat(value).toFixed(2)}
 						<EditablePreview />
 						<EditableInput />
 					</Editable>;
 				},
 			},
-			{
-				title: 'Forma de pagamento',
-				dataIndex: 'formapagamento',
-				align: 'center',
-				key: 'formapagamento',
-				shouldCellUpdate: () => true,
-				width: '150px',
-				render: (value: string, record: any) => {
-					return <Editable fontSize={"12px"} defaultValue='BOLETO BANCARIO'>
-						<EditablePreview />
-						<EditableInput />
-					</Editable>;
-				},
-			},
+			// {
+			// 	title: 'Forma de pagamento',
+			// 	dataIndex: 'formapagamento',
+			// 	align: 'center',
+			// 	key: 'formapagamento',
+			// 	shouldCellUpdate: () => true,
+			// 	width: '150px',
+			// 	render: (value: string, record: any) => {
+			// 		return <Editable fontSize={"12px"} defaultValue='BOLETO BANCARIO'>
+			// 			<EditablePreview />
+			// 			<EditableInput />
+			// 		</Editable>;
+			// 	},
+			// },
 			{
 				title: '% IPI',
 				dataIndex: 'ipi',
 				align: 'center',
 				key: 'ipi',
 				shouldCellUpdate: () => true,
-				width: '8%',
+				width: '50px',
 				render: (value: string, record: any) => {
 					return <Editable fontSize={"12px"}>
-						{value}
+						{Number.parseFloat(value).toFixed(2)}
 						<EditablePreview />
 						<EditableInput />
 					</Editable>;
@@ -641,16 +655,16 @@ export function CotacoesAbertas() {
 				align: 'center',
 				key: 'mva',
 				shouldCellUpdate: () => true,
-				width: '8%',
+				width: '50px',
 				render: (value: string, record: any) => {
 					return <Editable fontSize={"12px"}>
-						{value}
+						{Number.parseFloat(value).toFixed(2)}
 						<EditablePreview />
 						<EditableInput />
 					</Editable>;
 				},
 			},
-
+			// eslint-disable-next-line react-hooks/exhaustive-deps
 		], []
 	)
 
@@ -698,8 +712,9 @@ export function CotacoesAbertas() {
 									pagination={{ pageSize: 10 }}
 									scroll={{ y: "200px", x: 1500 }}
 								/>
-								<QuantidadeTotal mutate={mutate} totalDesconto={totalDesconto.data === undefined ? 0 : totalDesconto?.data[0]?.totalDesconto} total={total.data === undefined ? 0 : total?.data[0]?.total} />
-								<FinalizarCotacao mutate={mutate} parametro={parametro} setEnviado={setEnviado} loading={!isEnviado} setAllPreenchido={setAllPreenchido} />
+								<QuantidadeTotal totalFrete={totalFrete.data === undefined ? 0 : totalFrete?.data[0]?.totalFrete} mutate={mutate} totalDesconto={totalDesconto.data === undefined ? 0 : totalDesconto?.data[0]?.totalDesconto} total={total.data === undefined ? 0 : total?.data[0]?.total} />
+								{/* {console.log("RIGATTI", isReady?.data ? isReady?.data[0].isReady : false)} */}
+								<FinalizarCotacao readyToSend={isReady?.data ? isReady?.data[0].isReady : false} mutate={mutate} parametro={parametro} setEnviado={setEnviado} loading={!isEnviado} setAllPreenchido={setAllPreenchido} />
 							</> : <Result
 								status="success"
 								title="Dados enviados com sucesso!"

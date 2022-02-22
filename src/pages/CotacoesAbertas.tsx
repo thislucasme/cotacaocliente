@@ -9,13 +9,14 @@ import { ColumnType } from "antd/lib/table";
 import { encode } from "base-64";
 import jsPDF from "jspdf";
 import moment from "moment";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { BiEdit } from 'react-icons/bi';
 import { useParams } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { InfoEmpresa } from "../components/InfoEmpresa";
 import { QuantidadeTotal } from "../components/QuantidadeTotal";
 import { urlDataState } from "../context/atom";
+import { UrlContext } from "../context/UrlContext";
 import { useCotacao } from "../hooks/useCotacao";
 
 import { useHistorico } from '../hooks/useHistorico';
@@ -93,6 +94,8 @@ export function CotacoesAbertas() {
 	const dataUrl = useRecoilValue(urlDataState)
 
 	const [gerandoPDF, setGerandoPDF] = useState(false);
+
+	const dadosUrl = useContext(UrlContext);
 
 
 

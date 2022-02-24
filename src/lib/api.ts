@@ -46,13 +46,10 @@ export const apiGetCotacoes = async (codigo: string) => {
 		}
 	}
 }
-export const apiGetCotacao = async (numero: string): Promise<CotacaoTDO | any> => {
+export const apiGetCotacao = async (url: string): Promise<CotacaoTDO | any> => {
 	//codigoCotacao + '/' + codigoFornecedor + '/' + codigoContratoEmpresa + '/' + codigoEmpresa
 
-	const data: UrlData = JSON.parse(localStorage.getItem('urlData') as string);
-	const url = data.numeroCotacao + "/" + data.codigoFornecedor + "/" + data.contratoEmpresa + "/" + data.numeroEmpresa
 
-	console.log(url)
 	try {
 		const res: CotacaoTDO = await api.get('/price/findby/' + url);
 		return res;

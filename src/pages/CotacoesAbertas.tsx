@@ -91,6 +91,9 @@ export function CotacoesAbertas() {
 
 	const dadosUrl = useContext(UrlContext);
 
+	console.log("DADOS URL")
+	console.log(dadosUrl)
+
 
 	//aastat
 	var generateData = function (amount: number) {

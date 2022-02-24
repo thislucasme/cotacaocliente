@@ -1,10 +1,10 @@
-import { Alert, AlertIcon, FormControl, FormLabel, HStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select } from "@chakra-ui/react";
+import { Alert, AlertIcon, FormControl, FormLabel, HStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from "@chakra-ui/react";
 import { Button, Input, Space, Table, Tooltip, Typography } from "antd";
+import { ColumnType } from "antd/lib/table";
 import React, { useState } from "react";
 import CurrencyInput from "react-currency-input-field";
-import { CotacaoTDO } from "../lib/types";
 import { useToReal } from "../hooks/useToReal";
-import { ColumnType } from "antd/lib/table";
+import { CotacaoTDO } from "../lib/types";
 
 const { Text } = Typography;
 

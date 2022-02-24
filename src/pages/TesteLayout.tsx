@@ -1,4 +1,4 @@
-import { FolderOpenOutlined, MenuOutlined, SettingOutlined } from '@ant-design/icons';
+import { FolderOpenOutlined, MenuOutlined } from '@ant-design/icons';
 import { Box, chakra, Flex, Image, Spacer } from "@chakra-ui/react";
 import { Layout, Menu } from "antd";
 import 'antd/dist/antd.css';

@@ -6,29 +6,25 @@ import {
 import { Button, Layout, message, Result, Table, Tag, Tooltip, Typography } from "antd";
 import 'antd/dist/antd.css';
 import { ColumnType } from "antd/lib/table";
-import { encode } from "base-64";
 import jsPDF from "jspdf";
 import moment from "moment";
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { BiEdit } from 'react-icons/bi';
-import { useParams } from "react-router-dom";
-import { useRecoilValue, useSetRecoilState } from "recoil";
 import { InfoEmpresa } from "../components/InfoEmpresa";
 import { QuantidadeTotal } from "../components/QuantidadeTotal";
-import { urlDataState } from "../context/atom";
 import { UrlContext } from "../context/UrlContext";
 import { useCotacao } from "../hooks/useCotacao";
-
 import { useHistorico } from '../hooks/useHistorico';
 import { useItem } from '../hooks/useItens';
 import { useSetStatusLocalmente } from "../hooks/useSetStatusLocalmente";
 import { api } from "../lib/api";
-import { CotacaoTDO, HistoricoProdutosParametro, HistoricoProdutosTDO, HistoricoProdutosTDOBoolean, ItemCotacaoTDO, UrlData } from "../lib/types";
+import { CotacaoTDO, HistoricoProdutosParametro, HistoricoProdutosTDO, HistoricoProdutosTDOBoolean, ItemCotacaoTDO } from "../lib/types";
 import '../theme/styles.css';
 import '../theme/tabela.css';
 import { FinalizarCotacao } from './FinalizarCotacao';
 import { HistoricoTributosModal } from './HistoricoTributosModal';
 import { IntensCotacaoTabela } from "./ItensCotacaoTabela";
+
 
 const { Content } = Layout;
 
@@ -45,9 +41,8 @@ const unMaskReais = (value: string) => {
 
 export function CotacoesAbertas() {
 
-	const { codigoCotacao } = useParams();
 
-	const [isVerificandoFlag, setIsVerificandoFlag] = useState(false);
+	const [isVerificandoFlag] = useState(false);
 
 	const success = () => {
 		message.success('Item salvo com sucesso!');
@@ -66,7 +61,7 @@ export function CotacoesAbertas() {
 
 	const [isLoading, setLoading] = useState(false);
 	const [isUpdateLoading, setUpdateLoading] = useState(false);
-	const { cotacoes, total, totalFrete, totalDesconto, mutate, setFornecedorCode, setCotacaoCode, setEmpresaContratoCode, setEmpresaCode, isReady } = useCotacao();
+	const { cotacoes, total, totalFrete, totalDesconto, mutate, isReady } = useCotacao();
 
 	// const { isOpen, onOpen, onClose } = useDisclosure();
 	const { isOpen: isOpenSegundo, onOpen: onOpenSegundo, onClose: onCloseSegundo } = useDisclosure();
@@ -86,64 +81,16 @@ export function CotacoesAbertas() {
 
 	const { isEnviado, statusLocalmente, setEnviado } = useSetStatusLocalmente();
 
-	const [parametro, setParametro] = useState<any>();
-	const [urlData, setUrlData] = useState<UrlData>();
 
-	const setUrlDataState = useSetRecoilState(urlDataState);
 
-	const dataUrl = useRecoilValue(urlDataState)
+	useEffect(() => {
+		statusLocalmente();
+	}, [])
 
 	const [gerandoPDF, setGerandoPDF] = useState(false);
 
 	const dadosUrl = useContext(UrlContext);
 
-
-
-
-
-	useEffect(() => {
-
-
-
-
-		const data: any = codigoCotacao?.split(encode('-success'));
-		setParametro(data);
-
-		const urlData: UrlData = {
-			contratoEmpresa: data[0],
-			numeroEmpresa: data[1],
-			numeroCotacao: data[2],
-			cnpjFornecedor: data[3],
-			codigoFornecedor: data[4]
-		}
-
-		setUrlDataState([urlData])
-
-		setUrlData(urlData)
-
-		//codigoCotacao: string, fornecedor: string, contratoEmpresa: string
-
-		setIsVerificandoFlag(true);
-		statusLocalmente(urlData?.numeroCotacao, urlData?.codigoFornecedor, urlData?.contratoEmpresa, urlData?.numeroEmpresa);
-		setIsVerificandoFlag(false);
-
-		localStorage.removeItem('urlData');
-		localStorage.setItem('urlData', JSON.stringify(urlData));
-		localStorage.setItem('url', JSON.stringify(codigoCotacao));
-
-		setFornecedorCode(data[4]);
-		setCotacaoCode(data[2]);
-		setEmpresaContratoCode(data[0])
-		setEmpresaCode(data[1])
-
-		//console.log(parametro ? decode(parametro[4]) : 3)
-
-		// console.log(fornecedor, "demulidor")
-		// setFornecedorCode(fornecedor)
-		// setCotacaoCode('0000000001')
-
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [codigoCotacao])
 
 	//aastat
 	var generateData = function (amount: number) {
@@ -233,7 +180,7 @@ export function CotacoesAbertas() {
 
 
 		doc.table(3, 30, generateData(20), headers, { autoSize: true, fontSize: 8 })
-		doc.save('relatório' + dataUrl[0]?.numeroCotacao)
+		doc.save('relatório' + dadosUrl?.numeroCotacao)
 		setGerandoPDF(false)
 		pdfGerado();
 
@@ -300,11 +247,11 @@ export function CotacoesAbertas() {
 		// 	fornecedor: "A6CFFA7D7D9E79B6",
 		// 	produto6: "VEFR069"
 		// }
-
+		//********************AQUI PRECISO MUDAR /////////////
 		const item: HistoricoProdutosParametro = {
-			contratoEmpresa: urlData?.contratoEmpresa || "",
-			numeroEmpresa: urlData?.numeroEmpresa || "",
-			fornecedor: urlData?.codigoFornecedor || "",
+			contratoEmpresa: dadosUrl?.contratoEmpresa || "",
+			numeroEmpresa: dadosUrl?.numeroEmpresa || "",
+			fornecedor: dadosUrl?.codigoFornecedor || "",
 			produto6: cotacao?.produto || ""
 		}
 		const result = await verificarHistoricoTributos(item);
@@ -337,7 +284,7 @@ export function CotacoesAbertas() {
 			codbarras: cotacao?.codbarras,
 			data: moment(Date()).format('YYYYMMDDHHmm'),
 			contratoEmpresa: "",
-			codigoEmpresa: urlData?.numeroEmpresa || ""
+			codigoEmpresa: dadosUrl?.numeroEmpresa || ""
 		};
 
 		localStorage.setItem(`@App:${item.item}`, JSON.stringify(item));
@@ -351,7 +298,7 @@ export function CotacoesAbertas() {
 		const item: ItemCotacaoTDO = {
 			quantidade: Number(quantidade),
 			codigoInterno: cotacao?.produto,
-			fornecedor: urlData?.codigoFornecedor,
+			fornecedor: dadosUrl?.codigoFornecedor,
 			codigo: cotacao?.codigo,
 			item: cotacao?.item,
 			descricao: cotacao?.descricao,
@@ -366,8 +313,8 @@ export function CotacoesAbertas() {
 			status: false,
 			codbarras: cotacao?.codbarras,
 			data: moment(Date()).format('YYYYMMDDHHmm'),
-			contratoEmpresa: urlData?.contratoEmpresa || "",
-			codigoEmpresa: urlData?.numeroEmpresa || ""
+			contratoEmpresa: dadosUrl?.contratoEmpresa || "",
+			codigoEmpresa: dadosUrl?.numeroEmpresa || ""
 		};
 
 		try {
@@ -399,8 +346,9 @@ export function CotacoesAbertas() {
 			success();
 			setUpdateLoading(false)
 			onCloseSegundo()
-			//		statusLocalmente(urlData?.numeroCotacao, urlData?.codigoFornecedor, urlData?.contratoEmpresa);
-			statusLocalmente(dataUrl[0].numeroCotacao, dataUrl[0].codigoFornecedor, dataUrl[0].contratoEmpresa, dataUrl[0]?.numeroEmpresa);
+
+			statusLocalmente();
+
 			return res;
 		} catch (e: any) {
 			setUpdateLoading(false)
@@ -717,7 +665,7 @@ export function CotacoesAbertas() {
 								/>
 								<QuantidadeTotal totalFrete={totalFrete.data === undefined ? 0 : totalFrete?.data[0]?.totalFrete} mutate={mutate} totalDesconto={totalDesconto.data === undefined ? 0 : totalDesconto?.data[0]?.totalDesconto} total={total.data === undefined ? 0 : total?.data[0]?.total} />
 								{/* {console.log("RIGATTI", isReady?.data ? isReady?.data[0].isReady : false)} */}
-								<FinalizarCotacao readyToSend={isReady?.data ? isReady?.data[0].isReady : false} mutate={mutate} parametro={parametro} setEnviado={setEnviado} loading={!isEnviado} setAllPreenchido={setAllPreenchido} />
+								<FinalizarCotacao readyToSend={isReady?.data ? isReady?.data[0].isReady : false} mutate={mutate} setEnviado={setEnviado} loading={!isEnviado} setAllPreenchido={setAllPreenchido} />
 							</> : <Result
 								status="success"
 								title="Dados enviados com sucesso!"

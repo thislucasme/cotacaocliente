@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { UrlContext } from "../context/UrlContext";
 import { apiPostFlag } from "../lib/api";
 import { CotacaoTDOPayload } from "../lib/types";
 
@@ -6,7 +7,10 @@ export const useSetStatusLocalmente = () => {
 
 	const [isEnviado, setEnviado] = useState(false);
 
-	async function statusLocalmente(codigoCotacao: string, fornecedor: string, contratoEmpresa: string, codigoEmpresa: string) {
+	const urlData = useContext(UrlContext);
+
+
+	async function statusLocalmente() {
 		// const payload: CotacaoTDOPayload = {
 		// 	codigo: "1ECFFA7D7D9E7A05AAEE",
 		// 	fornecedor: "A6D7FA7D7D9E798E",
@@ -16,11 +20,11 @@ export const useSetStatusLocalmente = () => {
 		// }
 
 		const payload: CotacaoTDOPayload = {
-			codigo: codigoCotacao,
-			fornecedor: fornecedor,
+			codigo: urlData?.numeroCotacao,
+			fornecedor: urlData?.codigoFornecedor,
 			flag: "xx",
-			contratoEmpresa: contratoEmpresa,
-			codigoEmpresa: codigoEmpresa
+			contratoEmpresa: urlData?.contratoEmpresa,
+			codigoEmpresa: urlData?.numeroEmpresa
 		}
 
 		const response = await apiPostFlag(payload);

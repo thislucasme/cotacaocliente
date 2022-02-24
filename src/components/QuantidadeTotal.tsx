@@ -1,9 +1,10 @@
 import { Button, HStack, Text, useDisclosure, VStack } from '@chakra-ui/react';
 import { Tooltip } from "antd";
 import moment from "moment";
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AiFillEdit } from 'react-icons/ai';
 import { KeyedMutator } from 'swr';
+import { CotacaoContext } from '../context/CotacaoContext';
 import { ModalDesconto } from '../pages/ModalDesconto';
 
 type Props = {
@@ -16,7 +17,24 @@ type Props = {
 moment.locale();
 export const QuantidadeTotal = (props: Props) => {
 
-	const { isOpen: isOpenDesconto, onOpen: onOpenDesconto, onClose: onCloseDesconto } = useDisclosure()
+	const { isOpen: isOpenDesconto, onOpen: onOpenDesconto, onClose: onCloseDesconto } = useDisclosure();
+
+	const price = useContext(CotacaoContext);
+	console.log(price)
+
+
+	const [total, setTotal] = useState<number>(0);
+	const [frete, setFrete] = useState<number>(0);
+	const [totalDesconto, setTotalDesconto] = useState<number>(0);
+
+	useEffect(() => {
+
+		if (price.total !== undefined && price.totalFrete !== undefined && price.totalDesconto !== undefined) {
+			setTotal(price.total);
+			setFrete(price.totalFrete)
+			setTotalDesconto(price.totalDesconto)
+		}
+	}, [price])
 
 
 	return (
@@ -29,21 +47,21 @@ export const QuantidadeTotal = (props: Props) => {
 				</Tooltip>
 				<VStack alignItems={"start"} >
 					<Text color={"gray.500"}>Frete</Text>
-					<Text fontWeight={"semibold"}>{(props.totalFrete).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
+					<Text fontWeight={"semibold"}>{(frete | 0).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
 				</VStack>
 				<VStack alignItems={"start"} >
 					<Text color={"gray.500"}>Subtotal</Text>
-					<Text mr={5} fontWeight={"semibold"}>{(props.total).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
+					<Text mr={5} fontWeight={"semibold"}>{(total | 0).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
 				</VStack>
 				<VStack alignItems={"start"} >
 					<Text color={"gray.500"}>Desconto</Text>
-					<Text fontWeight={"semibold"}>{(props.totalDesconto).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
+					<Text fontWeight={"semibold"}>{(totalDesconto | 0).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
 				</VStack>
 				{
 					props.totalDesconto > 0 ?
 						<VStack alignItems={"start"}>
 							<Text color={"gray.500"}>Total geral</Text>
-							<Text fontWeight={"semibold"}>{(props.total + props.totalFrete - props.totalDesconto).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
+							<Text fontWeight={"semibold"}>{(total + frete - totalDesconto).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
 						</VStack>
 						: <></>
 				}

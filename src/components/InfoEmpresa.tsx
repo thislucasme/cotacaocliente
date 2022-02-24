@@ -1,7 +1,5 @@
 import { HStack, Skeleton, Stack, Text } from '@chakra-ui/react';
 import React, { useContext, useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
-import { urlDataState } from "../context/atom";
 import { UrlContext } from '../context/UrlContext';
 import { apiGetEmpresa } from "../lib/api";
 import { Empresa } from "../lib/types";

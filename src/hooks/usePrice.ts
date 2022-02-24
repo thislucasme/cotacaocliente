@@ -4,7 +4,7 @@ import { UrlContext } from "../context/UrlContext";
 import { apiGetCotacao } from "../lib/api";
 import { ItemCotacaoTDO } from "../lib/types";
 
-export const useCotacao = () => {
+export const usePrice = () => {
 
 	const dadosUrl = useContext(UrlContext);
 
@@ -22,12 +22,12 @@ export const useCotacao = () => {
 	const loading = !data && !error;
 
 	return {
-		cotacoes: { data: data?.data[0][0] },
+		cotacoes: data?.data[0][0],
 		dadosTyped: items,
-		total: { data: data?.data[1] },
-		totalDesconto: { data: data?.data[2] },
-		totalFrete: { data: data?.data[3] },
-		isReady: { data: data?.data[4] },
+		total: data?.data[1][0].total,
+		totalDesconto: data?.data[2][0].totalDesconto,
+		totalFrete: data?.data[3][0].totalFrete,
+		isReady: data?.data[4][0].isReady,
 		error,
 		mutate,
 		loading,

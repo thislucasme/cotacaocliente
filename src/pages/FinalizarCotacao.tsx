@@ -6,11 +6,9 @@ import {
 	ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure
 } from "@chakra-ui/react"
 import { Button, message, Space, Typography } from "antd"
-import React, { useContext, useEffect, useState } from "react"
+import React, { useContext, useState } from "react"
 import { AiOutlineInfoCircle } from "react-icons/ai"
-import { useRecoilValue } from "recoil"
 import { KeyedMutator } from "swr"
-import { urlDataState } from "../context/atom"
 import { UrlContext } from "../context/UrlContext"
 import { useFlagFornecedor } from '../hooks/useFlagFornecedor'
 import { CotacaoTDOPayload } from "../lib/types"
@@ -22,18 +20,12 @@ type Props = {
 	setAllPreenchido: React.Dispatch<React.SetStateAction<boolean>>,
 	loading: boolean,
 	setEnviado: React.Dispatch<React.SetStateAction<boolean>>,
-	parametro: any,
 	mutate: KeyedMutator<any>,
 	readyToSend: boolean
 
 }
 export const FinalizarCotacao = (props: Props) => {
 
-	const [, setContratoEmpresa] = useState('');
-	const [, setNumeroEmpresa] = useState('');
-	const [, setNumeroCotacao] = useState('');
-	const [, setCnjFornecedor] = useState('');
-	const [, setCodigoFornecedor] = useState('');
 
 
 	//const { dados } = useCotacaoFlag(payload);
@@ -62,19 +54,6 @@ export const FinalizarCotacao = (props: Props) => {
 
 
 
-	useEffect(() => {
-
-
-		setContratoEmpresa(dadosUrl?.contratoEmpresa ? dadosUrl?.contratoEmpresa : "")
-		setNumeroEmpresa(dadosUrl?.numeroEmpresa ? dadosUrl?.numeroEmpresa : "")
-		setNumeroCotacao(dadosUrl?.numeroCotacao ? dadosUrl?.numeroCotacao : "")
-		setCnjFornecedor(dadosUrl?.cnpjFornecedor)
-		setCodigoFornecedor(dadosUrl.codigoFornecedor)
-
-
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [])
-
 
 	function salvar() {
 		onOpen();
@@ -84,11 +63,11 @@ export const FinalizarCotacao = (props: Props) => {
 		setIsLoading(true)
 
 		const payLoad: CotacaoTDOPayload = {
-			codigo: dataUrl[0]?.numeroCotacao,
-			fornecedor: dataUrl[0]?.codigoFornecedor,
+			codigo: dadosUrl?.numeroCotacao,
+			fornecedor: dadosUrl?.codigoFornecedor,
 			flag: "P",
-			contratoEmpresa: dataUrl[0]?.contratoEmpresa,
-			codigoEmpresa: dataUrl[0]?.numeroEmpresa
+			contratoEmpresa: dadosUrl?.contratoEmpresa,
+			codigoEmpresa: dadosUrl?.numeroEmpresa
 		}
 
 		const result = await apiPostFlagFornecedor(payLoad)
@@ -149,6 +128,9 @@ export const FinalizarCotacao = (props: Props) => {
 				</ModalFooter>
 			</ModalContent>
 		</Modal>
-		<ModalDesconto mutate={props.mutate} isOpen={isOpenDesconto} onClose={onCloseDesconto} onOpen={onOpenDesconto} />
+
+		{/*EDITAR AQUI*/}
+
+		<ModalDesconto mutate={props.mutate} isOpen={isOpenDesconto} onClose={onCloseDesconto} onOpen={onOpenDesconto} total={0} totalDesconto={0} totalFrete={0} />
 	</>
 }

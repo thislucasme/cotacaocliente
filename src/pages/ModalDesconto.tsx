@@ -1,10 +1,9 @@
 import { Alert, AlertIcon, FormControl, FormLabel, HStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, Text } from "@chakra-ui/react";
 import { Button, message, Space } from "antd";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import CurrencyInput from "react-currency-input-field";
-import { useSetRecoilState } from "recoil";
 import { KeyedMutator } from "swr";
-import { percentual } from "../context/atom";
+import { CotacaoContext } from "../context/CotacaoContext";
 import { UrlContext } from "../context/UrlContext";
 import { FormaPagamento, TipoDesconto } from "../enuns/enuns";
 import { useDesconto } from "../hooks/useDesconto";
@@ -26,23 +25,32 @@ export const ModalDesconto = (props: Props) => {
 
 	const dadosUrl = useContext(UrlContext);
 
-	const { desconto } = useDesconto();
 
 	const [, setIsLoading] = useState(false);
 
-	const setDesconto = useSetRecoilState(percentual);
+	const off = useDesconto();
+
 
 	const [tipoValor, setTipoValor] = useState<number>(TipoDesconto.VALOR);
 	const [formaPagamento, setFormaPagamento] = useState(FormaPagamento.BOLETO_BANCARIO);
 	//const { } = useDesconto()
-	const [value, setValue] = useState<number>(props.totalDesconto);
-	const [frete, setFrete] = useState<number>(props.totalFrete);
+	const [desconto, setDesconto] = useState<number>(0);
+	const [frete, setFrete] = useState<number>(0);
+
+	const price = useContext(CotacaoContext);
+
+	useEffect(() => {
+		if (price.total !== undefined && price.totalFrete !== undefined && price.totalDesconto !== undefined) {
+			setFrete(price.totalFrete)
+			setDesconto(price.totalDesconto)
+		}
+	}, [price])
 
 	async function salvarDesconto() {
-		setDesconto(value);
+		setDesconto(desconto);
 
 		const data: DescontoGeral = {
-			percentual: Number.parseFloat(value.toString()),
+			percentual: Number.parseFloat(desconto.toString()),
 			dados: {
 				codigo: dadosUrl?.numeroCotacao,
 				codigoEmpresa: dadosUrl?.numeroEmpresa,
@@ -54,10 +62,10 @@ export const ModalDesconto = (props: Props) => {
 			formaPagamento: formaPagamento
 		}
 		setIsLoading(true);
-		const status = await desconto(data);
+		const status = await off.desconto(data);
 
 		if (status === 201) {
-			message.success(`Desconto de ${value}% aplicado!`);
+			message.success(`Desconto de ${desconto}% aplicado!`);
 		} else if (status === 401) {
 			message.warn('Ocorreu um erro ao aplicar o desconto!');
 		}
@@ -100,12 +108,12 @@ export const ModalDesconto = (props: Props) => {
 									id="input-custo-produtosddsds"
 									name="input-name"
 									placeholder="Please enter a number"
-									defaultValue={Number("23")}
+									defaultValue={desconto}
 									prefix="R$"
 									decimalScale={2}
 									onValueChange={(value: any, name: any, float: any) => {
-										setValue(float?.float ? (float.float).toString() : (0).toString())
-										float?.float === 0 ? setValue(props.totalDesconto) : setValue(float?.float ? (float.float).toString() : (0).toString())
+										setDesconto(float?.float ? (float.float).toString() : (0).toString())
+										float?.float === 0 ? setDesconto(props.totalDesconto) : setDesconto(float?.float ? (float.float).toString() : (0).toString())
 
 									}}
 								/>

@@ -1,3 +1,5 @@
+import moment from "moment"
+
 export type Login = {
 	email: string,
 	senha: string
@@ -120,7 +122,8 @@ export type UrlData = {
 	codigoFornecedor: string,
 	parametroUrl: string | undefined;
 	dataValidade: string;
-	isVencido: false;
+	dataMoment: moment.Moment | null;
+	isVencido: boolean | false;
 }
 
 export type DescontoGeral = {

@@ -1,4 +1,4 @@
-import { HStack, Skeleton, Stack, Text } from '@chakra-ui/react';
+import { HStack, Skeleton, Spacer, Stack, Text } from '@chakra-ui/react';
 import React, { useContext, useEffect, useState } from "react";
 import { CotacaoContext } from '../context/CotacaoContext';
 import { UrlContext } from '../context/UrlContext';
@@ -45,7 +45,10 @@ export const InfoEmpresa = () => {
 				<Text fontSize={"sm"} color='gray.500'>
 					COTAÇÃO: {codCotacao}
 				</Text>
-
+				<Spacer />
+				<Text fontSize={"sm"} color='gray.500'>
+					VENCIMENTO: {dadosUrl?.dataMoment?.format('llll').toUpperCase()}
+				</Text>
 			</HStack>
 			:
 			<Stack >

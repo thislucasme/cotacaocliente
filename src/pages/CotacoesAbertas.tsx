@@ -12,7 +12,6 @@ import React, { useContext, useEffect, useMemo, useState } from "react";
 import { BiEdit } from 'react-icons/bi';
 import { InfoEmpresa } from "../components/InfoEmpresa";
 import { QuantidadeTotal } from "../components/QuantidadeTotal";
-import { CotacaoContext } from "../context/CotacaoContext";
 import { UrlContext } from "../context/UrlContext";
 import { useCotacao } from "../hooks/useCotacao";
 import { useHistorico } from '../hooks/useHistorico';
@@ -82,8 +81,7 @@ export function CotacoesAbertas() {
 
 	const { isEnviado, statusLocalmente, setEnviado } = useSetStatusLocalmente();
 
-	const price = useContext(CotacaoContext);
-	console.log(price.formaPagamento)
+	//const price = useContext(CotacaoContext);
 
 
 
@@ -94,6 +92,7 @@ export function CotacoesAbertas() {
 	const [gerandoPDF, setGerandoPDF] = useState(false);
 
 	const dadosUrl = useContext(UrlContext);
+
 
 
 	//aastat

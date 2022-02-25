@@ -24,7 +24,6 @@ export const TesteLayout = () => {
 	const [collapsed, setCollapsed] = useState(true);
 	const navigate = useNavigate();
 	const {
-		vendedor,
 		error,
 		loading,
 		isValidating,

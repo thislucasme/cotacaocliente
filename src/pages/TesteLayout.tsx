@@ -2,7 +2,6 @@ import { FolderOpenOutlined, MenuOutlined } from '@ant-design/icons';
 import { Box, chakra, Flex, Image, Spacer } from "@chakra-ui/react";
 import { Layout, Menu } from "antd";
 import 'antd/dist/antd.css';
-import { encode } from 'base-64';
 import React, { useContext, useEffect, useState } from "react";
 import { BiHomeAlt } from 'react-icons/bi';
 import { Outlet, useNavigate } from "react-router-dom";
@@ -13,7 +12,6 @@ import { ProfileMenu } from "../components/ProfileMenu";
 import { Result } from '../components/Result';
 import { UrlContext } from '../context/UrlContext';
 import { useVendedor } from '../hooks/useVendedor';
-import { UrlData } from "../lib/types";
 import '../theme/styles.css';
 
 const { Header, Sider, Content } = Layout;

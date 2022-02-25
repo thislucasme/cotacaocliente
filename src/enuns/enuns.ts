@@ -19,7 +19,8 @@ export enum UrlDataPosition {
 	NUMERO_EMPRESA = 1,
 	NUMERO_COTACAO = 2,
 	CNPJ_FORNECEDOR = 3,
-	CODIGO_FORNECEDOR = 4
+	CODIGO_FORNECEDOR = 4,
+	DATA_VALIDADE = 5
 }
 
 export enum Flag {

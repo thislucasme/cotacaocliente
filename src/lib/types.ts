@@ -119,6 +119,8 @@ export type UrlData = {
 	cnpjFornecedor: string,
 	codigoFornecedor: string,
 	parametroUrl: string | undefined;
+	dataValidade: string;
+	isVencido: false;
 }
 
 export type DescontoGeral = {

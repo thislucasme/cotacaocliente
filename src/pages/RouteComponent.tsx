@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import { ListaEmpresa } from "../components/ListaEmpresas";
 import { ListaUsuarios } from "../components/ListaUsuarios";
 import { PaginaInfo } from "../components/PaginaInfo";
-import { CotacaoInterceptor } from "./CotacaoInterceptor";
+import { CotacaoInterceptor } from "../pageInterceptores/CotacaoInterceptor";
 import { Layout } from "./Layout";
 import { Login } from "./Login";
 import { Moeda } from "./Moeda";

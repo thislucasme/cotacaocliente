@@ -2,8 +2,7 @@ import { Button, Center, HStack, Text, VStack } from "@chakra-ui/react";
 import React from "react";
 import { FaRedoAlt } from 'react-icons/fa';
 import { FcHighPriority } from 'react-icons/fc';
-const a = 34;
-{ }
+
 export const NotFoundPage = () => {
 	return (
 		<Center display="flex" alignContent="center" alignItems="center" w="full" h="100vh">

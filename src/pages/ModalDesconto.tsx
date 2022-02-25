@@ -1,5 +1,5 @@
 import { Alert, AlertIcon, FormControl, FormLabel, HStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, Text } from "@chakra-ui/react";
-import { Button, message, Space } from "antd";
+import { Button, Input, message, Space } from "antd";
 import React, { useContext, useEffect, useState } from "react";
 import CurrencyInput from "react-currency-input-field";
 import { KeyedMutator } from "swr";
@@ -7,6 +7,7 @@ import { CotacaoContext } from "../context/CotacaoContext";
 import { UrlContext } from "../context/UrlContext";
 import { FormaPagamento, TipoDesconto } from "../enuns/enuns";
 import { useDesconto } from "../hooks/useDesconto";
+import { useToReal } from "../hooks/useToReal";
 import { DescontoGeral } from "../lib/types";
 
 //lucas
@@ -24,6 +25,7 @@ type Props = {
 export const ModalDesconto = (props: Props) => {
 
 	const dadosUrl = useContext(UrlContext);
+	const { toReal } = useToReal();
 
 
 	const [, setIsLoading] = useState(false);
@@ -32,10 +34,12 @@ export const ModalDesconto = (props: Props) => {
 
 
 	const [tipoValor, setTipoValor] = useState<number>(TipoDesconto.VALOR);
+	const [descontoEmPercentual, setDescontoEmPercentual] = useState<string>("0");
 	const [formaPagamento, setFormaPagamento] = useState(FormaPagamento.BOLETO_BANCARIO);
 	//const { } = useDesconto()
 	const [desconto, setDesconto] = useState<number>(0);
 	const [frete, setFrete] = useState<number>(0);
+	const [total, setTotal] = useState<number>(0);
 
 	const price = useContext(CotacaoContext);
 
@@ -44,15 +48,14 @@ export const ModalDesconto = (props: Props) => {
 			setFrete(price.totalFrete)
 			setDesconto(price.totalDesconto)
 			setFormaPagamento(price.formaPagamento)
-			console.log(price.formaPagamento)
+			setTotal(price.total)
 		}
 	}, [price])
 
 	async function salvarDesconto() {
-		setDesconto(desconto);
-
+		//setDesconto(desconto);
 		const data: DescontoGeral = {
-			percentual: Number.parseFloat(desconto.toString()),
+			percentual: prepararDesconto(),
 			dados: {
 				codigo: dadosUrl?.numeroCotacao,
 				codigoEmpresa: dadosUrl?.numeroEmpresa,
@@ -67,7 +70,7 @@ export const ModalDesconto = (props: Props) => {
 		const status = await off.desconto(data);
 
 		if (status === 201) {
-			message.success(`Desconto de ${desconto}% aplicado!`);
+			message.success(`Desconto de ${tipoValor === TipoDesconto.VALOR ? toReal(desconto.toString()) : descontoEmPercentual + "%"} aplicado.`);
 		} else if (status === 401) {
 			message.warn('Ocorreu um erro ao aplicar o desconto!');
 		}
@@ -77,6 +80,19 @@ export const ModalDesconto = (props: Props) => {
 		setIsLoading(false);
 		props.mutate();
 		props.onClose();
+	}
+
+	function prepararDesconto() {
+		if (tipoValor === TipoDesconto.VALOR) {
+			const valorDesconto = Number.parseFloat(desconto.toString());
+			return valorDesconto;
+		} else {
+			const valorTotalItens = total;
+			const percentual = Number.parseFloat(descontoEmPercentual) / 100;
+			const valorFinal = valorTotalItens - percentual * valorTotalItens;
+			console.log(valorFinal, total)
+			return valorFinal;
+		}
 	}
 
 
@@ -98,28 +114,42 @@ export const ModalDesconto = (props: Props) => {
 						<HStack>
 							<FormControl mt={0}>
 								<FormLabel fontSize={"14px"}>Tipo desconto</FormLabel>
-								<Select _focus={{ boxShadow: "none" }} onChange={(event: any) => { setTipoValor(Number.parseInt(event.target.value)) }} size="sm">
+								<Select defaultValue={tipoValor} _focus={{ boxShadow: "none" }} onChange={(event: any) => { setTipoValor(Number.parseInt(event.target.value)) }} size="sm">
 									<option value={TipoDesconto.VALOR}>R$</option>
 									<option value={TipoDesconto.PERCENTUAL}>%</option>
 								</Select>
 							</FormControl>
-							<FormControl mt={4}>
-								<FormLabel fontSize={"14px"}>Desconto</FormLabel>
-								<CurrencyInput
-									className="ant-input"
-									id="input-custo-produtosddsds"
-									name="input-name"
-									placeholder="Please enter a number"
-									defaultValue={desconto}
-									prefix="R$"
-									decimalScale={2}
-									onValueChange={(value: any, name: any, float: any) => {
-										setDesconto(float?.float ? (float.float).toString() : (0).toString())
-										float?.float === 0 ? setDesconto(props.totalDesconto) : setDesconto(float?.float ? (float.float).toString() : (0).toString())
+							{
+								tipoValor === TipoDesconto.VALOR
+									?
+									<FormControl mt={4}>
+										<FormLabel fontSize={"14px"}>Desconto</FormLabel>
+										<CurrencyInput
+											className="ant-input"
+											id="input-custo-produtosddsds"
+											name="input-name"
+											placeholder="Please enter a number"
+											defaultValue={desconto}
+											prefix="R$"
+											decimalScale={2}
+											onValueChange={(value: any, name: any, float: any) => {
+												setDesconto(float?.float ? (float.float).toString() : (0).toString())
+												float?.float === 0 ? setDesconto(props.totalDesconto) : setDesconto(float?.float ? (float.float).toString() : (0).toString())
 
-									}}
-								/>
-							</FormControl>
+											}}
+										/>
+
+
+
+									</FormControl>
+									:
+									<FormControl>
+										<FormLabel fontSize={"14px"}>ex: 0,34</FormLabel>
+										<Input type={"number"} value={descontoEmPercentual} step="0.01" onChange={(e) => { setDescontoEmPercentual(e.target.value); console.log(descontoEmPercentual) }} />
+									</FormControl>
+							}
+
+
 						</HStack>
 						<FormControl mt={4}>
 							<FormLabel fontSize={"14px"}>Pagamento</FormLabel>

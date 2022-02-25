@@ -20,7 +20,6 @@ export const QuantidadeTotal = (props: Props) => {
 	const { isOpen: isOpenDesconto, onOpen: onOpenDesconto, onClose: onCloseDesconto } = useDisclosure();
 
 	const price = useContext(CotacaoContext);
-	console.log(price)
 
 
 	const [total, setTotal] = useState<number>(0);

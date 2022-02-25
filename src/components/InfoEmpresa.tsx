@@ -1,13 +1,17 @@
 import { HStack, Skeleton, Stack, Text } from '@chakra-ui/react';
 import React, { useContext, useEffect, useState } from "react";
+import { CotacaoContext } from '../context/CotacaoContext';
 import { UrlContext } from '../context/UrlContext';
 import { apiGetEmpresa } from "../lib/api";
 import { Empresa } from "../lib/types";
 export const InfoEmpresa = () => {
 	const [empresa, setEmpresa] = useState<Empresa | null>();
 
-	const dadosUrl = useContext(UrlContext);
 
+	const dadosUrl = useContext(UrlContext);
+	const price = useContext(CotacaoContext)
+
+	const [codCotacao, setCodCotacao] = useState();
 
 	useEffect(() => {
 
@@ -19,7 +23,13 @@ export const InfoEmpresa = () => {
 			setEmpresa(result.data);
 		}).catch(error => {
 		})
-	}, [dadosUrl])
+
+		if (price !== undefined) {
+			setCodCotacao(price.numeroCotacao)
+
+		}
+
+	}, [dadosUrl, price])
 	return (
 		empresa ?
 			<HStack>
@@ -33,7 +43,7 @@ export const InfoEmpresa = () => {
 					CIDADE: {empresa?.cidade}
 				</Text>
 				<Text fontSize={"sm"} color='gray.500'>
-					COTAÇÃO: {dadosUrl?.numeroCotacao ? dadosUrl?.numeroCotacao : 0}
+					COTAÇÃO: {codCotacao}
 				</Text>
 
 			</HStack>

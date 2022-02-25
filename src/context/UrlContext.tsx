@@ -14,16 +14,20 @@ interface UrlProviderProps {
 
 export function UrlProvider({ children }: UrlProviderProps) {
 
-	const { codigoCotacao } = useParams();
+	const { url } = useParams();
 
-	const data: any = codigoCotacao?.split(encode('-success'));
+	const data: any = url?.split(encode('-success'));
+
+	console.log("DUST")
+	console.log(url)
 
 	const urlData: UrlData = {
 		contratoEmpresa: data[UrlDataPosition.CONTRATO_EMPRESA],
 		numeroEmpresa: data[UrlDataPosition.NUMERO_EMPRESA],
 		numeroCotacao: data[UrlDataPosition.NUMERO_COTACAO],
 		cnpjFornecedor: data[UrlDataPosition.CNPJ_FORNECEDOR],
-		codigoFornecedor: data[UrlDataPosition.CODIGO_FORNECEDOR]
+		codigoFornecedor: data[UrlDataPosition.CODIGO_FORNECEDOR],
+		parametroUrl: url
 	}
 
 

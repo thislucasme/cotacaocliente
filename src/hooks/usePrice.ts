@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import useSWR from "swr";
 import { UrlContext } from "../context/UrlContext";
+import { FormaPagamento } from "../enuns/enuns";
 import { apiGetCotacao } from "../lib/api";
 import { ItemCotacaoTDO } from "../lib/types";
 
@@ -21,6 +22,15 @@ export const usePrice = () => {
 	};
 	const loading = !data && !error;
 
+	const formaPagamento = () => {
+		const cotacao: ItemCotacaoTDO[] = data?.data[0][0];
+		let metodoPagamento = FormaPagamento.NENHUM;
+		cotacao.forEach((item => {
+			metodoPagamento = item.formaPagamento !== undefined ? item.formaPagamento : FormaPagamento.NENHUM;
+		}))
+		return metodoPagamento;
+	}
+
 	return {
 		cotacoes: data?.data[0][0],
 		dadosTyped: items,
@@ -28,6 +38,8 @@ export const usePrice = () => {
 		totalDesconto: data?.data[2][0].totalDesconto,
 		totalFrete: data?.data[3][0].totalFrete,
 		isReady: data?.data[4][0].isReady,
+		formaPagamento: data?.data[5][0].formaPagamento,
+		numeroCotacao: data?.data[6][0].numeroCotacao,
 		error,
 		mutate,
 		loading,

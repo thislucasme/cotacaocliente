@@ -1,4 +1,5 @@
 export enum FormaPagamento {
+	NENHUM = -1,
 	BOLETO_BANCARIO = 0,
 	CARTAO_CREDITO = 1,
 	DINHEIRO = 2,
@@ -19,4 +20,8 @@ export enum UrlDataPosition {
 	NUMERO_COTACAO = 2,
 	CNPJ_FORNECEDOR = 3,
 	CODIGO_FORNECEDOR = 4
+}
+
+export enum Flag {
+	PREENCHIDO = "P"
 }

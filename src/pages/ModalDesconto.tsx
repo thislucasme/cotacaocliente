@@ -43,6 +43,8 @@ export const ModalDesconto = (props: Props) => {
 		if (price.total !== undefined && price.totalFrete !== undefined && price.totalDesconto !== undefined) {
 			setFrete(price.totalFrete)
 			setDesconto(price.totalDesconto)
+			setFormaPagamento(price.formaPagamento)
+			console.log(price.formaPagamento)
 		}
 	}, [price])
 
@@ -121,11 +123,12 @@ export const ModalDesconto = (props: Props) => {
 						</HStack>
 						<FormControl mt={4}>
 							<FormLabel fontSize={"14px"}>Pagamento</FormLabel>
-							<Select _focus={{ boxShadow: "none" }} onChange={(event: any) => { setFormaPagamento(Number.parseInt(event.target.value)) }} size="sm">
+							<Select defaultValue={formaPagamento} _focus={{ boxShadow: "none" }} onChange={(event: any) => { setFormaPagamento(Number.parseInt(event.target.value)) }} size="sm">
 								<option value={FormaPagamento.BOLETO_BANCARIO}>Boleto Bancário</option>
 								<option value={FormaPagamento.DINHEIRO}>Dinheiro</option>
 								<option value={FormaPagamento.CHEQUE}>Cheque</option>
 								<option value={FormaPagamento.OUTROS}>Outros</option>
+								<option value={FormaPagamento.NENHUM}>Nenhum</option>
 							</Select>
 						</FormControl>
 

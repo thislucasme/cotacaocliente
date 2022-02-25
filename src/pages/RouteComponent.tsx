@@ -18,9 +18,9 @@ export const RouteComponent = () => {
 			<Route path={"painel"} element={<Layout />} >
 				<Route index element={<PaginaInfo />} />
 				<Route path="cotacoes-abertas/:codigoCotacao" element={<ListaEmpresa />} />
-				<Route path="cotacao/:codigoCotacao" element={<CotacaoInterceptor />} />
+				<Route path="cotacao/:url" element={<CotacaoInterceptor />} />
 				<Route path="cotacoes-fechadas" element={<ListaEmpresa />} />
-				<Route path="home/:codigoCotacao" element={<PaginaInfo />} />
+				<Route path="home/:url" element={<PaginaInfo />} />
 				<Route path="relatorios/:codigoCotacao" element={<Report />} />
 				<Route path="configuracao" element={<ListaUsuarios />} />
 				<Route path=":idDocumento" element={<Layout />} />

@@ -10,6 +10,7 @@ import React, { useContext, useState } from "react"
 import { AiOutlineInfoCircle } from "react-icons/ai"
 import { KeyedMutator } from "swr"
 import { UrlContext } from "../context/UrlContext"
+import { Flag } from "../enuns/enuns"
 import { useFlagFornecedor } from '../hooks/useFlagFornecedor'
 import { CotacaoTDOPayload } from "../lib/types"
 import { ModalDesconto } from '../pages/ModalDesconto'
@@ -65,7 +66,7 @@ export const FinalizarCotacao = (props: Props) => {
 		const payLoad: CotacaoTDOPayload = {
 			codigo: dadosUrl?.numeroCotacao,
 			fornecedor: dadosUrl?.codigoFornecedor,
-			flag: "P",
+			flag: Flag.PREENCHIDO,
 			contratoEmpresa: dadosUrl?.contratoEmpresa,
 			codigoEmpresa: dadosUrl?.numeroEmpresa
 		}

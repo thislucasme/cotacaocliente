@@ -47,7 +47,7 @@ export type ItemCotacaoTDO = {
 	frete: number | undefined;
 	st: number | undefined;
 	icms: number | undefined;
-	formaPagamento: string | undefined;
+	formaPagamento: number | undefined;
 	fornecedor: string | undefined;
 	ipi: number | undefined;
 	status: boolean;
@@ -117,7 +117,8 @@ export type UrlData = {
 	numeroEmpresa: string,
 	numeroCotacao: string,
 	cnpjFornecedor: string,
-	codigoFornecedor: string
+	codigoFornecedor: string,
+	parametroUrl: string | undefined;
 }
 
 export type DescontoGeral = {

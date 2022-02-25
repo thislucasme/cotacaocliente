@@ -2,7 +2,8 @@ import { FolderOpenOutlined, MenuOutlined } from '@ant-design/icons';
 import { Box, chakra, Flex, Image, Spacer } from "@chakra-ui/react";
 import { Layout, Menu } from "antd";
 import 'antd/dist/antd.css';
-import React, { useEffect, useState } from "react";
+import { encode } from 'base-64';
+import React, { useContext, useEffect, useState } from "react";
 import { BiHomeAlt } from 'react-icons/bi';
 import { Outlet, useNavigate } from "react-router-dom";
 import LogoMenor from '../assets/logo-icon-48x48.png';
@@ -10,6 +11,7 @@ import LogoMaior from '../assets/logonomesuc.f5f52e7a.png';
 import { Loading } from '../components/Loading';
 import { ProfileMenu } from "../components/ProfileMenu";
 import { Result } from '../components/Result';
+import { UrlContext } from '../context/UrlContext';
 import { useVendedor } from '../hooks/useVendedor';
 import { UrlData } from "../lib/types";
 import '../theme/styles.css';
@@ -20,7 +22,7 @@ const LayoutChakara = chakra(Layout);
 export const TesteLayout = () => {
 
 
-	const [url, setUrl] = useState<UrlData>();
+	const [url, setUrl] = useState<string>();
 	const [collapsed, setCollapsed] = useState(true);
 	const navigate = useNavigate();
 	const {
@@ -32,14 +34,24 @@ export const TesteLayout = () => {
 	} = useVendedor();
 
 
+	//aqui é pego a url que é passada através do context
+	const dadosUrl = useContext(UrlContext);
+
+
 	useEffect(() => {
 
-		const url: UrlData = JSON.parse(localStorage.getItem('url') as string);
-		setUrl(url)
+		/* Por padrão a url foi definida da seguinte forma:
+		contraro+separador+numeroDaEmpresa+separador + numeroDaCotacao + separador + cnpjFornecedor + separador + codigoFornecedor */
 
-		if (vendedor?.data === null) navigate('/')
+		/*daddosUrl é um objeto contendo as seguintes propriedades: contratoEmpresa, numeroEmpresa, numeroCotacao e codigoFornecedor */
+
+		if (dadosUrl !== undefined) {
+			setUrl(dadosUrl.parametroUrl)
+		}
+
+		//if (vendedor?.data === null) navigate('/')
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [vendedor])
+	}, [dadosUrl])
 
 	if (loading) {
 		return (<Loading />);

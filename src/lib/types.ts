@@ -26,6 +26,7 @@ export type CotacaoTDO = {
 	status: boolean;
 	mva: number;
 	codbarras: string;
+	desconto: number;
 
 }
 export type CotacaoTDOPayload = {
@@ -56,6 +57,7 @@ export type ItemCotacaoTDO = {
 	mva: number;
 	data: string;
 	codbarras: string | undefined;
+	desconto: number | undefined;
 }
 export type Fornecedor = {
 	email: string;

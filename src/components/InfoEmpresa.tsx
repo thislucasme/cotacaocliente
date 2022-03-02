@@ -1,4 +1,4 @@
-import { HStack, Skeleton, Spacer, Stack, Text } from '@chakra-ui/react';
+import { HStack, Skeleton, Spacer, Stack, Text, useMediaQuery, VStack } from '@chakra-ui/react';
 import React, { useContext, useEffect, useState } from "react";
 import { CotacaoContext } from '../context/CotacaoContext';
 import { UrlContext } from '../context/UrlContext';
@@ -6,6 +6,8 @@ import { apiGetEmpresa } from "../lib/api";
 import { Empresa } from "../lib/types";
 export const InfoEmpresa = () => {
 	const [empresa, setEmpresa] = useState<Empresa | null>();
+
+	const [isLargerThan600] = useMediaQuery('(min-width: 600px)');
 
 
 	const dadosUrl = useContext(UrlContext);
@@ -32,24 +34,43 @@ export const InfoEmpresa = () => {
 	}, [dadosUrl, price])
 	return (
 		empresa ?
-			<HStack>
-				<Text as='span' color='blue.300' fontWeight='normal'>
-					{empresa?.razao}
-				</Text>
-				<Text fontSize={"sm"} color='gray.500'>
-					CNPJ: {empresa?.cnpj}
-				</Text>
-				<Text fontSize={"sm"} color='gray.500'>
-					CIDADE: {empresa?.cidade}
-				</Text>
-				<Text fontSize={"sm"} color='gray.500'>
-					COTAÇÃO: {codCotacao}
-				</Text>
-				<Spacer />
-				<Text fontSize={"sm"} color='gray.500'>
-					VENCIMENTO: {dadosUrl?.dataMoment?.format('llll').toUpperCase()}
-				</Text>
-			</HStack>
+			isLargerThan600 ?
+				<HStack>
+					<Text as='span' color='blue.300' fontWeight='normal'>
+						{empresa?.razao}
+					</Text>
+					<Text fontSize={"sm"} color='gray.500'>
+						CNPJ: {empresa?.cnpj}
+					</Text>
+					<Text fontSize={"sm"} color='gray.500'>
+						CIDADE: {empresa?.cidade}
+					</Text>
+					<Text fontSize={"sm"} color='gray.500'>
+						COTAÇÃO: {codCotacao}
+					</Text>
+					<Spacer />
+					<Text fontSize={"sm"} color='gray.500'>
+						VENCIMENTO: {dadosUrl?.dataMoment?.format('llll').toUpperCase()}
+					</Text>
+				</HStack>
+				: <VStack alignItems={"start"}>
+					<Text as='span' color='blue.300' fontWeight='normal'>
+						{empresa?.razao}
+					</Text>
+					<Text fontSize={"sm"} color='gray.500'>
+						CNPJ: {empresa?.cnpj}
+					</Text>
+					<Text fontSize={"sm"} color='gray.500'>
+						CIDADE: {empresa?.cidade}
+					</Text>
+					<Text fontSize={"sm"} color='gray.500'>
+						COTAÇÃO: {codCotacao}
+					</Text>
+					<Spacer />
+					<Text fontSize={"sm"} color='gray.500'>
+						VENCIMENTO: {dadosUrl?.dataMoment?.format('llll').toUpperCase()}
+					</Text>
+				</VStack>
 			:
 			<Stack >
 				<Skeleton height='20px' w="170px" />

@@ -43,6 +43,7 @@ export const ModalDesconto = (props: Props) => {
 
 	const price = useContext(CotacaoContext);
 
+
 	useEffect(() => {
 		if (price.total !== undefined && price.totalFrete !== undefined && price.totalDesconto !== undefined) {
 			setFrete(price.totalFrete)
@@ -89,7 +90,7 @@ export const ModalDesconto = (props: Props) => {
 		} else {
 			const valorTotalItens = total;
 			const percentual = Number.parseFloat(descontoEmPercentual) / 100;
-			const valorFinal = valorTotalItens - percentual * valorTotalItens;
+			const valorFinal = percentual * valorTotalItens;
 			console.log(valorFinal, total)
 			return valorFinal;
 		}

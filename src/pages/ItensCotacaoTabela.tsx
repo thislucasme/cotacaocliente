@@ -17,6 +17,8 @@ type Props = {
 	setFrete: React.Dispatch<React.SetStateAction<string>>,
 	valorProduto: string,
 	setValorProduto: React.Dispatch<React.SetStateAction<string>>,
+	desconto: string,
+	setDesconto: React.Dispatch<React.SetStateAction<string>>,
 	st: string,
 	setSt: React.Dispatch<React.SetStateAction<string>>,
 	icms: string,
@@ -35,6 +37,7 @@ export const IntensCotacaoTabela = (props: Props) => {
 
 	const [alertCusto, setAlertCusto] = useState(false);
 
+
 	function verificarHistorico() {
 		const custo = Number.parseFloat(props.valorProduto);
 		if (custo === 0 || custo < 0) {
@@ -51,7 +54,7 @@ export const IntensCotacaoTabela = (props: Props) => {
 			title: 'Descrição',
 			dataIndex: 'descricao',
 			key: 'descricaomodal',
-			width: "5px",
+			width: "40px",
 			shouldCellUpdate: () => false,
 			ellipsis: {
 				showTitle: false
@@ -65,7 +68,7 @@ export const IntensCotacaoTabela = (props: Props) => {
 		},
 		{
 			title: 'Item',
-			width: '5px',
+			width: "40px",
 			dataIndex: 'item',
 			key: 'itemmodal',
 			align: 'center',
@@ -77,7 +80,7 @@ export const IntensCotacaoTabela = (props: Props) => {
 		},
 		{
 			title: 'Código',
-			width: '5px',
+			width: "40px",
 			dataIndex: 'codigo',
 			key: 'codigomodal',
 			align: 'center',
@@ -89,7 +92,7 @@ export const IntensCotacaoTabela = (props: Props) => {
 		},
 		{
 			title: 'Código/barras',
-			width: '5px',
+			width: "40px",
 			dataIndex: 'codigobarras',
 			key: 'codigobarrasmodal',
 			align: 'center',
@@ -101,7 +104,7 @@ export const IntensCotacaoTabela = (props: Props) => {
 		},
 		{
 			title: 'Marca',
-			width: '5px',
+			width: "40px",
 			dataIndex: 'marca',
 			key: 'marcamodal',
 			align: 'center',
@@ -109,7 +112,7 @@ export const IntensCotacaoTabela = (props: Props) => {
 		},
 		{
 			title: 'quantidade',
-			width: '10px',
+			width: "40px",
 			dataIndex: 'quantidade',
 			key: 'quantidademodal',
 			align: 'center'
@@ -127,7 +130,7 @@ export const IntensCotacaoTabela = (props: Props) => {
 				<ModalOverlay />
 				<ModalContent>
 					<ModalHeader fontSize={"18px"} fontWeight="medium">
-						Cotação: {props.cotacao?.codigo}
+						Item: {props.cotacao?.item}
 					</ModalHeader>
 					<ModalCloseButton _focus={{ boxShadow: 'none' }} />
 					<ModalBody pb={6}>
@@ -147,6 +150,23 @@ export const IntensCotacaoTabela = (props: Props) => {
 									decimalScale={2}
 									onValueChange={(value: any, name: any, float: any) => {
 										props.setFrete(float?.float ? (float.float).toString() : (0).toString())
+									}}
+								/>
+							</FormControl>
+
+							<FormControl>
+								<FormLabel fontSize={"14px"}>Desconto</FormLabel>
+								<Text style={{ fontSize: "10px", color: "gray" }}>{toReal(props.desconto)}</Text>
+								<CurrencyInput
+									className="ant-input"
+									id="input-example"
+									name="input-name"
+									placeholder="Please enter a number"
+									defaultValue={Number(props.desconto)}
+									prefix="R$"
+									decimalScale={2}
+									onValueChange={(value: any, name: any, float: any) => {
+										props.setDesconto(float?.float ? (float.float).toString() : (0).toString())
 									}}
 								/>
 							</FormControl>

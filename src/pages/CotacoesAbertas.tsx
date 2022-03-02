@@ -47,13 +47,16 @@ export function CotacoesAbertas() {
 	const success = () => {
 		message.success('Item salvo com sucesso!');
 	};
+	const failure = () => {
+		message.error('Ocorreu um erro ao salvar este item.');
+	};
 	const pdfGerado = () => {
 		message.success('Relatório gerado com sucesso!');
 	};
 	const [quantidade] = useState('');
 	const {
 		abrirModal, onClose, isOpen, icms, setIcms, frete, setFrete,
-		valorProduto, setValorProduto, st, setSt, mva, setMva, ipi, setIpi,
+		valorProduto, setValorProduto, st, setSt, mva, setMva, ipi, setIpi, desconto, setDesconto,
 		cotacao
 	} = useItem();
 
@@ -92,6 +95,7 @@ export function CotacoesAbertas() {
 	const [gerandoPDF, setGerandoPDF] = useState(false);
 
 	const dadosUrl = useContext(UrlContext);
+
 
 
 
@@ -287,7 +291,8 @@ export function CotacoesAbertas() {
 			codbarras: cotacao?.codbarras,
 			data: moment(Date()).format('YYYYMMDDHHmm'),
 			contratoEmpresa: "",
-			codigoEmpresa: dadosUrl?.numeroEmpresa || ""
+			codigoEmpresa: dadosUrl?.numeroEmpresa || "",
+			desconto: undefined
 		};
 
 		localStorage.setItem(`@App:${item.item}`, JSON.stringify(item));
@@ -317,11 +322,38 @@ export function CotacoesAbertas() {
 			codbarras: cotacao?.codbarras,
 			data: moment(Date()).format('YYYYMMDDHHmm'),
 			contratoEmpresa: dadosUrl?.contratoEmpresa || "",
-			codigoEmpresa: dadosUrl?.numeroEmpresa || ""
+			codigoEmpresa: dadosUrl?.numeroEmpresa || "",
+			desconto: Number(desconto)
 		};
 
 		try {
-			const res = await api.post('price/update', item);
+			const res = await api.post('price/update', item).then((result) => {
+				console.log(result.status)
+				if (result.status === 201) {
+					setLoading(false);
+					onClose();
+					mutate();
+					success();
+					setUpdateLoading(false)
+					onCloseSegundo()
+
+					statusLocalmente();
+				} else {
+					setLoading(false);
+					failure();
+					setUpdateLoading(false)
+
+
+				}
+			}).catch(error => {
+				console.log(error)
+				setLoading(false);
+				failure();
+				setUpdateLoading(false)
+
+			});
+
+			console.log(res)
 			// const payload: CotacaoTDOPayload = {
 			// 	codigo: urlData?.numeroCotacao || "",
 			// 	fornecedor: urlData?.codigoFornecedor || "",
@@ -343,17 +375,11 @@ export function CotacoesAbertas() {
 			// 	}
 			// });
 
-			setLoading(false);
-			onClose();
-			mutate();
-			success();
-			setUpdateLoading(false)
-			onCloseSegundo()
 
-			statusLocalmente();
 
 			return res;
 		} catch (e: any) {
+			console.log("aqui é um catch")
 			setUpdateLoading(false)
 			onCloseSegundo()
 		}
@@ -525,6 +551,25 @@ export function CotacoesAbertas() {
 						<EditableInput />
 					</Editable>;
 				},
+
+			},
+			{
+				title: 'desconto',
+				dataIndex: 'desconto',
+				key: 'desconto',
+				align: 'right',
+				ellipsis: {
+					showTitle: false
+				},
+				shouldCellUpdate: () => true,
+				width: '70px',
+				render: (value: string, record: any) => {
+					return <Editable fontSize={"12px"} >
+						{Number(value).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
+						<EditablePreview />
+						<EditableInput />
+					</Editable>;
+				},
 			},
 			{
 				title: 'Frete',
@@ -682,7 +727,7 @@ export function CotacoesAbertas() {
 							/>
 						}
 					</Content>
-					<IntensCotacaoTabela onClose={onClose} isOpen={isOpen} cotacao={cotacao}
+					<IntensCotacaoTabela desconto={desconto} setDesconto={setDesconto} onClose={onClose} isOpen={isOpen} cotacao={cotacao}
 						dataSource={dataSource} frete={frete} setFrete={setFrete} valorProduto={valorProduto}
 						setValorProduto={setValorProduto} st={st} setSt={setSt} icms={icms} setIcms={setIcms}
 						mva={mva} setMva={setMva} ipi={ipi} setIpi={setIpi} verificarHistorico={verificarHistorico} isAllPreenchido={isAllPreenchido}

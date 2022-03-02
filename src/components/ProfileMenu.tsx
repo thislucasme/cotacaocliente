@@ -1,10 +1,10 @@
 import { CaretDownOutlined } from '@ant-design/icons';
 import {
-	Box, FormControl,
+	FormControl,
 	HStack, Link, Modal,
 	ModalBody,
 	ModalCloseButton, ModalContent,
-	ModalFooter, ModalHeader, ModalOverlay, Skeleton, useDisclosure, VStack
+	ModalFooter, ModalHeader, ModalOverlay, Skeleton, useDisclosure, useMediaQuery, VStack
 } from "@chakra-ui/react";
 import { Button, Checkbox, Input, Space, Typography } from "antd";
 import React, { useContext, useEffect, useState } from "react";
@@ -17,6 +17,8 @@ const { Text } = Typography;
 export const ProfileMenu = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure()
 	const [fornecedor, setFornecedor] = useState<any>();
+
+	const [isLargerThan600] = useMediaQuery('(min-width: 600px)');
 
 
 	const dadosUrl = useContext(UrlContext);
@@ -34,16 +36,19 @@ export const ProfileMenu = () => {
 
 	return (
 		<>
-			<Box px={3} display="flex" alignItems="center" alignContent="center" minH="full">
+			<VStack>
 
 				{fornecedor ?
-					<HStack borderRadius={5} >
-						<HStack><Text style={{ color: "gray" }} strong>Razão social:</Text><Text style={{ fontSize: "14px" }} strong>{fornecedor?.nome.trim().toLowerCase()}</Text></HStack>
-						<HStack><Text style={{ color: "gray" }} strong>CNPJ:</Text><Text strong>{fornecedor?.cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5")}</Text></HStack>
-						<BsInfoCircleFill color='#538EC6' cursor={"pointer"} />
+					isLargerThan600 ?
+						<HStack borderRadius={5} marginRight={2}>
+							<HStack><Text style={{ color: "gray" }} strong>Razão social:</Text><Text style={{ fontSize: "14px" }} strong>{fornecedor?.nome.trim().toLowerCase()}</Text></HStack>
+							<HStack><Text style={{ color: "gray" }} strong>CNPJ:</Text><Text strong>{fornecedor?.cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5")}</Text></HStack>
+							<BsInfoCircleFill color='#538EC6' cursor={"pointer"} />
 
-						<Button onClick={onOpen} type={"primary"} icon={<CaretDownOutlined />}>Ver detalhes</Button>
-					</HStack>
+							<Button onClick={onOpen} type={"primary"} icon={<CaretDownOutlined />}>Ver detalhes</Button>
+						</HStack>
+						:
+						<></>
 					:
 					<HStack>
 						<Skeleton height='20px' w="170px" />
@@ -51,7 +56,7 @@ export const ProfileMenu = () => {
 						<Skeleton height='30px' w="100px" />
 					</HStack>
 				}
-			</Box>
+			</VStack>
 			<Modal
 				isOpen={isOpen}
 				onClose={onClose}

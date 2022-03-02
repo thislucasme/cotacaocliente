@@ -4,9 +4,9 @@ import { ListaEmpresa } from "../components/ListaEmpresas";
 import { ListaUsuarios } from "../components/ListaUsuarios";
 import { PaginaInfo } from "../components/PaginaInfo";
 import { CotacaoInterceptor } from "../pageInterceptores/CotacaoInterceptor";
+import { EmailPage } from "./EmailPage";
 import { Layout } from "./Layout";
 import { Login } from "./Login";
-import { Moeda } from "./Moeda";
 import { Report } from "./Report";
 
 
@@ -15,6 +15,7 @@ export const RouteComponent = () => {
 
 		<Routes>
 			<Route index element={<Login />} />
+			<Route path="teste" element={<EmailPage />} />
 			<Route path={"painel"} element={<Layout />} >
 				<Route index element={<PaginaInfo />} />
 				<Route path="cotacoes-abertas/:codigoCotacao" element={<ListaEmpresa />} />
@@ -24,7 +25,8 @@ export const RouteComponent = () => {
 				<Route path="relatorios/:codigoCotacao" element={<Report />} />
 				<Route path="configuracao" element={<ListaUsuarios />} />
 				<Route path=":idDocumento" element={<Layout />} />
-				<Route path="teste" element={<Moeda />} />
+				<Route path="teste/:url" element={<EmailPage />} />
+
 
 			</Route>
 		</Routes>

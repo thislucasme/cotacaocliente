@@ -9,6 +9,7 @@ export const useItem = () => {
 	const [st, setSt] = useState('');
 	const [icms, setIcms] = useState('');
 	const [mva, setMva] = useState('')
+	const [desconto, setDesconto] = useState('');
 	//const [formaPagamento, setFormaPagamento] = useState('');
 	const [ipi, setIpi] = useState('');
 	const { isOpen, onOpen, onClose } = useDisclosure();
@@ -24,6 +25,7 @@ export const useItem = () => {
 		setSt(cotacao.st !== null ? cotacao?.st.toString() : '');
 		setValorProduto(cotacao.valordoproduto !== null ? cotacao?.valordoproduto.toString() : '')
 		setFrete(cotacao.frete !== null ? cotacao.frete.toString() : '')
+		setDesconto(cotacao.desconto !== null ? cotacao.desconto.toString() : '')
 		onOpen()
 	}
 
@@ -41,6 +43,8 @@ export const useItem = () => {
 		setValorProduto,
 		frete,
 		setFrete,
+		setDesconto,
+		desconto,
 		abrirModal,
 		onOpen,
 		onClose,

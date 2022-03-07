@@ -1,5 +1,5 @@
 import { Alert, AlertIcon, FormControl, FormLabel, HStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, Text } from "@chakra-ui/react";
-import { Button, Input, message, Space } from "antd";
+import { Input, message, Space } from "antd";
 import React, { useContext, useEffect, useState } from "react";
 import CurrencyInput from "react-currency-input-field";
 import { KeyedMutator } from "swr";
@@ -9,6 +9,9 @@ import { FormaPagamento, TipoDesconto } from "../enuns/enuns";
 import { useDesconto } from "../hooks/useDesconto";
 import { useToReal } from "../hooks/useToReal";
 import { DescontoGeral } from "../lib/types";
+import { styles } from "../style/style";
+import { Button } from '@mantine/core';
+
 
 //lucas
 
@@ -114,8 +117,8 @@ export const ModalDesconto = (props: Props) => {
 					<ModalBody>
 						<HStack>
 							<FormControl mt={0}>
-								<FormLabel fontSize={"14px"}>Tipo desconto</FormLabel>
-								<Select defaultValue={tipoValor} _focus={{ boxShadow: "none" }} onChange={(event: any) => { setTipoValor(Number.parseInt(event.target.value)) }} size="sm">
+								<FormLabel fontSize={"16px"}>Tipo desconto</FormLabel>
+								<Select fontSize={styles.Font16.width} defaultValue={tipoValor} _focus={{ boxShadow: "none" }} onChange={(event: any) => { setTipoValor(Number.parseInt(event.target.value)) }} size="sm">
 									<option value={TipoDesconto.VALOR}>R$</option>
 									<option value={TipoDesconto.PERCENTUAL}>%</option>
 								</Select>
@@ -124,8 +127,9 @@ export const ModalDesconto = (props: Props) => {
 								tipoValor === TipoDesconto.VALOR
 									?
 									<FormControl mt={4}>
-										<FormLabel fontSize={"14px"}>Desconto</FormLabel>
+										<FormLabel fontSize={"16px"}>Desconto</FormLabel>
 										<CurrencyInput
+											style={styles.Font16}
 											className="ant-input"
 											id="input-custo-produtosddsds"
 											name="input-name"
@@ -145,16 +149,16 @@ export const ModalDesconto = (props: Props) => {
 									</FormControl>
 									:
 									<FormControl>
-										<FormLabel fontSize={"14px"}>ex: 0,34</FormLabel>
-										<Input type={"number"} value={descontoEmPercentual} step="0.01" onChange={(e) => { setDescontoEmPercentual(e.target.value); console.log(descontoEmPercentual) }} />
+										<FormLabel fontSize={styles.Font16.width}>ex: 0,34</FormLabel>
+										<Input style={styles.Font16} type={"number"} value={descontoEmPercentual} step="0.01" onChange={(e) => { setDescontoEmPercentual(e.target.value); console.log(descontoEmPercentual) }} />
 									</FormControl>
 							}
 
 
 						</HStack>
 						<FormControl mt={4}>
-							<FormLabel fontSize={"14px"}>Pagamento</FormLabel>
-							<Select defaultValue={formaPagamento} _focus={{ boxShadow: "none" }} onChange={(event: any) => { setFormaPagamento(Number.parseInt(event.target.value)) }} size="sm">
+							<FormLabel fontSize={styles.Font16.width}>Pagamento</FormLabel>
+							<Select fontSize={styles.Font16.width} defaultValue={formaPagamento} _focus={{ boxShadow: "none" }} onChange={(event: any) => { setFormaPagamento(Number.parseInt(event.target.value)) }} size="sm">
 								<option value={FormaPagamento.BOLETO_BANCARIO}>Boleto Bancário</option>
 								<option value={FormaPagamento.DINHEIRO}>Dinheiro</option>
 								<option value={FormaPagamento.CHEQUE}>Cheque</option>
@@ -165,9 +169,10 @@ export const ModalDesconto = (props: Props) => {
 
 
 						<FormControl mt={4}>
-							<FormLabel fontSize={"14px"}>Frete</FormLabel>
+							<FormLabel fontSize={"16px"}>Frete</FormLabel>
 							{/* <Text style={{ fontSize: "10px", color: "gray" }}>{toReal(props.valorProduto)}</Text> */}
 							<CurrencyInput
+								style={styles.Font16}
 								className="ant-input"
 								id="input-custo-produto"
 								name="input-name"
@@ -184,17 +189,17 @@ export const ModalDesconto = (props: Props) => {
 
 						<Alert status='warning' my={4}>
 							<AlertIcon />
-							É necessário preencher todos os campos.
+							<Text style={styles.Font16}>É necessário preencher todos os campos.</Text>
 						</Alert>
 					</ModalBody>
 
 					<ModalFooter>
 						<Space>
-							<Button onClick={() => { salvarDesconto() }} loading={false} >
+							<Button style={styles.Font16} onClick={() => { salvarDesconto() }} loading={false} >
 								Salvar
 							</Button>
 
-							<Button type={"primary"} onClick={() => { props.onClose(); }} >Cancelar</Button>
+							<Button variant="outline" style={styles.Font16} onClick={() => { props.onClose(); }} >Cancelar</Button>
 						</Space>
 					</ModalFooter>
 				</ModalContent>

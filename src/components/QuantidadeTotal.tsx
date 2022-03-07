@@ -1,4 +1,4 @@
-import { Button, HStack, Text, useDisclosure, VStack } from '@chakra-ui/react';
+import { HStack, Text, useDisclosure, VStack } from '@chakra-ui/react';
 import { Tooltip } from "antd";
 import moment from "moment";
 import React, { useContext, useEffect, useState } from "react";
@@ -6,6 +6,7 @@ import { AiFillEdit } from 'react-icons/ai';
 import { KeyedMutator } from 'swr';
 import { CotacaoContext } from '../context/CotacaoContext';
 import { ModalDesconto } from '../pages/ModalDesconto';
+import { Button } from '@mantine/core';
 
 type Props = {
 	total: number,
@@ -40,8 +41,8 @@ export const QuantidadeTotal = (props: Props) => {
 		<>
 			<HStack>
 				<Tooltip title={"Editar informações: Frete e desconto."}>
-					<Button onClick={onOpenDesconto} rightIcon={<AiFillEdit />}>
-						Editar
+					<Button variant='light' onClick={onOpenDesconto} rightIcon={<AiFillEdit />}>
+						Frete / desconto
 					</Button>
 				</Tooltip>
 				<VStack alignItems={"start"} >

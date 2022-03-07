@@ -4,16 +4,17 @@ import {
 	AlertIcon, HStack, Modal,
 	ModalBody,
 	ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure
-} from "@chakra-ui/react"
-import { Button, message, Space, Typography } from "antd"
-import React, { useContext, useState } from "react"
-import { AiOutlineInfoCircle } from "react-icons/ai"
-import { KeyedMutator } from "swr"
-import { UrlContext } from "../context/UrlContext"
-import { Flag } from "../enuns/enuns"
-import { useFlagFornecedor } from '../hooks/useFlagFornecedor'
-import { CotacaoTDOPayload } from "../lib/types"
-import { ModalDesconto } from '../pages/ModalDesconto'
+} from "@chakra-ui/react";
+import { Button } from '@mantine/core';
+import { message, Space, Typography } from "antd";
+import React, { useContext, useState } from "react";
+import { AiOutlineInfoCircle } from "react-icons/ai";
+import { KeyedMutator } from "swr";
+import { UrlContext } from "../context/UrlContext";
+import { Flag } from "../enuns/enuns";
+import { useFlagFornecedor } from '../hooks/useFlagFornecedor';
+import { CotacaoTDOPayload } from "../lib/types";
+import { ModalDesconto } from '../pages/ModalDesconto';
 
 
 const { Text } = Typography;
@@ -93,9 +94,9 @@ export const FinalizarCotacao = (props: Props) => {
 	return <>
 		<Alert status='info' my={4}>
 			<AlertIcon />
-			Antes de efetuar o envio, certifique-se de preencher todos os itens da tabela.
+			<Text style={{ color: "#228BE6	" }}>	Antes de efetuar o envio, certifique-se de preencher todos os itens da tabela.</Text>
 		</Alert>
-		<Button type="primary" disabled={!props.readyToSend} onClick={() => { salvar() }}>
+		<Button disabled={!props.readyToSend} onClick={() => { salvar() }}>
 			Confirmar envio
 		</Button>
 
@@ -124,7 +125,7 @@ export const FinalizarCotacao = (props: Props) => {
 							Salvar
 						</Button>
 
-						<Button type={"primary"} onClick={onClose}>Cancelar</Button>
+						<Button onClick={onClose}>Cancelar</Button>
 					</Space>
 				</ModalFooter>
 			</ModalContent>

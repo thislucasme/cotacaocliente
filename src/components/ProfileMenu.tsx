@@ -11,6 +11,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { BsInfoCircleFill } from 'react-icons/bs';
 import { UrlContext } from '../context/UrlContext';
 import { apiGetEmpresa } from '../lib/api';
+import { motion } from 'framer-motion'
 
 const { Text } = Typography;
 
@@ -40,13 +41,18 @@ export const ProfileMenu = () => {
 
 				{fornecedor ?
 					isLargerThan600 ?
-						<HStack borderRadius={5} marginRight={2}>
-							<HStack><Text style={{ color: "gray" }} strong>Razão social:</Text><Text style={{ fontSize: "14px" }} strong>{fornecedor?.nome.trim().toLowerCase()}</Text></HStack>
-							<HStack><Text style={{ color: "gray" }} strong>CNPJ:</Text><Text strong>{fornecedor?.cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5")}</Text></HStack>
-							<BsInfoCircleFill color='#538EC6' cursor={"pointer"} />
+						<motion.div
+							initial={{ x: -100 }}
+							animate={{ x: 0 }}
+							transition={{ ease: "circIn" }}>
+							<HStack borderRadius={5} marginRight={2}>
+								<HStack><Text style={{ color: "gray" }} strong>Razão social:</Text><Text style={{ fontSize: "14px" }} strong>{fornecedor?.nome.trim().toLowerCase()}</Text></HStack>
+								<HStack><Text style={{ color: "gray" }} strong>CNPJ:</Text><Text strong>{fornecedor?.cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5")}</Text></HStack>
+								<BsInfoCircleFill color='#538EC6' cursor={"pointer"} />
 
-							<Button onClick={onOpen} type={"primary"} icon={<CaretDownOutlined />}>Ver detalhes</Button>
-						</HStack>
+								<Button onClick={onOpen} type={"primary"} icon={<CaretDownOutlined />}>Ver detalhes</Button>
+							</HStack>
+						</motion.div>
 						:
 						<></>
 					:

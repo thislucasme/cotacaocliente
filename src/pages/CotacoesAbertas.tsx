@@ -3,7 +3,8 @@ import {
 	Center,
 	Divider, Editable, EditableInput, EditablePreview, Flex, HStack, Spacer, Spinner, useDisclosure, VStack
 } from "@chakra-ui/react";
-import { Button, Layout, message, Result, Table, Tag, Tooltip, Typography } from "antd";
+import { Badge } from '@mantine/core';
+import { Button, Layout, message, Result, Table, Tooltip, Typography } from "antd";
 import 'antd/dist/antd.css';
 import { ColumnType } from "antd/lib/table";
 import jsPDF from "jspdf";
@@ -19,11 +20,15 @@ import { useItem } from '../hooks/useItens';
 import { useSetStatusLocalmente } from "../hooks/useSetStatusLocalmente";
 import { api } from "../lib/api";
 import { CotacaoTDO, HistoricoProdutosParametro, HistoricoProdutosTDO, HistoricoProdutosTDOBoolean, ItemCotacaoTDO } from "../lib/types";
+import { styles } from "../style/style";
 import '../theme/styles.css';
 import '../theme/tabela.css';
 import { FinalizarCotacao } from './FinalizarCotacao';
 import { HistoricoTributosModal } from './HistoricoTributosModal';
 import { IntensCotacaoTabela } from "./ItensCotacaoTabela";
+
+
+
 
 
 const { Content } = Layout;
@@ -414,15 +419,11 @@ export function CotacoesAbertas() {
 					if (record.valordoproduto > 0) {
 						setQuantidadeItensPreenchidos(quantidadeItensPreenchidos + 1);
 						return <>
-							<Tag style={{ fontSize: "12px" }} color="#87D068">
-								MODIFICADO
-							</Tag>
+							<Badge style={styles.Badge} variant="filled" color={"teal"}>Modificado</Badge>
 						</>
 					} else {
 						return <>
-							<Tag style={{ fontSize: "12px", width: "90px" }} color="#808080">
-								PENDENTE
-							</Tag>
+							<Badge style={styles.Badge} variant="filled" color={"orange"}>Pendente</Badge>
 						</>
 					}
 				},
@@ -441,7 +442,7 @@ export function CotacoesAbertas() {
 				render: (value: string, record: any) => {
 					return (
 						<Tooltip title={value}>
-							<Text style={{ fontSize: "12px" }}>{value}</Text>
+							<Text style={styles.Font16}>{value}</Text>
 						</Tooltip>
 					)
 				},
@@ -459,7 +460,7 @@ export function CotacoesAbertas() {
 				render: (value: string, record: any) => {
 					return (
 						<Tooltip title={value ? value : "Campo vazio"}>
-							<Text style={{ fontSize: "12px" }}>{value ? value : "XXX-XXX"}</Text>
+							<Text style={styles.Font16}>{value ? value : "XXX-XXX"}</Text>
 						</Tooltip>
 					)
 				},
@@ -477,7 +478,7 @@ export function CotacoesAbertas() {
 				render: (value: string, record: any) => {
 					return (
 						<Tooltip title={value}>
-							<Text style={{ fontSize: "12px" }}>{value}</Text>
+							<Text style={styles.Font16}>{value}</Text>
 						</Tooltip>
 					)
 				},
@@ -493,7 +494,7 @@ export function CotacoesAbertas() {
 				},
 				render: (value: string, record: any) => {
 					return <Tooltip title={value}>
-						<Text style={{ fontSize: "12px" }}>{value}</Text>
+						<Text style={styles.Font16}>{value}</Text>
 					</Tooltip>
 				},
 
@@ -509,8 +510,8 @@ export function CotacoesAbertas() {
 					showTitle: false
 				},
 				render: (value: string, record: any) => {
-					return <Tooltip style={{ fontSize: "12px" }} title={value}>
-						{value}
+					return <Tooltip style={styles.Font16} title={value}>
+						<Text style={styles.Font16}>{value}</Text>
 					</Tooltip>
 				},
 			},
@@ -526,9 +527,9 @@ export function CotacoesAbertas() {
 				shouldCellUpdate: () => true,
 				render: (value: string, record: any) => {
 					return <Tooltip title={value}>
-						<Editable fontSize={"12px"}>
+						<Editable fontSize={styles.Font16.width}>
 							<EditablePreview />
-							{value}
+							<Text style={styles.Font16}>{value}</Text>
 							<EditableInput />
 						</Editable>
 					</Tooltip>
@@ -545,8 +546,8 @@ export function CotacoesAbertas() {
 				shouldCellUpdate: () => true,
 				width: '70px',
 				render: (value: string, record: any) => {
-					return <Editable fontSize={"12px"} >
-						{Number(value).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
+					return <Editable fontSize={styles.Font16.width} >
+						<Text style={styles.Font16}>	{Number(value).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
 						<EditablePreview />
 						<EditableInput />
 					</Editable>;
@@ -564,8 +565,8 @@ export function CotacoesAbertas() {
 				shouldCellUpdate: () => true,
 				width: '70px',
 				render: (value: string, record: any) => {
-					return <Editable fontSize={"12px"} >
-						{Number(value).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
+					return <Editable fontSize={styles.Font16.width} >
+						<Text style={styles.Font16}>	{Number(value).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
 						<EditablePreview />
 						<EditableInput />
 					</Editable>;
@@ -582,9 +583,9 @@ export function CotacoesAbertas() {
 				align: 'right',
 				shouldCellUpdate: () => true,
 				render: (value: string, record: any) => {
-					return <Editable fontSize={"12px"}>
+					return <Editable fontSize={styles.Font16.width}>
 						<EditablePreview />
-						{toReal(value)}
+						<Text style={styles.Font16}>	{toReal(value)}</Text>
 						<EditableInput />
 					</Editable>
 				},
@@ -597,8 +598,8 @@ export function CotacoesAbertas() {
 				width: '50px',
 				shouldCellUpdate: () => true,
 				render: (value: string, record: any) => {
-					return <Editable fontSize={"12px"}>
-						{Number.parseInt(value).toFixed(2)}
+					return <Editable fontSize={styles.Font16.width}>
+						<Text style={styles.Font16}>	{Number.parseInt(value).toFixed(2)}</Text>
 						<EditablePreview />
 						<EditableInput />
 					</Editable>;
@@ -612,8 +613,8 @@ export function CotacoesAbertas() {
 				width: '50px',
 				shouldCellUpdate: () => true,
 				render: (value: string, record: any) => {
-					return <Editable fontSize={"12px"} >
-						{Number.parseFloat(value).toFixed(2)}
+					return <Editable fontSize={styles.Font16.width} >
+						<Text style={styles.Font16}>	{Number.parseFloat(value).toFixed(2)}</Text>
 						<EditablePreview />
 						<EditableInput />
 					</Editable>;
@@ -641,8 +642,8 @@ export function CotacoesAbertas() {
 				shouldCellUpdate: () => true,
 				width: '50px',
 				render: (value: string, record: any) => {
-					return <Editable fontSize={"12px"}>
-						{Number.parseFloat(value).toFixed(2)}
+					return <Editable fontSize={styles.Font16.width}>
+						<Text style={styles.Font16}>	{Number.parseFloat(value).toFixed(2)}</Text>
 						<EditablePreview />
 						<EditableInput />
 					</Editable>;
@@ -656,8 +657,8 @@ export function CotacoesAbertas() {
 				shouldCellUpdate: () => true,
 				width: '50px',
 				render: (value: string, record: any) => {
-					return <Editable fontSize={"12px"}>
-						{Number.parseFloat(value).toFixed(2)}
+					return <Editable fontSize={styles.Font16.width}>
+						<Text style={styles.Font16}>	{Number.parseFloat(value).toFixed(2)}</Text>
 						<EditablePreview />
 						<EditableInput />
 					</Editable>;
@@ -701,6 +702,7 @@ export function CotacoesAbertas() {
 						{!isEnviado ?
 							<>
 								<Table
+
 									rowKey={"item"}
 									rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' : 'table-row-dark'}
 									className="tabela"

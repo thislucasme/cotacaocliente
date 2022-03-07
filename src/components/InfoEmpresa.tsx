@@ -32,25 +32,33 @@ export const InfoEmpresa = () => {
 		}
 
 	}, [dadosUrl, price])
+
+	const firstLetterUpperCase = (word: string) => {
+		return word.toLowerCase().replace(/(?:^|\s)\S/g, function (a) {
+			return a.toUpperCase();
+		});
+	}
+
+
 	return (
 		empresa ?
 			isLargerThan600 ?
 				<HStack>
-					<Text as='span' color='blue.300' fontWeight='normal'>
-						{empresa?.razao}
+					<Text fontSize={"16px"} fontFamily={"Roboto"} style={{ fontWeight: 500 }} as='span' color='blue.300' fontWeight='normal'>
+						{firstLetterUpperCase(empresa?.razao)}
 					</Text>
-					<Text fontSize={"sm"} color='gray.500'>
-						CNPJ: {empresa?.cnpj}
+					<Text fontSize={"16px"} fontFamily={"Roboto"} style={{ fontWeight: 500 }} color='gray.500'>
+						cnpj: {empresa?.cnpj}
 					</Text>
-					<Text fontSize={"sm"} color='gray.500'>
-						CIDADE: {empresa?.cidade}
+					<Text fontSize={"16px"} fontFamily={"Roboto"} style={{ fontWeight: 500 }} color='gray.500'>
+						cidade: {empresa?.cidade}
 					</Text>
-					<Text fontSize={"sm"} color='gray.500'>
-						COTAÇÃO: {codCotacao}
+					<Text fontSize={"16px"} fontFamily={"Roboto"} style={{ fontWeight: 500 }} color='gray.500'>
+						ctação: {codCotacao}
 					</Text>
 					<Spacer />
-					<Text fontSize={"sm"} color='gray.500'>
-						VENCIMENTO: {dadosUrl?.dataMoment?.format('llll').toUpperCase()}
+					<Text fontSize={"16px"} fontFamily={"Roboto"} style={{ fontWeight: 500 }} color='gray.500'>
+						vencimento: {dadosUrl?.dataMoment?.format('llll').toLowerCase()}
 					</Text>
 				</HStack>
 				: <VStack alignItems={"start"}>

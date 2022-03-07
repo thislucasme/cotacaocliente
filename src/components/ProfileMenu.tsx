@@ -6,13 +6,13 @@ import {
 	ModalCloseButton, ModalContent,
 	ModalFooter, ModalHeader, ModalOverlay, Skeleton, useDisclosure, useMediaQuery, VStack
 } from "@chakra-ui/react";
-import { Button, Checkbox, Input, Space, Typography } from "antd";
+import { Checkbox, Input, Space, Typography } from "antd";
 import React, { useContext, useEffect, useState } from "react";
 import { BsInfoCircleFill } from 'react-icons/bs';
 import { UrlContext } from '../context/UrlContext';
 import { apiGetEmpresa } from '../lib/api';
-import { motion } from 'framer-motion'
-
+import { Button } from '@mantine/core';
+import { styles } from '../style/style';
 const { Text } = Typography;
 
 export const ProfileMenu = () => {
@@ -23,6 +23,13 @@ export const ProfileMenu = () => {
 
 
 	const dadosUrl = useContext(UrlContext);
+
+	const firstLetterUpperCase = (word: string) => {
+		return word.toLowerCase().replace(/(?:^|\s)\S/g, function (a) {
+			return a.toUpperCase();
+		});
+	}
+
 
 	useEffect(() => {
 
@@ -41,18 +48,14 @@ export const ProfileMenu = () => {
 
 				{fornecedor ?
 					isLargerThan600 ?
-						<motion.div
-							initial={{ x: -100 }}
-							animate={{ x: 0 }}
-							transition={{ ease: "circIn" }}>
-							<HStack borderRadius={5} marginRight={2}>
-								<HStack><Text style={{ color: "gray" }} strong>Razão social:</Text><Text style={{ fontSize: "14px" }} strong>{fornecedor?.nome.trim().toLowerCase()}</Text></HStack>
-								<HStack><Text style={{ color: "gray" }} strong>CNPJ:</Text><Text strong>{fornecedor?.cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5")}</Text></HStack>
-								<BsInfoCircleFill color='#538EC6' cursor={"pointer"} />
 
-								<Button onClick={onOpen} type={"primary"} icon={<CaretDownOutlined />}>Ver detalhes</Button>
-							</HStack>
-						</motion.div>
+						<HStack borderRadius={5} marginRight={2} >
+							<HStack><Text style={styles.Profile} >Razão social:</Text><Text strong style={styles.Profile} >{firstLetterUpperCase(fornecedor?.nome.trim().toLowerCase())}</Text></HStack>
+							<HStack><Text style={styles.Profile}>CNPJ:</Text><Text style={styles.Profile} strong>{fornecedor?.cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5")}</Text></HStack>
+							<BsInfoCircleFill color='#538EC6' cursor={"pointer"} />
+
+							<Button style={{ boxShadow: "none" }} variant='light' onClick={onOpen} >Ver detalhes</Button>
+						</HStack>
 						:
 						<></>
 					:
@@ -100,7 +103,7 @@ export const ProfileMenu = () => {
 							<Button loading={false} onClick={() => { }} >
 								Salvar
 							</Button>
-							<Button type={"primary"} onClick={onClose}>Cancelar</Button>
+							<Button variant='outline' onClick={onClose}>Cancelar</Button>
 						</Space>
 					</ModalFooter>
 				</ModalContent>

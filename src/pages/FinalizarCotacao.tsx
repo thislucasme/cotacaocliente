@@ -15,6 +15,7 @@ import { Flag } from "../enuns/enuns";
 import { useFlagFornecedor } from '../hooks/useFlagFornecedor';
 import { CotacaoTDOPayload } from "../lib/types";
 import { ModalDesconto } from '../pages/ModalDesconto';
+import { styles } from "../style/style";
 
 
 const { Text } = Typography;
@@ -116,7 +117,7 @@ export const FinalizarCotacao = (props: Props) => {
 				</ModalHeader>
 				<ModalCloseButton _focus={{ boxShadow: "none" }} />
 				<ModalBody>
-					Ao confirma o envio para a cotação, após a confirmação a cotação não poderá mais ser editada. Deseja continuar?
+					<Text style={styles.Font16}>Ao confirma o envio para a cotação, após a confirmação a cotação não poderá mais ser editada. Deseja continuar?</Text>
 				</ModalBody>
 
 				<ModalFooter>

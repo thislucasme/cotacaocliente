@@ -129,7 +129,7 @@ export const ModalDesconto = (props: Props) => {
 									<FormControl mt={4}>
 										<FormLabel fontSize={"16px"}>Desconto</FormLabel>
 										<CurrencyInput
-											style={styles.Font16}
+											style={{ fontSize: "16px" }}
 											className="ant-input"
 											id="input-custo-produtosddsds"
 											name="input-name"
@@ -158,7 +158,7 @@ export const ModalDesconto = (props: Props) => {
 						</HStack>
 						<FormControl mt={4}>
 							<FormLabel fontSize={styles.Font16.width}>Pagamento</FormLabel>
-							<Select fontSize={styles.Font16.width} defaultValue={formaPagamento} _focus={{ boxShadow: "none" }} onChange={(event: any) => { setFormaPagamento(Number.parseInt(event.target.value)) }} size="sm">
+							<Select fontSize={"16px"} defaultValue={formaPagamento} _focus={{ boxShadow: "none" }} onChange={(event: any) => { setFormaPagamento(Number.parseInt(event.target.value)) }} size="sm">
 								<option value={FormaPagamento.BOLETO_BANCARIO}>Boleto Bancário</option>
 								<option value={FormaPagamento.DINHEIRO}>Dinheiro</option>
 								<option value={FormaPagamento.CHEQUE}>Cheque</option>

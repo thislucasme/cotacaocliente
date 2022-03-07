@@ -41,7 +41,7 @@ export const QuantidadeTotal = (props: Props) => {
 		<>
 			<HStack>
 				<Tooltip title={"Editar informações: Frete e desconto."}>
-					<Button variant='light' onClick={onOpenDesconto} rightIcon={<AiFillEdit />}>
+					<Button style={{ boxShadow: "none" }} variant='light' onClick={onOpenDesconto} rightIcon={<AiFillEdit />}>
 						Frete / desconto
 					</Button>
 				</Tooltip>

@@ -419,7 +419,7 @@ export function CotacoesAbertas() {
 					if (record.valordoproduto > 0) {
 						setQuantidadeItensPreenchidos(quantidadeItensPreenchidos + 1);
 						return <>
-							<Badge style={styles.Badge} variant="filled" color={"teal"}>Modificado</Badge>
+							<Badge style={styles.Badge} variant="filled" color={"teal"}>Preenchido</Badge>
 						</>
 					} else {
 						return <>
@@ -442,7 +442,7 @@ export function CotacoesAbertas() {
 				render: (value: string, record: any) => {
 					return (
 						<Tooltip title={value}>
-							<Text style={styles.Font16}>{value}</Text>
+							<Text style={styles.Font14}>{value}</Text>
 						</Tooltip>
 					)
 				},
@@ -460,7 +460,7 @@ export function CotacoesAbertas() {
 				render: (value: string, record: any) => {
 					return (
 						<Tooltip title={value ? value : "Campo vazio"}>
-							<Text style={styles.Font16}>{value ? value : "XXX-XXX"}</Text>
+							<Text style={styles.Font14}>{value ? value : "XXX-XXX"}</Text>
 						</Tooltip>
 					)
 				},
@@ -478,7 +478,7 @@ export function CotacoesAbertas() {
 				render: (value: string, record: any) => {
 					return (
 						<Tooltip title={value}>
-							<Text style={styles.Font16}>{value}</Text>
+							<Text style={styles.Font14}>{firstLetterUpperCase(value)}</Text>
 						</Tooltip>
 					)
 				},
@@ -493,8 +493,8 @@ export function CotacoesAbertas() {
 					showTitle: false
 				},
 				render: (value: string, record: any) => {
-					return <Tooltip title={value}>
-						<Text style={styles.Font16}>{value}</Text>
+					return <Tooltip title={firstLetterUpperCase(value)}>
+						<Text style={styles.Font14}>{firstLetterUpperCase(value)}</Text>
 					</Tooltip>
 				},
 
@@ -510,8 +510,9 @@ export function CotacoesAbertas() {
 					showTitle: false
 				},
 				render: (value: string, record: any) => {
-					return <Tooltip style={styles.Font16} title={value}>
-						<Text style={styles.Font16}>{value}</Text>
+					return <Tooltip style={styles.Font14
+					} title={value}>
+						<Text style={styles.Font14}>{firstLetterUpperCase(value)}</Text>
 					</Tooltip>
 				},
 			},
@@ -527,9 +528,9 @@ export function CotacoesAbertas() {
 				shouldCellUpdate: () => true,
 				render: (value: string, record: any) => {
 					return <Tooltip title={value}>
-						<Editable fontSize={styles.Font16.width}>
+						<Editable fontSize={styles.Font14.width}>
 							<EditablePreview />
-							<Text style={styles.Font16}>{value}</Text>
+							<Text style={styles.Font14}>{value}</Text>
 							<EditableInput />
 						</Editable>
 					</Tooltip>
@@ -546,8 +547,8 @@ export function CotacoesAbertas() {
 				shouldCellUpdate: () => true,
 				width: '70px',
 				render: (value: string, record: any) => {
-					return <Editable fontSize={styles.Font16.width} >
-						<Text style={styles.Font16}>	{Number(value).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
+					return <Editable fontSize={styles.Font14.width} >
+						<Text style={styles.Font14}>	{Number(value).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
 						<EditablePreview />
 						<EditableInput />
 					</Editable>;
@@ -565,8 +566,8 @@ export function CotacoesAbertas() {
 				shouldCellUpdate: () => true,
 				width: '70px',
 				render: (value: string, record: any) => {
-					return <Editable fontSize={styles.Font16.width} >
-						<Text style={styles.Font16}>	{Number(value).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
+					return <Editable fontSize={styles.Font14.width} >
+						<Text style={styles.Font14}>	{Number(value).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
 						<EditablePreview />
 						<EditableInput />
 					</Editable>;
@@ -583,9 +584,9 @@ export function CotacoesAbertas() {
 				align: 'right',
 				shouldCellUpdate: () => true,
 				render: (value: string, record: any) => {
-					return <Editable fontSize={styles.Font16.width}>
+					return <Editable fontSize={styles.Font14.width}>
 						<EditablePreview />
-						<Text style={styles.Font16}>	{toReal(value)}</Text>
+						<Text style={styles.Font14}>	{toReal(value)}</Text>
 						<EditableInput />
 					</Editable>
 				},
@@ -598,8 +599,8 @@ export function CotacoesAbertas() {
 				width: '50px',
 				shouldCellUpdate: () => true,
 				render: (value: string, record: any) => {
-					return <Editable fontSize={styles.Font16.width}>
-						<Text style={styles.Font16}>	{Number.parseInt(value).toFixed(2)}</Text>
+					return <Editable fontSize={styles.Font14.width}>
+						<Text style={styles.Font14}>{`${Number.parseFloat(value).toFixed(2)}%`}</Text>
 						<EditablePreview />
 						<EditableInput />
 					</Editable>;
@@ -613,8 +614,8 @@ export function CotacoesAbertas() {
 				width: '50px',
 				shouldCellUpdate: () => true,
 				render: (value: string, record: any) => {
-					return <Editable fontSize={styles.Font16.width} >
-						<Text style={styles.Font16}>	{Number.parseFloat(value).toFixed(2)}</Text>
+					return <Editable fontSize={styles.Font14.width} >
+						<Text style={styles.Font14}>	{`${Number.parseFloat(value).toFixed(2)}%`}</Text>
 						<EditablePreview />
 						<EditableInput />
 					</Editable>;
@@ -642,8 +643,8 @@ export function CotacoesAbertas() {
 				shouldCellUpdate: () => true,
 				width: '50px',
 				render: (value: string, record: any) => {
-					return <Editable fontSize={styles.Font16.width}>
-						<Text style={styles.Font16}>	{Number.parseFloat(value).toFixed(2)}</Text>
+					return <Editable fontSize={styles.Font14.width}>
+						<Text style={styles.Font14}>	{`${Number.parseFloat(value).toFixed(2)}%`}</Text>
 						<EditablePreview />
 						<EditableInput />
 					</Editable>;
@@ -658,7 +659,7 @@ export function CotacoesAbertas() {
 				width: '50px',
 				render: (value: string, record: any) => {
 					return <Editable fontSize={styles.Font16.width}>
-						<Text style={styles.Font16}>	{Number.parseFloat(value).toFixed(2)}</Text>
+						<Text style={styles.Font14}>	{`${Number.parseFloat(value).toFixed(2)}%`}</Text>
 						<EditablePreview />
 						<EditableInput />
 					</Editable>;
@@ -667,6 +668,11 @@ export function CotacoesAbertas() {
 			// eslint-disable-next-line react-hooks/exhaustive-deps
 		], []
 	)
+	const firstLetterUpperCase = (word: string) => {
+		return word.toLowerCase().replace(/(?:^|\s)\S/g, function (a) {
+			return a.toUpperCase();
+		});
+	}
 
 
 	return (

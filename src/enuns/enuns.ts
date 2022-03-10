@@ -4,7 +4,10 @@ export enum FormaPagamento {
 	CARTAO_CREDITO = 1,
 	DINHEIRO = 2,
 	CHEQUE = 3,
-	OUTROS = 4
+	OUTROS = 4,
+	PIX = 5,
+	CARTAO_DEBITO = 6,
+
 }
 export enum TipoDesconto {
 	VALOR = 0,

@@ -7,3 +7,4 @@ export const dataToString = (data: Date) => {
 export const stringToData = (data: string) => {
   return parse(data, 'yyyyMMdd', new Date())
 }
+

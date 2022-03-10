@@ -10,10 +10,9 @@ import { ColumnType } from "antd/lib/table";
 import jsPDF from "jspdf";
 import moment from "moment";
 import React, { useContext, useEffect, useMemo, useState } from "react";
-import { CgEyeAlt } from "react-icons/cg";
+import { DadosEnviados } from "../components/DadosEnviados";
 import { InfoEmpresa } from "../components/InfoEmpresa";
 import { QuantidadeTotal } from "../components/QuantidadeTotal";
-import { QuantidadeTotalCotacaoFinalizada } from "../components/QuantidadeTotalCotacaoFinalizada";
 import { UrlContext } from "../context/UrlContext";
 import { useCotacao } from "../hooks/useCotacao";
 import { useHistorico } from '../hooks/useHistorico';
@@ -45,7 +44,7 @@ const unMaskReais = (value: string) => {
 	return typeof (value) === 'number' ? value : (Number(value.replace(/\D/g, "")) / 100);
 }
 
-export function CotacoesAbertas() {
+export function CotacaoFinalizada() {
 
 
 	const [isVerificandoFlag] = useState(false);
@@ -405,12 +404,12 @@ export function CotacoesAbertas() {
 				render: (value: string, record: any) => {
 					return (
 						<Tooltip title={"Editar"}>
+							{/* <Button size="xs" variant="subtle" onClick={() => abrirModal(record, value)}><BiEdit color="gray" /></Button> */}
 							<ButtonAnt style={{ ...styles.Font14, color: "#228be6" }} type="link" onClick={() => abrirModal(record, value)}>Editar</ButtonAnt>
 						</Tooltip>
 					)
 				},
 			},
-
 			{
 				title: 'status',
 				dataIndex: 'status',
@@ -672,294 +671,6 @@ export function CotacoesAbertas() {
 			// eslint-disable-next-line react-hooks/exhaustive-deps
 		], []
 	)
-
-
-	const columnsEnviado: ColumnType<any>[] = useMemo(
-		() => [
-			{
-				title: 'Ações',
-				dataIndex: 'acoes',
-				key: 'acoes',
-				shouldCellUpdate: () => true,
-				align: "center",
-				width: "40px",
-				render: (value: string, record: any) => {
-					return (
-						<Tooltip title={"Editar"}>
-							<ButtonAnt style={{ ...styles.Font14, color: "#228be6" }} type="link" onClick={() => abrirModal(record, value)}><CgEyeAlt /></ButtonAnt>
-						</Tooltip>
-					)
-				},
-			},
-
-
-			{
-				title: 'status',
-				dataIndex: 'status',
-				key: 'status',
-				align: "center",
-				shouldCellUpdate: () => true,
-				width: '100px',
-				render: (value: boolean, record: CotacaoTDO) => {
-
-					if (record.valordoproduto > 0) {
-						return <>
-							<Badge style={styles.Badge} variant="dot" color={"green"}>Preenchido</Badge>
-
-						</>
-					} else {
-						return <>
-							<Badge style={styles.Badge} variant="dot" color={"orange"}>Pendente</Badge>
-						</>
-					}
-				},
-			},
-
-			{
-				title: 'Item',
-				dataIndex: 'item',
-				key: 'item',
-				width: '50px',
-				align: "center",
-				ellipsis: {
-					showTitle: false
-				},
-				shouldCellUpdate: () => false,
-				render: (value: string, record: any) => {
-					return (
-						<Tooltip title={value}>
-							<Text style={styles.Font14}>{value}</Text>
-						</Tooltip>
-					)
-				},
-			},
-			{
-				title: 'Código/barras',
-				dataIndex: 'codbarras',
-				key: 'codbarras',
-				width: '100px',
-				align: "center",
-				ellipsis: {
-					showTitle: false
-				},
-				shouldCellUpdate: () => false,
-				render: (value: string, record: any) => {
-					return (
-						<Tooltip title={value ? value : "Campo vazio"}>
-							<Text style={styles.Font14}>{value ? value : "XXX-XXX"}</Text>
-						</Tooltip>
-					)
-				},
-			},
-			{
-				title: 'Código interno',
-				dataIndex: 'produto',
-				key: 'produto',
-				align: 'center',
-				width: "70px",
-				ellipsis: {
-					showTitle: false
-				},
-				shouldCellUpdate: () => false,
-				render: (value: string, record: any) => {
-					return (
-						<Tooltip title={value}>
-							<Text style={styles.Font14}>{firstLetterUpperCase(value)}</Text>
-						</Tooltip>
-					)
-				},
-			},
-			{
-				title: 'Descrição',
-				dataIndex: 'descricao',
-				key: 'descricao',
-				width: '140px',
-				shouldCellUpdate: () => false,
-				ellipsis: {
-					showTitle: false
-				},
-				render: (value: string, record: any) => {
-					return <Tooltip title={firstLetterUpperCase(value)}>
-						<Text style={styles.Font14}>{firstLetterUpperCase(value)}</Text>
-					</Tooltip>
-				},
-
-			},
-			{
-				title: 'marca',
-				dataIndex: 'marca',
-				align: 'center',
-				key: 'marca',
-				width: '60px',
-				shouldCellUpdate: () => false,
-				ellipsis: {
-					showTitle: false
-				},
-				render: (value: string, record: any) => {
-					return <Tooltip style={styles.Font14
-					} title={value}>
-						<Text style={styles.Font14}>{firstLetterUpperCase(value)}</Text>
-					</Tooltip>
-				},
-			},
-			{
-				title: 'quantidade',
-				dataIndex: 'quantidade',
-				key: 'quantidade',
-				align: 'center',
-				width: '60px',
-				ellipsis: {
-					showTitle: false
-				},
-				shouldCellUpdate: () => true,
-				render: (value: string, record: any) => {
-					return <Tooltip title={value}>
-						<Editable fontSize={styles.Font14.width}>
-							<EditablePreview />
-							<Text style={styles.Font14}>{value}</Text>
-							<EditableInput />
-						</Editable>
-					</Tooltip>
-				},
-			},
-			{
-				title: 'Custo',
-				dataIndex: 'valordoproduto',
-				key: 'valordoproduto',
-				align: 'right',
-				ellipsis: {
-					showTitle: false
-				},
-				shouldCellUpdate: () => true,
-				width: '70px',
-				render: (value: string, record: any) => {
-					return <Editable fontSize={styles.Font14.width} >
-						<Text style={styles.Font14}>	{Number(value).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
-						<EditablePreview />
-						<EditableInput />
-					</Editable>;
-				},
-
-			},
-			{
-				title: 'desconto',
-				dataIndex: 'desconto',
-				key: 'desconto',
-				align: 'right',
-				ellipsis: {
-					showTitle: false
-				},
-				shouldCellUpdate: () => true,
-				width: '70px',
-				render: (value: string, record: any) => {
-					return <Editable fontSize={styles.Font14.width} >
-						<Text style={styles.Font14}>	{Number(value).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
-						<EditablePreview />
-						<EditableInput />
-					</Editable>;
-				},
-			},
-			{
-				title: 'Frete',
-				dataIndex: 'frete',
-				key: 'frete',
-				width: '70px',
-				ellipsis: {
-					showTitle: false
-				},
-				align: 'right',
-				shouldCellUpdate: () => true,
-				render: (value: string, record: any) => {
-					return <Editable fontSize={styles.Font14.width}>
-						<EditablePreview />
-						<Text style={styles.Font14}>	{toReal(value)}</Text>
-						<EditableInput />
-					</Editable>
-				},
-			},
-			{
-				title: '% ST',
-				dataIndex: 'st',
-				key: 'st',
-				align: 'center',
-				width: '50px',
-				shouldCellUpdate: () => true,
-				render: (value: string, record: any) => {
-					return <Editable fontSize={styles.Font14.width}>
-						<Text style={styles.Font14}>{`${Number.parseFloat(value).toFixed(2)}%`}</Text>
-						<EditablePreview />
-						<EditableInput />
-					</Editable>;
-				},
-			},
-			{
-				title: '% ICMS',
-				dataIndex: 'icms',
-				key: 'icms',
-				align: 'center',
-				width: '50px',
-				shouldCellUpdate: () => true,
-				render: (value: string, record: any) => {
-					return <Editable fontSize={styles.Font14.width} >
-						<Text style={styles.Font14}>	{`${Number.parseFloat(value).toFixed(2)}%`}</Text>
-						<EditablePreview />
-						<EditableInput />
-					</Editable>;
-				},
-			},
-			// {
-			// 	title: 'Forma de pagamento',
-			// 	dataIndex: 'formapagamento',
-			// 	align: 'center',
-			// 	key: 'formapagamento',
-			// 	shouldCellUpdate: () => true,
-			// 	width: '150px',
-			// 	render: (value: string, record: any) => {
-			// 		return <Editable fontSize={"12px"} defaultValue='BOLETO BANCARIO'>
-			// 			<EditablePreview />
-			// 			<EditableInput />
-			// 		</Editable>;
-			// 	},
-			// },
-			{
-				title: '% IPI',
-				dataIndex: 'ipi',
-				align: 'center',
-				key: 'ipi',
-				shouldCellUpdate: () => true,
-				width: '50px',
-				render: (value: string, record: any) => {
-					return <Editable fontSize={styles.Font14.width}>
-						<Text style={styles.Font14}>	{`${Number.parseFloat(value).toFixed(2)}%`}</Text>
-						<EditablePreview />
-						<EditableInput />
-					</Editable>;
-				},
-			},
-			{
-				title: '% MVA',
-				dataIndex: 'mva',
-				align: 'center',
-				key: 'mva',
-				shouldCellUpdate: () => true,
-				width: '50px',
-				render: (value: string, record: any) => {
-					return <Editable fontSize={styles.Font16.width}>
-						<Text style={styles.Font14}>	{`${Number.parseFloat(value).toFixed(2)}%`}</Text>
-						<EditablePreview />
-						<EditableInput />
-					</Editable>;
-				},
-			},
-			// eslint-disable-next-line react-hooks/exhaustive-deps
-		], []
-	)
-
-	// columns.forEach((e, index) => {
-	// 	if (e.title) {
-	// 		columns.splice(index, 1);
-	// 	}
-	// })
 
 
 	const firstLetterUpperCase = (word: string) => {
@@ -999,9 +710,8 @@ export function CotacoesAbertas() {
 						</Flex>
 
 						<Divider />
-
 						<>
-							<Stepper style={{ marginTop: "20px", marginBottom: "20px" }} color="green" size="md" active={!isEnviado ? 1 : 2}>
+							<Stepper style={{ marginTop: "20px", marginBottom: "20px" }} color="green" size="md" active={1}>
 								<Stepper.Step label="Passo 1" description="Preencher cotação" />
 								<Stepper.Step label="Passo 2" description="Enviar cotação" />
 							</Stepper>
@@ -1017,23 +727,20 @@ export function CotacoesAbertas() {
 								size={'small'}
 								loading={cotacoes?.data ? false : true}
 								dataSource={cotacoes?.data}
-								columns={isEnviado ? columnsEnviado : columns}
+								columns={columns}
 								pagination={{ pageSize: 10 }}
 								scroll={{ y: "200px", x: 1500 }}
 							/>
 
-							{!isEnviado ?
-								<Flex>
-									<QuantidadeTotal totalFrete={totalFrete.data === undefined ? 0 : totalFrete?.data[0]?.totalFrete} mutate={mutate} totalDesconto={totalDesconto.data === undefined ? 0 : totalDesconto?.data[0]?.totalDesconto} total={total.data === undefined ? 0 : total?.data[0]?.total} />
-									<Spacer />
-									<FinalizarCotacao readyToSend={isReady?.data ? isReady?.data[0].isReady : false} mutate={mutate} setEnviado={setEnviado} loading={!isEnviado} setAllPreenchido={setAllPreenchido} />
-								</Flex>
-								:
-								<QuantidadeTotalCotacaoFinalizada totalFrete={totalFrete.data === undefined ? 0 : totalFrete?.data[0]?.totalFrete} mutate={mutate} totalDesconto={totalDesconto.data === undefined ? 0 : totalDesconto?.data[0]?.totalDesconto} total={total.data === undefined ? 0 : total?.data[0]?.total} />
-							}
+							<Flex>
+								<QuantidadeTotal totalFrete={totalFrete.data === undefined ? 0 : totalFrete?.data[0]?.totalFrete} mutate={mutate} totalDesconto={totalDesconto.data === undefined ? 0 : totalDesconto?.data[0]?.totalDesconto} total={total.data === undefined ? 0 : total?.data[0]?.total} />
+								<Spacer />
+
+							</Flex>
 
 
 						</>
+
 
 					</Content>
 					<IntensCotacaoTabela desconto={desconto} setDesconto={setDesconto} onClose={onClose} isOpen={isOpen} cotacao={cotacao}

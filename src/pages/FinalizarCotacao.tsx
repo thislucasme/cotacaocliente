@@ -4,7 +4,8 @@ import {
 	ModalBody,
 	ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure
 } from "@chakra-ui/react";
-import { Button } from '@mantine/core';
+import { Button, Textarea } from '@mantine/core';
+import { Input } from '@mantine/core';
 import { message, Space, Typography } from "antd";
 import React, { useContext, useState } from "react";
 import { AiOutlineInfoCircle } from "react-icons/ai";
@@ -110,19 +111,26 @@ export const FinalizarCotacao = (props: Props) => {
 			<ModalContent>
 				<ModalHeader fontWeight="normal">
 					<HStack>
-						<AiOutlineInfoCircle size="20px" color="#3182ce" />
-						<Text>Atenção!</Text>
+						<Text style={{ fontWeight: 500, fontSize: 16 }}>Confirmação de envio</Text>
 					</HStack>
 				</ModalHeader>
 				<ModalCloseButton _focus={{ boxShadow: "none" }} />
 				<ModalBody>
-					<Text style={styles.Font16}>Após a confirmação a cotação não poderá mais ser editada. Deseja continuar?</Text>
+					<Text style={styles.Font16}>Após a confirmação a cotação não poderá mais ser editada.</Text>
+					<Textarea
+						mt={5}
+						placeholder="Observação"
+						label="Deixe aqui sua observação"
+						autosize
+						minRows={2}
+					/>
+
 				</ModalBody>
 
 				<ModalFooter>
 					<Space>
 						<Button loading={isLoading} onClick={() => { updateFlagFornecedor() }} >
-							Sim
+							Confirmar
 						</Button>
 
 						<Button variant="outline" onClick={onClose}>Cancelar</Button>

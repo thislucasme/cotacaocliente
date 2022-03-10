@@ -120,6 +120,12 @@ export const IntensCotacaoTabela = (props: Props) => {
 		},
 	];
 
+	const firstLetterUpperCase = (word: string) => {
+		return word.toLowerCase().replace(/(?:^|\s)\S/g, function (a) {
+			return a.toUpperCase();
+		});
+	}
+
 	const { toReal } = useToReal();
 	return (
 		<>
@@ -130,7 +136,8 @@ export const IntensCotacaoTabela = (props: Props) => {
 				<ModalOverlay />
 				<ModalContent>
 					<ModalHeader fontSize={"18px"} fontWeight="medium">
-						Item: {props.cotacao?.item}
+						<Text style={{ fontWeight: 500, fontSize: 16 }}>{`Item: ${firstLetterUpperCase(props.cotacao?.descricao ? props.cotacao?.descricao : "")}`}</Text>
+
 					</ModalHeader>
 					<ModalCloseButton _focus={{ boxShadow: 'none' }} />
 					<ModalBody pb={6}>

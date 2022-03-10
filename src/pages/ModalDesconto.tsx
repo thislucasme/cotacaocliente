@@ -162,6 +162,9 @@ export const ModalDesconto = (props: Props) => {
 								<option value={FormaPagamento.BOLETO_BANCARIO}>Boleto Bancário</option>
 								<option value={FormaPagamento.DINHEIRO}>Dinheiro</option>
 								<option value={FormaPagamento.CHEQUE}>Cheque</option>
+								<option value={FormaPagamento.CARTAO_CREDITO}>Cartão de Crédito</option>
+								<option value={FormaPagamento.CARTAO_DEBITO}>Cartão de débito</option>
+								<option value={FormaPagamento.PIX}>PIX</option>
 								<option value={FormaPagamento.OUTROS}>Outros</option>
 								<option value={FormaPagamento.NENHUM}>Nenhum</option>
 							</Select>
@@ -187,10 +190,10 @@ export const ModalDesconto = (props: Props) => {
 
 						</FormControl>
 
-						<Alert status='warning' my={4}>
+						{/* <Alert status='warning' my={4}>
 							<AlertIcon />
 							<Text style={styles.Font16}>É necessário preencher todos os campos.</Text>
-						</Alert>
+						</Alert> */}
 					</ModalBody>
 
 					<ModalFooter>

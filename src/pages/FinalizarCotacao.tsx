@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {
-	Alert,
-	AlertIcon, HStack, Modal,
+	HStack, Modal,
 	ModalBody,
 	ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure
 } from "@chakra-ui/react";
@@ -93,12 +92,12 @@ export const FinalizarCotacao = (props: Props) => {
 	}
 
 	return <>
-		<Alert status='info' my={4}>
+		{/* <Alert status='info' my={4}>
 			<AlertIcon />
 			<Text style={{ color: "#228BE6	" }}>	Antes de efetuar o envio, certifique-se de preencher todos os itens da tabela.</Text>
-		</Alert>
-		<Button disabled={!props.readyToSend} onClick={() => { salvar() }}>
-			Confirmar envio
+		</Alert> */}
+		<Button style={{ boxShadow: "none" }} disabled={false} onClick={() => { salvar() }}>
+			Próximo
 		</Button>
 
 		<Space />
@@ -117,16 +116,16 @@ export const FinalizarCotacao = (props: Props) => {
 				</ModalHeader>
 				<ModalCloseButton _focus={{ boxShadow: "none" }} />
 				<ModalBody>
-					<Text style={styles.Font16}>Ao confirma o envio para a cotação, após a confirmação a cotação não poderá mais ser editada. Deseja continuar?</Text>
+					<Text style={styles.Font16}>Após a confirmação a cotação não poderá mais ser editada. Deseja continuar?</Text>
 				</ModalBody>
 
 				<ModalFooter>
 					<Space>
 						<Button loading={isLoading} onClick={() => { updateFlagFornecedor() }} >
-							Salvar
+							Sim
 						</Button>
 
-						<Button onClick={onClose}>Cancelar</Button>
+						<Button variant="outline" onClick={onClose}>Cancelar</Button>
 					</Space>
 				</ModalFooter>
 			</ModalContent>

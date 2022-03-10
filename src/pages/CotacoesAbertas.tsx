@@ -3,14 +3,14 @@ import {
 	Center,
 	Divider, Editable, EditableInput, EditablePreview, Flex, HStack, Spacer, Spinner, useDisclosure, VStack
 } from "@chakra-ui/react";
-import { Badge } from '@mantine/core';
-import { Button, Layout, message, Result, Table, Tooltip, Typography } from "antd";
+import { Badge, Stepper } from '@mantine/core';
+import { Button as ButtonAnt, Layout, message, Table, Tooltip, Typography } from "antd";
 import 'antd/dist/antd.css';
 import { ColumnType } from "antd/lib/table";
 import jsPDF from "jspdf";
 import moment from "moment";
 import React, { useContext, useEffect, useMemo, useState } from "react";
-import { BiEdit } from 'react-icons/bi';
+import { DadosEnviados } from "../components/DadosEnviados";
 import { InfoEmpresa } from "../components/InfoEmpresa";
 import { QuantidadeTotal } from "../components/QuantidadeTotal";
 import { UrlContext } from "../context/UrlContext";
@@ -77,7 +77,7 @@ export function CotacoesAbertas() {
 
 
 
-	const [quantidadeItensPreenchidos, setQuantidadeItensPreenchidos] = useState(0);
+
 
 	const { verificarHistoricoTributos } = useHistorico();
 
@@ -97,7 +97,7 @@ export function CotacoesAbertas() {
 		statusLocalmente();
 	}, [])
 
-	const [gerandoPDF, setGerandoPDF] = useState(false);
+	const [, setGerandoPDF] = useState(false);
 
 	const dadosUrl = useContext(UrlContext);
 
@@ -390,6 +390,8 @@ export function CotacoesAbertas() {
 		}
 
 	}
+
+
 	const columns: ColumnType<any>[] = useMemo(
 		() => [
 			{
@@ -402,7 +404,8 @@ export function CotacoesAbertas() {
 				render: (value: string, record: any) => {
 					return (
 						<Tooltip title={"Editar"}>
-							<Button color={"red"} size="small" onClick={() => abrirModal(record, value)}><BiEdit color="gray" /></Button>
+							{/* <Button size="xs" variant="subtle" onClick={() => abrirModal(record, value)}><BiEdit color="gray" /></Button> */}
+							<ButtonAnt style={{ ...styles.Font14, color: "#228be6" }} type="link" onClick={() => abrirModal(record, value)}>Editar</ButtonAnt>
 						</Tooltip>
 					)
 				},
@@ -417,13 +420,13 @@ export function CotacoesAbertas() {
 				render: (value: boolean, record: CotacaoTDO) => {
 
 					if (record.valordoproduto > 0) {
-						setQuantidadeItensPreenchidos(quantidadeItensPreenchidos + 1);
 						return <>
-							<Badge style={styles.Badge} variant="filled" color={"teal"}>Preenchido</Badge>
+							<Badge style={styles.Badge} variant="dot" color={"green"}>Preenchido</Badge>
+
 						</>
 					} else {
 						return <>
-							<Badge style={styles.Badge} variant="filled" color={"orange"}>Pendente</Badge>
+							<Badge style={styles.Badge} variant="dot" color={"orange"}>Pendente</Badge>
 						</>
 					}
 				},
@@ -668,6 +671,8 @@ export function CotacoesAbertas() {
 			// eslint-disable-next-line react-hooks/exhaustive-deps
 		], []
 	)
+
+
 	const firstLetterUpperCase = (word: string) => {
 		return word.toLowerCase().replace(/(?:^|\s)\S/g, function (a) {
 			return a.toUpperCase();
@@ -707,8 +712,16 @@ export function CotacoesAbertas() {
 						<Divider />
 						{!isEnviado ?
 							<>
+								<Stepper style={{ marginTop: "20px", marginBottom: "20px" }} color="green" size="md" active={1}>
+									<Stepper.Step label="Passo 1" description="Preencher cotação" />
+									<Stepper.Step label="Passo 2" description="Enviar cotação" />
+								</Stepper>
 								<Table
-
+									onRow={(record, rowIndex) => {
+										return {
+											onClick: event => { console.log(record) }, // click row
+										};
+									}}
 									rowKey={"item"}
 									rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' : 'table-row-dark'}
 									className="tabela"
@@ -719,21 +732,17 @@ export function CotacoesAbertas() {
 									pagination={{ pageSize: 10 }}
 									scroll={{ y: "200px", x: 1500 }}
 								/>
-								<QuantidadeTotal totalFrete={totalFrete.data === undefined ? 0 : totalFrete?.data[0]?.totalFrete} mutate={mutate} totalDesconto={totalDesconto.data === undefined ? 0 : totalDesconto?.data[0]?.totalDesconto} total={total.data === undefined ? 0 : total?.data[0]?.total} />
-								{/* {console.log("RIGATTI", isReady?.data ? isReady?.data[0].isReady : false)} */}
-								<FinalizarCotacao readyToSend={isReady?.data ? isReady?.data[0].isReady : false} mutate={mutate} setEnviado={setEnviado} loading={!isEnviado} setAllPreenchido={setAllPreenchido} />
-							</> : <Result
-								status="success"
-								title="Dados enviados com sucesso!"
-								subTitle="Após a confirmação do envio, não é possível editar, apenas vizualizar e emitir relatórios."
-								extra={[
-									<Button loading={gerandoPDF} onClick={() => { setAllPreenchido(false); gerarRelatorio() }} type="primary" key="console">
-										Emitir relatório
-									</Button>,
-									<Button key="buy">Detalhes</Button>,
-								]}
-							/>
+
+								<Flex>
+									<QuantidadeTotal totalFrete={totalFrete.data === undefined ? 0 : totalFrete?.data[0]?.totalFrete} mutate={mutate} totalDesconto={totalDesconto.data === undefined ? 0 : totalDesconto?.data[0]?.totalDesconto} total={total.data === undefined ? 0 : total?.data[0]?.total} />
+									<Spacer />
+									<FinalizarCotacao readyToSend={isReady?.data ? isReady?.data[0].isReady : false} mutate={mutate} setEnviado={setEnviado} loading={!isEnviado} setAllPreenchido={setAllPreenchido} />
+								</Flex>
+
+
+							</> : <DadosEnviados />
 						}
+						<button onClick={gerarRelatorio}>gerar</button>
 					</Content>
 					<IntensCotacaoTabela desconto={desconto} setDesconto={setDesconto} onClose={onClose} isOpen={isOpen} cotacao={cotacao}
 						dataSource={dataSource} frete={frete} setFrete={setFrete} valorProduto={valorProduto}

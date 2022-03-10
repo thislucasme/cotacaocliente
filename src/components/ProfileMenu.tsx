@@ -1,4 +1,3 @@
-import { CaretDownOutlined } from '@ant-design/icons';
 import {
 	FormControl,
 	HStack, Link, Modal,
@@ -6,12 +5,12 @@ import {
 	ModalCloseButton, ModalContent,
 	ModalFooter, ModalHeader, ModalOverlay, Skeleton, useDisclosure, useMediaQuery, VStack
 } from "@chakra-ui/react";
+import { Button } from '@mantine/core';
 import { Checkbox, Input, Space, Typography } from "antd";
 import React, { useContext, useEffect, useState } from "react";
 import { BsInfoCircleFill } from 'react-icons/bs';
 import { UrlContext } from '../context/UrlContext';
 import { apiGetEmpresa } from '../lib/api';
-import { Button } from '@mantine/core';
 import { styles } from '../style/style';
 const { Text } = Typography;
 

@@ -1,13 +1,16 @@
-import { HStack, Text, useDisclosure, VStack } from '@chakra-ui/react';
+import { Flex, Spacer, Text, useDisclosure, VStack } from '@chakra-ui/react';
 import { Button } from '@mantine/core';
+import { useNotifications } from '@mantine/notifications';
 import moment from "moment";
 import React, { useContext, useEffect, useState } from "react";
-import { CgEyeAlt } from 'react-icons/cg';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { BiPrinter } from 'react-icons/bi';
 import { KeyedMutator } from 'swr';
 import { CotacaoContext } from '../context/CotacaoContext';
 import { ModalDesconto } from '../pages/ModalDesconto';
-import { motion } from 'framer-motion'
-import { Tooltip } from 'antd';
+
+
+
 type Props = {
 	total: number,
 	totalDesconto: number,
@@ -16,12 +19,14 @@ type Props = {
 }
 //app 
 moment.locale();
-export const QuantidadeTotal = (props: Props) => {
+export const QuantidadeTotalCotacaoFinalizada = (props: Props) => {
 
+	const notifications = useNotifications();
 
 	const { isOpen: isOpenDesconto, onOpen: onOpenDesconto, onClose: onCloseDesconto } = useDisclosure();
 
 	const price = useContext(CotacaoContext);
+
 
 
 	const [total, setTotal] = useState<number>(0);
@@ -37,9 +42,20 @@ export const QuantidadeTotal = (props: Props) => {
 		}
 	}, [price])
 
+	const onGenerateReport = () => {
+		notifications.showNotification({
+			loading: true,
+			title: 'Gerando relatório',
+			message: 'Os dados estão sendo carregados! 🙂',
+		})
+
+	}
+
+
 	return (
 		<>
-			<HStack>
+
+			<Flex>
 
 				<VStack px={3} alignItems={"start"} >
 					<Text color={"gray.500"}>Subtotal</Text>
@@ -55,34 +71,24 @@ export const QuantidadeTotal = (props: Props) => {
 					<Text color={"gray.500"}>Desconto</Text>
 					<Text fontWeight={"semibold"}>{(totalDesconto | 0).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
 				</VStack>
-				<VStack alignItems={"start"}>
+				<VStack px={5} alignItems={"start"}>
 					<Text color={"gray.500"}>Total geral</Text>
 					<Text fontWeight={"semibold"}>{(total + frete - totalDesconto).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
 				</VStack>
-				<motion.div
-					style={{ paddingLeft: 3, paddingRight: 3 }}
-					whileHover={{ scale: 1.2, color: "red" }}
-				>
-					<Tooltip title={"Mais informações"}>
-						<Button style={{ boxShadow: "none" }} variant='subtle' onClick={onOpenDesconto}>
-							<CgEyeAlt color='gray' />
-						</Button>
-					</Tooltip>
-				</motion.div>
 				{
 					// props.totalDesconto > 0 ?
-					// 	<VStack alignItems={"start"}>
+					// 	<VStack px={5} alignItems={"start"}>
 					// 		<Text color={"gray.500"}>Total geral</Text>
 					// 		<Text fontWeight={"semibold"}>{(total + frete - totalDesconto).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
 					// 	</VStack>
 					// 	: <></>
 				}
+				<Spacer />
+				<Button onClick={onGenerateReport} leftIcon={<BiPrinter />}>Emitir relatório</Button>
+			</Flex>
 
 
-
-			</HStack>
 			<ModalDesconto mutate={props.mutate} isOpen={isOpenDesconto} onClose={onCloseDesconto} onOpen={onOpenDesconto} total={props.total} totalDesconto={props.totalDesconto} totalFrete={props.totalFrete} />
 		</>
 	);
 }
-QuantidadeTotal.whyDidYouRender = true;

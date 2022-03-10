@@ -8,6 +8,7 @@ import { EmailPage } from "./EmailPage";
 import { Layout } from "./Layout";
 import { Login } from "./Login";
 import { Report } from "./Report";
+import { TestPdf } from "./TestePDF";
 
 
 export const RouteComponent = () => {
@@ -21,7 +22,7 @@ export const RouteComponent = () => {
 				<Route path="cotacoes-abertas/:codigoCotacao" element={<ListaEmpresa />} />
 				<Route path="cotacao/:url" element={<CotacaoInterceptor />} />
 				<Route path="cotacoes-fechadas" element={<ListaEmpresa />} />
-				<Route path="home/:url" element={<PaginaInfo />} />
+				<Route path="home/:url" element={<TestPdf />} />
 				<Route path="relatorios/:codigoCotacao" element={<Report />} />
 				<Route path="configuracao" element={<ListaUsuarios />} />
 				<Route path=":idDocumento" element={<Layout />} />

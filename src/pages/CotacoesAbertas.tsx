@@ -3,8 +3,8 @@ import {
 	Center,
 	Divider, Editable, EditableInput, EditablePreview, Flex, HStack, Spacer, Spinner, useDisclosure, VStack
 } from "@chakra-ui/react";
-import { Badge, Stepper } from '@mantine/core';
-import { Button as ButtonAnt, Layout, message, Table, Tooltip, Typography } from "antd";
+import { Stepper } from '@mantine/core';
+import { Button as ButtonAnt, Layout, message, Table, Tooltip, Typography, Badge } from "antd";
 import 'antd/dist/antd.css';
 import { ColumnType } from "antd/lib/table";
 import jsPDF from "jspdf";
@@ -422,12 +422,12 @@ export function CotacoesAbertas() {
 
 					if (record.valordoproduto > 0) {
 						return <>
-							<Badge style={styles.Badge} variant="dot" color={"green"}>Preenchido</Badge>
+							<Badge style={styles.Font14} color={"green"} text={"Preenchido"} />
 
 						</>
 					} else {
 						return <>
-							<Badge style={styles.Badge} variant="dot" color={"orange"}>Pendente</Badge>
+							<Badge style={styles.Font14} color={"orange"} text={"Pendente"} />
 						</>
 					}
 				},
@@ -704,12 +704,12 @@ export function CotacoesAbertas() {
 
 					if (record.valordoproduto > 0) {
 						return <>
-							<Badge style={styles.Badge} variant="dot" color={"green"}>Preenchido</Badge>
+							<Badge style={styles.Font14} color={"green"} text={"Preenchido"} />
 
 						</>
 					} else {
 						return <>
-							<Badge style={styles.Badge} variant="dot" color={"orange"}>Pendente</Badge>
+							<Badge style={styles.Font14} color={"orange"} text={"Pendente"} />
 						</>
 					}
 				},

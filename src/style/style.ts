@@ -17,6 +17,7 @@ const Font14: React.CSSProperties = {
 	fontFamily: 'Roboto'
 }
 
+
 const Font16: React.CSSProperties = {
 	fontSize: "16px",
 	fontWeight: 400,

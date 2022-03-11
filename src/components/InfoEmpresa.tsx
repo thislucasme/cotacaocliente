@@ -1,4 +1,5 @@
 import { HStack, Skeleton, Spacer, Stack, Text, useMediaQuery, VStack } from '@chakra-ui/react';
+import { Badge } from 'antd';
 import React, { useContext, useEffect, useState } from "react";
 import { CotacaoContext } from '../context/CotacaoContext';
 import { UrlContext } from '../context/UrlContext';
@@ -40,27 +41,34 @@ export const InfoEmpresa = () => {
 	}
 
 
+
 	return (
 		empresa ?
 			isLargerThan600 ?
-				<HStack>
-					<Text fontSize={"16px"} fontFamily={"Roboto"} style={{ fontWeight: 500 }} as='span' color='blue.300' fontWeight='normal'>
-						{firstLetterUpperCase(empresa?.razao)}
-					</Text>
-					<Text fontSize={"16px"} fontFamily={"Roboto"} style={{ fontWeight: 500 }} color='gray.500'>
-						cnpj: {empresa?.cnpj}
-					</Text>
-					<Text fontSize={"16px"} fontFamily={"Roboto"} style={{ fontWeight: 500 }} color='gray.500'>
-						cidade: {empresa?.cidade}
-					</Text>
-					<Text fontSize={"16px"} fontFamily={"Roboto"} style={{ fontWeight: 500 }} color='gray.500'>
-						ctação: {codCotacao}
-					</Text>
-					<Spacer />
-					<Text fontSize={"16px"} fontFamily={"Roboto"} style={{ fontWeight: 500 }} color='gray.500'>
-						vencimento: {dadosUrl?.dataMoment?.format('llll').toLowerCase()}
-					</Text>
-				</HStack>
+
+				<>
+
+					<HStack>
+
+						<Text fontSize={"16px"} fontFamily={"Roboto"} style={{ fontWeight: 500 }} as='span' color='blue.300' fontWeight='normal'>
+							{firstLetterUpperCase(empresa?.razao)}
+						</Text>
+						<Text fontSize={"16px"} fontFamily={"Roboto"} style={{ fontWeight: 500 }} color='gray.500'>
+							CNPJ: {empresa?.cnpj}
+						</Text>
+						<Text fontSize={"16px"} fontFamily={"Roboto"} style={{ fontWeight: 500 }} color='gray.500'>
+							cidade: {empresa?.cidade}
+						</Text>
+						<Text fontSize={"16px"} fontFamily={"Roboto"} style={{ fontWeight: 500 }} color='gray.500'>
+							ctação: {codCotacao}
+						</Text>
+						<Spacer />
+						<Text fontSize={"16px"} fontFamily={"Roboto"} style={{ fontWeight: 500 }} color='gray.500'>
+							vencimento: {dadosUrl?.dataMoment?.format('llll').toLowerCase()}
+						</Text>
+					</HStack>
+
+				</>
 				: <VStack alignItems={"start"}>
 					<Text as='span' color='blue.300' fontWeight='normal'>
 						{empresa?.razao}

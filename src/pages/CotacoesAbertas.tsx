@@ -4,10 +4,9 @@ import {
 	Divider, Editable, EditableInput, EditablePreview, Flex, HStack, Spacer, Spinner, useDisclosure, VStack
 } from "@chakra-ui/react";
 import { Stepper } from '@mantine/core';
-import { Button as ButtonAnt, Layout, message, Table, Tooltip, Typography, Badge } from "antd";
+import { Badge, Button as ButtonAnt, Layout, message, Table, Tooltip, Typography } from "antd";
 import 'antd/dist/antd.css';
 import { ColumnType } from "antd/lib/table";
-import jsPDF from "jspdf";
 import moment from "moment";
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { CgEyeAlt } from "react-icons/cg";
@@ -56,9 +55,9 @@ export function CotacoesAbertas() {
 	const failure = () => {
 		message.error('Ocorreu um erro ao salvar este item.');
 	};
-	const pdfGerado = () => {
-		message.success('Relatório gerado com sucesso!');
-	};
+	// const pdfGerado = () => {
+	// 	message.success('Relatório gerado com sucesso!');
+	// };
 	const [quantidade] = useState('');
 	const {
 		abrirModal, onClose, isOpen, icms, setIcms, frete, setFrete,
@@ -98,7 +97,7 @@ export function CotacoesAbertas() {
 		statusLocalmente();
 	}, [])
 
-	const [, setGerandoPDF] = useState(false);
+	// const [, setGerandoPDF] = useState(false);
 
 	const dadosUrl = useContext(UrlContext);
 
@@ -106,106 +105,106 @@ export function CotacoesAbertas() {
 
 
 	//aastat
-	var generateData = function (amount: number) {
+	// var generateData = function (amount: number) {
 
-		const itens: Array<CotacaoTDO> = [
-			...cotacoes.data
-		]
-		console.log(itens)
-		console.log(cotacoes.data.length)
-		var result = [];
-		var data = {
-			item: "dd",
-			codigo_barras: "codigo_barras",
-			codigo_interno: "codigo_interno",
-			descricao: "descricao",
-			marca: "marca",
-			quantidade: "quantidade",
-			custo: "custo",
-			frete: "frete",
-			st: "st",
-			icms: "icms",
-			forma_pagamento: "forma_pagamento",
-			ipi: "ipi",
-			mva: "mva"
-		};
-		for (var i = 0; i < cotacoes.data.length; i += 1) {
-			data.item = itens[i].item ? itens[i].item : "**";
-			data.quantidade = itens[i].quantidade ? itens[i].quantidade.toString() : "0";
-			data.codigo_barras = itens[i].codbarras ? itens[i].codbarras : "0";
-			data.codigo_interno = itens[i].codigo ? itens[i].codigo : "0";
-			data.descricao = itens[i].descricao ? itens[i].descricao : "**";
-			data.marca = itens[i].marca ? itens[i].marca : "**";
-			data.custo = itens[i].valordoproduto ? itens[i].valordoproduto.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) : "**";
-			data.frete = itens[i].frete ? itens[i].frete.toString() : "**";
-			data.st = itens[i].st ? itens[i].st.toString() : "**";
-			data.icms = itens[i].icms ? itens[i].icms.toString() : "**";
-			data.forma_pagamento = itens[i].formaPagamento ? itens[i].formaPagamento.toString() : "**";
-			data.ipi = itens[i].ipi ? itens[i].ipi.toString() : "**";
-			data.mva = itens[i].mva ? itens[i].mva.toString() : "**";
-			result.push(Object.assign({}, data));
-		}
-		return result;
-	};
-
-
-
-	function createHeaders(keys: any) {
-		var result = [];
-		for (var i = 0; i < keys.length; i += 1) {
-			result.push({
-				id: keys[i],
-				name: keys[i],
-				prompt: keys[i],
-				width: 65,
-				align: "center",
-				padding: 10
-			});
-		}
-		return result;
-	}
-
-	var headers: any = createHeaders([
-		"item",
-		"codigo_barras",
-		"codigo_interno",
-		"descricao",
-		"marca",
-		"quantidade",
-		"custo",
-		"frete",
-		"st",
-		"icms",
-		"forma_pagamento",
-		"ipi",
-		"mva"
-	]);
+	// 	const itens: Array<CotacaoTDO> = [
+	// 		...cotacoes.data
+	// 	]
+	// 	console.log(itens)
+	// 	console.log(cotacoes.data.length)
+	// 	var result = [];
+	// 	var data = {
+	// 		item: "dd",
+	// 		codigo_barras: "codigo_barras",
+	// 		codigo_interno: "codigo_interno",
+	// 		descricao: "descricao",
+	// 		marca: "marca",
+	// 		quantidade: "quantidade",
+	// 		custo: "custo",
+	// 		frete: "frete",
+	// 		st: "st",
+	// 		icms: "icms",
+	// 		forma_pagamento: "forma_pagamento",
+	// 		ipi: "ipi",
+	// 		mva: "mva"
+	// 	};
+	// 	for (var i = 0; i < cotacoes.data.length; i += 1) {
+	// 		data.item = itens[i].item ? itens[i].item : "**";
+	// 		data.quantidade = itens[i].quantidade ? itens[i].quantidade.toString() : "0";
+	// 		data.codigo_barras = itens[i].codbarras ? itens[i].codbarras : "0";
+	// 		data.codigo_interno = itens[i].codigo ? itens[i].codigo : "0";
+	// 		data.descricao = itens[i].descricao ? itens[i].descricao : "**";
+	// 		data.marca = itens[i].marca ? itens[i].marca : "**";
+	// 		data.custo = itens[i].valordoproduto ? itens[i].valordoproduto.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) : "**";
+	// 		data.frete = itens[i].frete ? itens[i].frete.toString() : "**";
+	// 		data.st = itens[i].st ? itens[i].st.toString() : "**";
+	// 		data.icms = itens[i].icms ? itens[i].icms.toString() : "**";
+	// 		data.forma_pagamento = itens[i].formaPagamento ? itens[i].formaPagamento.toString() : "**";
+	// 		data.ipi = itens[i].ipi ? itens[i].ipi.toString() : "**";
+	// 		data.mva = itens[i].mva ? itens[i].mva.toString() : "**";
+	// 		result.push(Object.assign({}, data));
+	// 	}
+	// 	return result;
+	// };
 
 
-	function gerarRelatorio() {
 
-		setGerandoPDF(true)
-		var doc = new jsPDF({ putOnlyUsedFonts: true, orientation: "landscape" });
+	// function createHeaders(keys: any) {
+	// 	var result = [];
+	// 	for (var i = 0; i < keys.length; i += 1) {
+	// 		result.push({
+	// 			id: keys[i],
+	// 			name: keys[i],
+	// 			prompt: keys[i],
+	// 			width: 65,
+	// 			align: "center",
+	// 			padding: 10
+	// 		});
+	// 	}
+	// 	return result;
+	// }
 
-		doc.addImage('https://i.ibb.co/Qk15TwS/logonomesuc-f5f52e7a-f5f52e7a.png', "PNG", 15, 10, 50, 15)
-		// doc.setFont("times", "normal");
-		// doc.text("Success Sistemas", 70, 25)
+	// var headers: any = createHeaders([
+	// 	"item",
+	// 	"codigo_barras",
+	// 	"codigo_interno",
+	// 	"descricao",
+	// 	"marca",
+	// 	"quantidade",
+	// 	"custo",
+	// 	"frete",
+	// 	"st",
+	// 	"icms",
+	// 	"forma_pagamento",
+	// 	"ipi",
+	// 	"mva"
+	// ]);
 
 
-		doc.table(3, 30, generateData(20), headers, { autoSize: true, fontSize: 8 })
-		doc.save('relatório' + dadosUrl?.numeroCotacao)
-		setGerandoPDF(false)
-		pdfGerado();
+	// function gerarRelatorio() {
 
-		// doc.html(element ? element : '', {
-		// 	callback: function (doc) {
-		// 		doc.save("a4.pdf");
-		// 	},
-		// 	x: 10,
-		// 	y: 10
-		// })
+	// 	setGerandoPDF(true)
+	// 	var doc = new jsPDF({ putOnlyUsedFonts: true, orientation: "landscape" });
 
-	}
+	// 	doc.addImage('https://i.ibb.co/Qk15TwS/logonomesuc-f5f52e7a-f5f52e7a.png', "PNG", 15, 10, 50, 15)
+	// 	// doc.setFont("times", "normal");
+	// 	// doc.text("Success Sistemas", 70, 25)
+
+
+	// 	doc.table(3, 30, generateData(20), headers, { autoSize: true, fontSize: 8 })
+	// 	doc.save('relatório' + dadosUrl?.numeroCotacao)
+	// 	setGerandoPDF(false)
+	// 	pdfGerado();
+
+	// 	// doc.html(element ? element : '', {
+	// 	// 	callback: function (doc) {
+	// 	// 		doc.save("a4.pdf");
+	// 	// 	},
+	// 	// 	x: 10,
+	// 	// 	y: 10
+	// 	// })
+
+	// }
 
 
 	const dataSource = [

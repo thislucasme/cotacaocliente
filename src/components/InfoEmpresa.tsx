@@ -1,5 +1,4 @@
 import { HStack, Skeleton, Spacer, Stack, Text, useMediaQuery, VStack } from '@chakra-ui/react';
-import { Badge } from 'antd';
 import React, { useContext, useEffect, useState } from "react";
 import { CotacaoContext } from '../context/CotacaoContext';
 import { UrlContext } from '../context/UrlContext';

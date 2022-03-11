@@ -1,10 +1,8 @@
-import { Alert, AlertIcon, Flex, FormControl, FormLabel, HStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spacer } from "@chakra-ui/react";
-import { Collapse, Input, List, Space, Table, Tooltip, Typography } from "antd";
-import { ColumnType } from "antd/lib/table";
+import { Alert, AlertIcon, FormControl, FormLabel, HStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from "@chakra-ui/react";
 import { Button } from "@mantine/core";
+import { Input, Space, Typography } from "antd";
 import React, { useState } from "react";
 import CurrencyInput from "react-currency-input-field";
-import { useToReal } from "../hooks/useToReal";
 import { CotacaoTDO } from "../lib/types";
 import { styles } from "../style/style";
 
@@ -34,12 +32,12 @@ type Props = {
 	isLoading: boolean
 
 }
-const { Panel } = Collapse;
+// const { Panel } = Collapse;
 
 export const IntensCotacaoTabela = (props: Props) => {
 
 	const [alertCusto, setAlertCusto] = useState(false);
-	const [showForm, setShowForm] = useState(true);
+	const [showForm] = useState(true);
 
 
 	function verificarHistorico() {
@@ -53,76 +51,76 @@ export const IntensCotacaoTabela = (props: Props) => {
 
 	}
 
-	const colunas: ColumnType<any>[] = [
-		{
-			title: 'Descrição',
-			dataIndex: 'descricao',
-			key: 'descricaomodal',
-			width: "40px",
-			shouldCellUpdate: () => false,
-			ellipsis: {
-				showTitle: false
-			},
-			render: (value: string, record: any) => {
-				return <Tooltip zIndex={99999} title={value}>
-					<Text style={{ fontSize: "12px" }}>{value}</Text>
-				</Tooltip>
-			},
+	// const colunas: ColumnType<any>[] = [
+	// 	{
+	// 		title: 'Descrição',
+	// 		dataIndex: 'descricao',
+	// 		key: 'descricaomodal',
+	// 		width: "40px",
+	// 		shouldCellUpdate: () => false,
+	// 		ellipsis: {
+	// 			showTitle: false
+	// 		},
+	// 		render: (value: string, record: any) => {
+	// 			return <Tooltip zIndex={99999} title={value}>
+	// 				<Text style={{ fontSize: "12px" }}>{value}</Text>
+	// 			</Tooltip>
+	// 		},
 
-		},
-		{
-			title: 'Item',
-			width: "40px",
-			dataIndex: 'item',
-			key: 'itemmodal',
-			align: 'center',
-			render: (value: string, record: any) => {
-				return <Tooltip zIndex={99999} title={value}>
-					<Text style={{ fontSize: "12px" }}>{value}</Text>
-				</Tooltip>
-			},
-		},
-		{
-			title: 'Código',
-			width: "40px",
-			dataIndex: 'codigo',
-			key: 'codigomodal',
-			align: 'center',
-			render: (value: string, record: any) => {
-				return <Tooltip zIndex={99999} title={value}>
-					<Text style={{ fontSize: "12px" }}>{value}</Text>
-				</Tooltip>
-			},
-		},
-		{
-			title: 'Código/barras',
-			width: "40px",
-			dataIndex: 'codigobarras',
-			key: 'codigobarrasmodal',
-			align: 'center',
-			render: (value: string, record: any) => {
-				return <Tooltip zIndex={99999} title={value}>
-					<Text style={{ fontSize: "12px" }}>{value}</Text>
-				</Tooltip>
-			},
-		},
-		{
-			title: 'Marca',
-			width: "40px",
-			dataIndex: 'marca',
-			key: 'marcamodal',
-			align: 'center',
+	// 	},
+	// 	{
+	// 		title: 'Item',
+	// 		width: "40px",
+	// 		dataIndex: 'item',
+	// 		key: 'itemmodal',
+	// 		align: 'center',
+	// 		render: (value: string, record: any) => {
+	// 			return <Tooltip zIndex={99999} title={value}>
+	// 				<Text style={{ fontSize: "12px" }}>{value}</Text>
+	// 			</Tooltip>
+	// 		},
+	// 	},
+	// 	{
+	// 		title: 'Código',
+	// 		width: "40px",
+	// 		dataIndex: 'codigo',
+	// 		key: 'codigomodal',
+	// 		align: 'center',
+	// 		render: (value: string, record: any) => {
+	// 			return <Tooltip zIndex={99999} title={value}>
+	// 				<Text style={{ fontSize: "12px" }}>{value}</Text>
+	// 			</Tooltip>
+	// 		},
+	// 	},
+	// 	{
+	// 		title: 'Código/barras',
+	// 		width: "40px",
+	// 		dataIndex: 'codigobarras',
+	// 		key: 'codigobarrasmodal',
+	// 		align: 'center',
+	// 		render: (value: string, record: any) => {
+	// 			return <Tooltip zIndex={99999} title={value}>
+	// 				<Text style={{ fontSize: "12px" }}>{value}</Text>
+	// 			</Tooltip>
+	// 		},
+	// 	},
+	// 	{
+	// 		title: 'Marca',
+	// 		width: "40px",
+	// 		dataIndex: 'marca',
+	// 		key: 'marcamodal',
+	// 		align: 'center',
 
-		},
-		{
-			title: 'quantidade',
-			width: "40px",
-			dataIndex: 'quantidade',
-			key: 'quantidademodal',
-			align: 'center'
+	// 	},
+	// 	{
+	// 		title: 'quantidade',
+	// 		width: "40px",
+	// 		dataIndex: 'quantidade',
+	// 		key: 'quantidademodal',
+	// 		align: 'center'
 
-		},
-	];
+	// 	},
+	// ];
 
 	const firstLetterUpperCase = (word: string) => {
 		return word.toLowerCase().replace(/(?:^|\s)\S/g, function (a) {
@@ -130,18 +128,18 @@ export const IntensCotacaoTabela = (props: Props) => {
 		});
 	}
 
-	function callback(key: any) {
-		setShowForm(!showForm)
-	}
+	// function callback(key: any) {
+	// 	setShowForm(!showForm)
+	// }
 
-	const text = `
-  A dog is a type of domesticated animal.
-  Known for its loyalty and faithfulness,
-  it can be found as a welcome guest in many households across the world.
-`;
+	// 	const text = `
+	//   A dog is a type of domesticated animal.
+	//   Known for its loyalty and faithfulness,
+	//   it can be found as a welcome guest in many households across the world.
+	// `;
 
 
-	const { toReal } = useToReal();
+	// const { toReal } = useToReal();
 	return (
 		<>
 			<Modal

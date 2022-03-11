@@ -5,10 +5,8 @@ import {
 	ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure
 } from "@chakra-ui/react";
 import { Button, Textarea } from '@mantine/core';
-import { Input } from '@mantine/core';
 import { message, Space, Typography } from "antd";
 import React, { useContext, useState } from "react";
-import { AiOutlineInfoCircle } from "react-icons/ai";
 import { KeyedMutator } from "swr";
 import { UrlContext } from "../context/UrlContext";
 import { Flag } from "../enuns/enuns";

@@ -76,7 +76,7 @@ export const apiPostFlag = async (cotacaoTDOPayload: CotacaoTDOPayload): Promise
 	}
 }
 export const apiPutDescontoAll = async (descontoTO: DescontoGeral | null): Promise<any> => {
-	const res = await api.put('desconto', descontoTO);
+	const res = await api.put('desconto/dev', descontoTO);
 	return res;
 }
 export const apiGetEmpresa = async (numero: string) => {

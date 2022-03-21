@@ -4,6 +4,7 @@ import { Input, message, Space } from "antd";
 import React, { useContext, useEffect, useState } from "react";
 import CurrencyInput from "react-currency-input-field";
 import { KeyedMutator } from "swr";
+import { percentual } from "../context/atom";
 import { CotacaoContext } from "../context/CotacaoContext";
 import { UrlContext } from "../context/UrlContext";
 import { FormaPagamento, TipoDesconto } from "../enuns/enuns";
@@ -12,6 +13,7 @@ import { useToReal } from "../hooks/useToReal";
 import { DescontoGeral } from "../lib/types";
 import { styles } from "../style/style";
 
+const percent = require("percent-value")
 
 //lucas
 
@@ -79,7 +81,7 @@ export const ModalDesconto = (props: Props) => {
 			message.warn('Ocorreu um erro ao aplicar o desconto!');
 		}
 		else {
-			message.warn('Ocorreu um erro desconhecido!');
+			message.warn('Ocorreu um erro ao atualizar o item!');
 		}
 		setIsLoading(false);
 		props.mutate();
@@ -91,11 +93,13 @@ export const ModalDesconto = (props: Props) => {
 			const valorDesconto = Number.parseFloat(desconto.toString());
 			return valorDesconto;
 		} else {
-			const valorTotalItens = total;
-			const percentual = Number.parseFloat(descontoEmPercentual) / 100;
-			const valorFinal = percentual * valorTotalItens;
-			console.log(valorFinal, total)
-			return valorFinal;
+			// const valorTotalItens = total;
+			// const percentual = Number.parseFloat(descontoEmPercentual) / 100;
+			// const valorFinal = percentual * valorTotalItens;
+			// console.log(valorFinal, total)
+
+			const valorDesconto = Number.parseFloat(descontoEmPercentual.toString());
+			return valorDesconto;
 		}
 	}
 

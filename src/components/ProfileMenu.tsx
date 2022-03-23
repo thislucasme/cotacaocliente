@@ -18,7 +18,7 @@ export const ProfileMenu = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure()
 	const [fornecedor, setFornecedor] = useState<any>();
 
-	const [isLargerThan600] = useMediaQuery('(min-width: 600px)');
+	const [isLargerThan600] = useMediaQuery('(min-width: 722px)');
 
 
 	const dadosUrl = useContext(UrlContext);

@@ -47,7 +47,7 @@ export type ItemCotacaoTDO = {
 	marca: string | undefined;
 	quantidade: number | undefined;
 	valorProduto: number | undefined;
-	valordoproduto: number | undefined;
+	// valordoproduto: number | undefined;
 	frete: number | undefined;
 	st: number | undefined;
 	icms: number | undefined;

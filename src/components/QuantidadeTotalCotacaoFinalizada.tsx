@@ -1,4 +1,4 @@
-import { Flex, Spacer, Text, useDisclosure, VStack } from '@chakra-ui/react';
+import { Flex, HStack, Spacer, Text, useDisclosure, useMediaQuery, VStack } from '@chakra-ui/react';
 import { Button } from '@mantine/core';
 import { useNotifications } from '@mantine/notifications';
 import moment from "moment";
@@ -8,6 +8,8 @@ import { BiPrinter } from 'react-icons/bi';
 import { KeyedMutator } from 'swr';
 import { CotacaoContext } from '../context/CotacaoContext';
 import { ModalDesconto } from '../pages/ModalDesconto';
+import { imprimir } from '../lib/printer'
+import { InfoEmpresaContext } from '../context/InfoEmpresaContext';
 
 
 
@@ -23,6 +25,8 @@ export const QuantidadeTotalCotacaoFinalizada = (props: Props) => {
 
 	const notifications = useNotifications();
 
+	const [isLargerThan600] = useMediaQuery('(min-width: 722px)');
+
 	const { isOpen: isOpenDesconto, onOpen: onOpenDesconto, onClose: onCloseDesconto } = useDisclosure();
 
 	const price = useContext(CotacaoContext);
@@ -32,6 +36,8 @@ export const QuantidadeTotalCotacaoFinalizada = (props: Props) => {
 	const [total, setTotal] = useState<number>(0);
 	const [frete, setFrete] = useState<number>(0);
 	const [totalDesconto, setTotalDesconto] = useState<number>(0);
+
+	const dadosEmpresa = useContext(InfoEmpresaContext)
 
 	useEffect(() => {
 
@@ -44,51 +50,107 @@ export const QuantidadeTotalCotacaoFinalizada = (props: Props) => {
 
 	const onGenerateReport = () => {
 		notifications.showNotification({
-			loading: true,
-			title: 'Gerando relatório',
-			message: 'Os dados estão sendo carregados! 🙂',
+			loading: false,
+			title: 'Relatório',
+			message: 'Seu relatório foi gerado! 🙂',
+			color: 'green'
 		})
+
+		console.log(price)
+		imprimir(price.cotacoes, false, price.total, price.totalDesconto, price.totalFrete, price.formaPagamento, dadosEmpresa?.data?.data)
 
 	}
 
 
 	return (
-		<>
+		<HStack w="full">
+			{isLargerThan600 ?
+				<HStack w="full">
 
-			<Flex>
+					<VStack px={3} alignItems={"start"} >
+						<Text color={"gray.500"}>Subtotal</Text>
+						<Text mr={3} fontWeight={"semibold"}>{Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(total)}</Text>
+					</VStack>
 
-				<VStack px={3} alignItems={"start"} >
-					<Text color={"gray.500"}>Subtotal</Text>
-					<Text mr={3} fontWeight={"semibold"}>{(total | 0).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
+					<VStack px={3} alignItems={"start"} >
+						<Text color={"gray.500"}>Frete</Text>
+						<Text fontWeight={"semibold"}>{Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(frete)}</Text>
+					</VStack>
+
+					<VStack px={3} alignItems={"start"} >
+						<Text color={"gray.500"}>Desconto</Text>
+						<Text fontWeight={"semibold"}>{Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(totalDesconto)}</Text>
+					</VStack>
+					<VStack alignItems={"start"}>
+						<Text color={"gray.500"}>Total geral</Text>
+						<Text fontWeight={"semibold"}>{(total + frete - totalDesconto).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
+					</VStack>
+					<Spacer />
+					<Button style={{ boxShadow: "none", width: isLargerThan600 ? "" : "100%" }} disabled={false} onClick={onGenerateReport}>
+						Baixar relatório
+					</Button>
+
+					{
+						// props.totalDesconto > 0 ?
+						// 	<VStack alignItems={"start"}>
+						// 		<Text color={"gray.500"}>Total geral</Text>
+						// 		<Text fontWeight={"semibold"}>{(total + frete - totalDesconto).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
+						// 	</VStack>
+						// 	: <></>
+					}
+
+
+
+				</HStack>
+				:
+				<VStack w="full" mb={5}>
+					<Flex w={"full"}>
+						<Text fontSize={"14px"} fontFamily={"Roboto"} style={{ fontWeight: 500 }}>
+							Subtotal
+						</Text>
+						<Spacer />
+						<Text fontSize={"14px"} fontFamily={"Roboto"} style={{ fontWeight: 500 }}>
+							{Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(total)}
+						</Text>
+					</Flex>
+
+					<Flex w={"full"}>
+						<Text fontSize={"14px"} fontFamily={"Roboto"} style={{ fontWeight: 500 }}>
+							Frete
+						</Text>
+						<Spacer />
+						<Text fontSize={"14px"} fontFamily={"Roboto"} style={{ fontWeight: 500 }}>
+							{Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(frete)}
+						</Text>
+					</Flex>
+
+					<Flex w={"full"}>
+						<Text fontSize={"14px"} fontFamily={"Roboto"} style={{ fontWeight: 500 }}>
+							Desconto
+						</Text>
+						<Spacer />
+						<Text fontSize={"14px"} fontFamily={"Roboto"} style={{ fontWeight: 500 }}>
+							{Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(totalDesconto)}
+						</Text>
+					</Flex>
+
+					<Flex w={"full"}>
+						<Text fontSize={"14px"} fontFamily={"Roboto"} style={{ fontWeight: 500 }}>
+							Total Geral
+						</Text>
+						<Spacer />
+						<Text fontSize={"14px"} fontFamily={"Roboto"} style={{ fontWeight: 500 }}>
+							{(total + frete - totalDesconto).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
+						</Text>
+					</Flex>
+
+					<Button style={{ boxShadow: "none", width: isLargerThan600 ? "" : "100%" }} disabled={false} onClick={onGenerateReport}>
+						Baixar relatório
+					</Button>
 				</VStack>
-
-				<VStack px={3} alignItems={"start"} >
-					<Text color={"gray.500"}>Frete</Text>
-					<Text fontWeight={"semibold"}>{(frete | 0).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
-				</VStack>
-
-				<VStack px={3} alignItems={"start"} >
-					<Text color={"gray.500"}>Desconto</Text>
-					<Text fontWeight={"semibold"}>{(totalDesconto | 0).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
-				</VStack>
-				<VStack px={5} alignItems={"start"}>
-					<Text color={"gray.500"}>Total geral</Text>
-					<Text fontWeight={"semibold"}>{(total + frete - totalDesconto).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
-				</VStack>
-				{
-					// props.totalDesconto > 0 ?
-					// 	<VStack px={5} alignItems={"start"}>
-					// 		<Text color={"gray.500"}>Total geral</Text>
-					// 		<Text fontWeight={"semibold"}>{(total + frete - totalDesconto).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
-					// 	</VStack>
-					// 	: <></>
-				}
-				<Spacer />
-				<Button onClick={onGenerateReport} leftIcon={<BiPrinter />}>Emitir relatório</Button>
-			</Flex>
-
+			}
 
 			<ModalDesconto mutate={props.mutate} isOpen={isOpenDesconto} onClose={onCloseDesconto} onOpen={onOpenDesconto} total={props.total} totalDesconto={props.totalDesconto} totalFrete={props.totalFrete} />
-		</>
+		</HStack >
 	);
 }

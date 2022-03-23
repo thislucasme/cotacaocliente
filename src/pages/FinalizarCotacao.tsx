@@ -2,9 +2,9 @@
 import {
 	HStack, Modal,
 	ModalBody,
-	ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure
+	ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure, useMediaQuery
 } from "@chakra-ui/react";
-import { Button, Textarea } from '@mantine/core';
+import { Button, Textarea, Input } from '@mantine/core';
 import { message, Space, Typography } from "antd";
 import React, { useContext, useState } from "react";
 import { KeyedMutator } from "swr";
@@ -27,7 +27,7 @@ type Props = {
 }
 export const FinalizarCotacao = (props: Props) => {
 
-
+	const [isLargerThan600] = useMediaQuery('(min-width: 600px)');
 
 	//const { dados } = useCotacaoFlag(payload);
 
@@ -95,7 +95,7 @@ export const FinalizarCotacao = (props: Props) => {
 			<AlertIcon />
 			<Text style={{ color: "#228BE6	" }}>	Antes de efetuar o envio, certifique-se de preencher todos os itens da tabela.</Text>
 		</Alert> */}
-		<Button style={{ boxShadow: "none" }} disabled={false} onClick={() => { salvar() }}>
+		<Button style={{ boxShadow: "none", width: isLargerThan600 ? "" : "100%" }} disabled={false} onClick={() => { salvar() }}>
 			Próximo
 		</Button>
 
@@ -122,6 +122,8 @@ export const FinalizarCotacao = (props: Props) => {
 						autosize
 						minRows={2}
 					/>
+
+					<Input mt={5} variant="default" placeholder="Prazo entrega em dias" />
 
 				</ModalBody>
 

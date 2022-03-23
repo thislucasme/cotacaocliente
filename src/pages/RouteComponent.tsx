@@ -3,13 +3,12 @@ import { Route, Routes } from 'react-router-dom';
 import { ListaEmpresa } from "../components/ListaEmpresas";
 import { ListaUsuarios } from "../components/ListaUsuarios";
 import { PaginaInfo } from "../components/PaginaInfo";
+import { Test } from '../components/Test';
 import { CotacaoInterceptor } from "../pageInterceptores/CotacaoInterceptor";
 import { EmailPage } from "./EmailPage";
 import { Layout } from "./Layout";
 import { Login } from "./Login";
 import { Report } from "./Report";
-import { TestPdf } from "./TestePDF";
-import { Test } from '../components/Test'
 
 
 export const RouteComponent = () => {

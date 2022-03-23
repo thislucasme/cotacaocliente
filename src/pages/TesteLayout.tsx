@@ -1,5 +1,5 @@
 import { FolderOpenOutlined, MenuOutlined } from '@ant-design/icons';
-import { Box, chakra, Flex, Image, Spacer } from "@chakra-ui/react";
+import { Box, chakra, Flex, Image, Spacer, useMediaQuery } from "@chakra-ui/react";
 import { Layout, Menu } from "antd";
 import 'antd/dist/antd.css';
 import React, { useContext, useEffect, useState } from "react";
@@ -19,6 +19,7 @@ const { Header, Sider, Content } = Layout;
 const LayoutChakara = chakra(Layout);
 export const TesteLayout = () => {
 
+	const [isLargerThan600] = useMediaQuery('(min-width: 600px)');
 
 	const [url, setUrl] = useState<string>();
 	const [collapsed, setCollapsed] = useState(true);
@@ -66,7 +67,7 @@ export const TesteLayout = () => {
 
 	return (
 		<LayoutChakara h={"100vh"} >
-			<Sider theme="light" trigger={null} collapsible collapsed={collapsed}>
+			<Sider theme="light" trigger={null} collapsible collapsed={collapsed} hidden={!isLargerThan600}>
 				{collapsed ? <Image className={"logo"} src={LogoMenor} /> : <Image className={"logo"} src={LogoMaior} />}
 				<Menu theme="light" mode="inline" defaultSelectedKeys={['2']}>
 					<Menu.Item onClick={() => { navigate('home/' + url) }} key="1" icon={<BiHomeAlt />}>
@@ -87,10 +88,10 @@ export const TesteLayout = () => {
 					</Menu.Item> */}
 				</Menu>
 			</Sider>
-			<Layout className="site-layout">
+			<Layout className="site-layout" >
 				<Header className="site-layout-background" style={{ padding: 0 }}>
-
-					<Flex bg='#bee3f8'>
+					{/*bee3f8 */}
+					<Flex bg='#228be6'>
 						<Box>
 							{React.createElement(collapsed ? MenuOutlined : MenuOutlined, {
 								className: 'trigger',
@@ -104,11 +105,13 @@ export const TesteLayout = () => {
 					</Flex>
 				</Header>
 				<Content
+
 					className="site-layout-background"
 					style={{
 						margin: '24px 16px',
 						padding: 24,
 						minHeight: 280,
+						overflow: "auto"
 					}}
 				>
 					<Outlet />

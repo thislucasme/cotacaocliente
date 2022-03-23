@@ -1,7 +1,8 @@
+import moment from 'moment';
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import { TDocumentDefinitions } from "pdfmake/interfaces";
-import { ItemCotacaoTDO } from './types';
+import { FormaPagamento } from '../enuns/enuns';
 const pdf = pdfMake;
 pdf.vfs = pdfFonts.pdfMake.vfs;
 
@@ -21,7 +22,7 @@ export const generateADocument = () => {
 	return documentDefinition;
 }
 
-export const getTexts = (itens: any[]) => {
+export const imprimir = (itens: any[], download: boolean, totalS: number, totalDesconto: number, totalFrete: number, formaPagamento: number, dadosEmpresa: any) => {
 	let definition: TDocumentDefinitions = generateADocument();
 	const arrayItens: any[] = []
 
@@ -30,13 +31,24 @@ export const getTexts = (itens: any[]) => {
 		arrayItens.push(getItemTable(item))
 	}
 
-	definition.content = [...getCabecalho(), ...arrayItens];
+	const total: any[] = getTotal(totalS, totalDesconto, totalFrete, formaPagamento);
 
-	pdfMake.createPdf(definition).open()
+	definition.content = [...getCabecalho(dadosEmpresa, itens[0].codigo), ...arrayItens, ...total];
+
+	pdfMake.createPdf(definition);
+
+	if (download) {
+		pdfMake.createPdf(definition).download();
+	} else {
+		pdfMake.createPdf(definition).open();
+	}
 
 }
 
-const getCabecalho = () => {
+const getCabecalho = (dadosEmpresa: any, codigoCotacao: string) => {
+
+	const now: moment.Moment = moment();
+
 	const head: any[] = [
 		{
 			width: 40,
@@ -47,7 +59,7 @@ const getCabecalho = () => {
 			table: {
 				widths: ['*', 'auto'],
 				body: [
-					['Sucess Sistemas', '13/09/2022'],
+					['Sucess Sistemas', now.format('DD/MM/YYYY')],
 				]
 			},
 			margin: [0, 0],
@@ -77,15 +89,15 @@ const getCabecalho = () => {
 			margin: [0, 10],
 			style: 'tableExample',
 			table: {
-				widths: [100, '*', 100, '*'],
+				widths: ['*', '*', '*', '*'],
 				body: [
 					[
-						{ text: 'Razão Social', width: 400 },
+						{ text: 'Razão Social' },
 						{ text: 'CNPJ' },
 						{ text: 'Cidade' },
 						{ text: 'Cotação' }
 					],
-					['Diniz E Pinheiro Ltda', '35.313.655/0001-02', 'Paracatu', '0000001']
+					[dadosEmpresa.razao.toLowerCase(), dadosEmpresa.cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5"), dadosEmpresa.cidade.toLowerCase(), codigoCotacao]
 				]
 			},
 			layout: 'lightHorizontalLines'
@@ -98,14 +110,13 @@ const getCabecalho = () => {
 
 export const getItemTable = (item: any) => {
 	const itemTable: any[] = [
-		{ text: `Produto: ${item.item}`, color: '#00000', bold: true, margin: [0, 5] }
-		,
 		{
 			style: 'tableExample',
 			table: {
-				widths: ['*', '*', '*', '*', 20, '*', '*', '*'],
+				widths: [25, 60, '*', '*', 30, 30, 50, 40, 25],
 				body: [
 					[
+						{ text: 'Item', fontSize: fontSize, fillColor: corHeadTable },
 						{ text: 'Cód. Produto', fontSize: fontSize, fillColor: corHeadTable },
 						{ text: 'Descrição', fontSize: fontSize, fillColor: corHeadTable },
 						{ text: 'Cód. barras', fontSize: fontSize, fillColor: corHeadTable },
@@ -117,6 +128,7 @@ export const getItemTable = (item: any) => {
 
 					],
 					[
+						{ text: item.item.toLowerCase(), fontSize: fontSize },
 						{ text: item.produto.toLowerCase(), fontSize: fontSize },
 						{ text: item.descricao.toLowerCase(), fontSize: fontSize },
 						{ text: item.codbarras, fontSize: fontSize },
@@ -124,7 +136,7 @@ export const getItemTable = (item: any) => {
 						{ text: item.quantidade, fontSize: fontSize },
 						{ text: item.valordoproduto, fontSize: fontSize },
 						{ text: item.desconto, fontSize: fontSize },
-						{ text: item.frete, fontSize: fontSize }
+						{ text: "1245.33", fontSize: fontSize }
 					]
 				]
 			},
@@ -146,8 +158,72 @@ export const getItemTable = (item: any) => {
 					[{ text: item.st + '%', fontSize: fontSize }, { text: item.mva + '%', fontSize: fontSize }, { text: item.icms + '%', fontSize: fontSize }, { text: item.ipi + '%', fontSize: fontSize }, { text: 12.76, fontSize: fontSize }]
 				]
 			},
-			layout: 'noBorders'
+			layout: 'noBorders',
 		}
 	]
 	return itemTable;
+}
+
+export const getTotal = (totalS: number, totalDesconto: number, totalFrete: number, formaPagamento: number): any[] => {
+	return [
+		{
+			text: "", margin: [0, 10],
+		}
+		,
+		{
+			style: 'tableExample',
+			table: {
+				widths: ['*', '*', '*', '*', '*'],
+				body: [
+					[
+						{ text: 'Forma Pagamento', fontSize: fontSize, fillColor: corHeadTable },
+						{ text: 'Subtotal', fontSize: fontSize, fillColor: corHeadTable },
+						{ text: 'Frete', fontSize: fontSize, fillColor: corHeadTable },
+						{ text: 'Desconto. barras', fontSize: fontSize, fillColor: corHeadTable },
+						{ text: 'Total Geral', fontSize: fontSize, fillColor: corHeadTable },
+					],
+					[
+						{ text: getFormaPagamentoToString(formaPagamento), fontSize: fontSize },
+						{ text: Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(totalS), fontSize: fontSize },
+						{ text: Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(totalFrete), fontSize: fontSize },
+						{ text: Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(totalDesconto), fontSize: fontSize },
+						{ text: Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(totalS + totalFrete - totalDesconto), fontSize: fontSize }
+					]
+				]
+			},
+			layout: 'lightHorizontalLines'
+		}
+	];
+}
+
+export const getFormaPagamentoToString = (formaPagamamento: number) => {
+
+	let formaPagamentoString = "";
+
+	switch (formaPagamamento) {
+		case FormaPagamento.BOLETO_BANCARIO:
+			return formaPagamentoString = "Boleto bancário"
+
+		case FormaPagamento.CARTAO_CREDITO:
+			return formaPagamentoString = "Cartão de crédito"
+
+		case FormaPagamento.CARTAO_DEBITO:
+			return formaPagamentoString = "Cartão de débito"
+
+		case FormaPagamento.CHEQUE:
+			return formaPagamentoString = "Cheque"
+		case FormaPagamento.DINHEIRO:
+			return formaPagamentoString = "Dinheiro"
+		case FormaPagamento.OUTROS:
+			return formaPagamentoString = "Outros"
+		case FormaPagamento.PIX:
+			return formaPagamentoString = "Pix"
+
+		default:
+			formaPagamentoString = "Nenhum"
+			break;
+	}
+
+	return formaPagamamento;
+
 }

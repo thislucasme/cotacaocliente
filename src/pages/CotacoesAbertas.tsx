@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {
 	Center,
-	Divider, Editable, EditableInput, EditablePreview, Flex, HStack, Spacer, Spinner, useDisclosure, VStack
+	Divider, Editable, EditableInput, EditablePreview, Flex, HStack, Spacer, Spinner, useDisclosure, useMediaQuery, VStack
 } from "@chakra-ui/react";
 import { Stepper } from '@mantine/core';
 import { Badge, Button as ButtonAnt, Layout, message, Table, Tooltip, Typography } from "antd";
@@ -46,6 +46,7 @@ const unMaskReais = (value: string) => {
 
 export function CotacoesAbertas() {
 
+	const [isLargerThan600] = useMediaQuery('(min-width: 600px)');
 
 	const [isVerificandoFlag] = useState(false);
 
@@ -988,7 +989,7 @@ export function CotacoesAbertas() {
 							minHeight: 280,
 						}}>
 						<Flex mb={3}>
-							<VStack mb={3}>
+							<VStack w="full" mb={3}>
 								<HStack w="full">
 									<InfoEmpresa />
 								</HStack>
@@ -1000,7 +1001,7 @@ export function CotacoesAbertas() {
 						<Divider />
 
 						<>
-							<Stepper style={{ marginTop: "20px", marginBottom: "20px" }} color="green" size="md" active={!isEnviado ? 1 : 2}>
+							<Stepper style={{ marginTop: "20px", marginBottom: "20px" }} color="green" size={isLargerThan600 ? "md" : "sm"} active={!isEnviado ? 1 : 2}>
 								<Stepper.Step label="Passo 1" description="Preencher cotação" />
 								<Stepper.Step label="Passo 2" description="Enviar cotação" />
 							</Stepper>
@@ -1025,15 +1026,19 @@ export function CotacoesAbertas() {
 								<Flex>
 									<QuantidadeTotal totalFrete={totalFrete.data === undefined ? 0 : totalFrete?.data[0]?.totalFrete} mutate={mutate} totalDesconto={totalDesconto.data === undefined ? 0 : totalDesconto?.data[0]?.totalDesconto} total={total.data === undefined ? 0 : total?.data[0]?.total} />
 									<Spacer />
-									<FinalizarCotacao readyToSend={isReady?.data ? isReady?.data[0].isReady : false} mutate={mutate} setEnviado={setEnviado} loading={!isEnviado} setAllPreenchido={setAllPreenchido} />
+									{isLargerThan600 ?
+										<FinalizarCotacao readyToSend={isReady?.data ? isReady?.data[0].isReady : false} mutate={mutate} setEnviado={setEnviado} loading={!isEnviado} setAllPreenchido={setAllPreenchido} />
+										: <></>}
 								</Flex>
 								:
 								<QuantidadeTotalCotacaoFinalizada totalFrete={totalFrete.data === undefined ? 0 : totalFrete?.data[0]?.totalFrete} mutate={mutate} totalDesconto={totalDesconto.data === undefined ? 0 : totalDesconto?.data[0]?.totalDesconto} total={total.data === undefined ? 0 : total?.data[0]?.total} />
 							}
-
-
 						</>
 
+						{!isLargerThan600 && !isEnviado ?
+							<FinalizarCotacao readyToSend={isReady?.data ? isReady?.data[0].isReady : false} mutate={mutate} setEnviado={setEnviado} loading={!isEnviado} setAllPreenchido={setAllPreenchido} />
+							: <></>
+						}
 					</Content>
 					<IntensCotacaoTabela desconto={desconto} setDesconto={setDesconto} onClose={onClose} isOpen={isOpen} cotacao={cotacao}
 						dataSource={dataSource} frete={frete} setFrete={setFrete} valorProduto={valorProduto}

@@ -1,10 +1,13 @@
-import { Alert, AlertIcon, FormControl, FormLabel, HStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from "@chakra-ui/react";
+import { Alert, AlertIcon, FormControl, FormLabel, HStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, SimpleGrid, useMediaQuery } from "@chakra-ui/react";
 import { Button } from "@mantine/core";
 import { Input, Space, Typography } from "antd";
+import TextArea from "antd/lib/input/TextArea";
 import React, { useState } from "react";
 import CurrencyInput from "react-currency-input-field";
 import { CotacaoTDO } from "../lib/types";
 import { styles } from "../style/style";
+
+
 
 const { Text } = Typography;
 
@@ -27,9 +30,14 @@ type Props = {
 	setMva: React.Dispatch<React.SetStateAction<string>>,
 	ipi: string,
 	setIpi: React.Dispatch<React.SetStateAction<string>>,
+	observacaoItem: string,
+	setObservacaoItem: React.Dispatch<React.SetStateAction<string>>,
 	verificarHistorico(): Promise<void>,
 	isAllPreenchido: boolean,
-	isLoading: boolean
+	isLoading: boolean,
+
+	note: string,
+	setNote: React.Dispatch<React.SetStateAction<string>>,
 
 }
 // const { Panel } = Collapse;
@@ -39,7 +47,7 @@ export const IntensCotacaoTabela = (props: Props) => {
 	const [alertCusto, setAlertCusto] = useState(false);
 	const [showForm] = useState(true);
 
-
+	const [isLargerThan600] = useMediaQuery('(min-width: 722px)');
 	function verificarHistorico() {
 		const custo = Number.parseFloat(props.valorProduto);
 		if (custo === 0 || custo < 0) {
@@ -145,6 +153,7 @@ export const IntensCotacaoTabela = (props: Props) => {
 			<Modal
 				isOpen={props.isOpen}
 				onClose={props.onClose}
+				size={isLargerThan600 ? "md" : "xs"}
 			>
 				<ModalOverlay />
 				<ModalContent>
@@ -153,7 +162,7 @@ export const IntensCotacaoTabela = (props: Props) => {
 
 					</ModalHeader>
 					<ModalCloseButton _focus={{ boxShadow: 'none' }} />
-					<ModalBody pb={6}>
+					<ModalBody pb={6} paddingX={10}>
 
 						{/* <Collapse onChange={callback} accordion>
 							<Panel header="Detalhes do produto" key="1">
@@ -177,7 +186,7 @@ export const IntensCotacaoTabela = (props: Props) => {
 
 						{showForm ?
 							<>
-								<HStack mt={5} mb={4}>
+								<SimpleGrid columns={[1, 1, 1]} spacing='10px'>
 									<FormControl>
 										<FormLabel fontSize={"16px"}>Frete</FormLabel>
 										<CurrencyInput
@@ -212,7 +221,7 @@ export const IntensCotacaoTabela = (props: Props) => {
 										/>
 									</FormControl>
 
-									<FormControl mt={4}>
+									<FormControl mt={{ sm: 0, md: 0, lg: 0 }}>
 										<FormLabel fontSize={"16px"}>Custo</FormLabel>
 										<CurrencyInput
 											style={styles.Font16}
@@ -237,10 +246,14 @@ export const IntensCotacaoTabela = (props: Props) => {
 										/>
 
 									</FormControl>
-								</HStack>
-								<HStack mb={4}>
+								</SimpleGrid>
+								<FormControl>
+									<TextArea value={props.note} onChange={(e) => { props.setNote(e.target.value) }} placeholder="Sua observaçpão aqui..." style={{ marginTop: 5 }} showCount maxLength={100} />
+								</FormControl>
 
-									<FormControl >
+								<SimpleGrid columns={[2, 2, 4]} spacing='10px'>
+
+									<FormControl mt={4}>
 										<FormLabel fontSize={"16px"}>% ST</FormLabel>
 										<Input style={styles.Font16} name={props.st} value={props.st} onChange={(e) => { props.setSt(e.target.value) }} placeholder='ST' />
 									</FormControl>
@@ -257,7 +270,7 @@ export const IntensCotacaoTabela = (props: Props) => {
 
 										<Input style={styles.Font16} name={props.ipi} onChange={(e) => { props.setIpi(e.target.value) }} value={props.ipi} placeholder='IPI' />
 									</FormControl>
-								</HStack>
+								</SimpleGrid>
 
 								<HStack>
 									{

@@ -1,11 +1,11 @@
 import { HStack, Skeleton, Spacer, Stack, Text, useMediaQuery, VStack } from '@chakra-ui/react';
+import { Collapse } from 'antd';
 import React, { useContext, useEffect, useState } from "react";
 import { CotacaoContext } from '../context/CotacaoContext';
 import { InfoEmpresaContext } from '../context/InfoEmpresaContext';
 import { UrlContext } from '../context/UrlContext';
 import { Empresa } from "../lib/types";
 
-import { Collapse, Space } from 'antd';
 
 const { Panel } = Collapse;
 
@@ -14,12 +14,6 @@ export const InfoEmpresa = () => {
 	const [empresa, setEmpresa] = useState<Empresa | null>();
 
 	const [isLargerThan600] = useMediaQuery('(min-width: 4080px)');
-
-	const text = `
-  A dog is a type of domesticated animal.
-  Known for its loyalty and faithfulness,
-  it can be found as a welcome guest in many households across the world.
-`;
 
 
 	const dadosUrl = useContext(UrlContext);

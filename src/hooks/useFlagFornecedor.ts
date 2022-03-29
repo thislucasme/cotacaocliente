@@ -11,6 +11,15 @@ export const useFlagFornecedor = () => {
 		}
 	}
 
+	const apiPostOfferInfo = async (dados: any) => {
+		try {
+			const res = await api.post('cotacaoinfo/', dados);
+			return res;
+		} catch (e: any) {
+			return { data: 201, error: e };
+		}
+	}
+
 	const apiPostVerificarFlagFornecedor = async (cotacaoTDOPayload: CotacaoTDOPayload) => {
 		try {
 			const res = await api.post('flag/verificar-flags/', cotacaoTDOPayload);
@@ -22,6 +31,7 @@ export const useFlagFornecedor = () => {
 
 	return {
 		apiPostFlagFornecedor: apiPostFlagFornecedor,
-		apiPostVerificarFlagFornecedor: apiPostVerificarFlagFornecedor
+		apiPostVerificarFlagFornecedor: apiPostVerificarFlagFornecedor,
+		apiPostOfferInfo
 	}
 }

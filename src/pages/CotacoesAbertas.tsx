@@ -4,15 +4,16 @@ import {
 	Divider, Editable, EditableInput, EditablePreview, Flex, HStack, Spacer, Spinner, useDisclosure, useMediaQuery, VStack
 } from "@chakra-ui/react";
 import { Stepper } from '@mantine/core';
-import { Badge, Button as ButtonAnt, Layout, message, Table, Tooltip, Typography } from "antd";
+import { Badge, Button as ButtonAnt, Layout, message, Tooltip, Typography } from "antd";
 import 'antd/dist/antd.css';
 import { ColumnType } from "antd/lib/table";
 import moment from "moment";
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, { memo, useContext, useEffect, useMemo, useState } from "react";
 import { CgEyeAlt } from "react-icons/cg";
 import { InfoEmpresa } from "../components/InfoEmpresa";
 import { QuantidadeTotal } from "../components/QuantidadeTotal";
 import { QuantidadeTotalCotacaoFinalizada } from "../components/QuantidadeTotalCotacaoFinalizada";
+import { TableComponent } from "../components/TableComponent";
 import { UrlContext } from "../context/UrlContext";
 import { useCotacao } from "../hooks/useCotacao";
 import { useHistorico } from '../hooks/useHistorico';
@@ -44,7 +45,7 @@ const unMaskReais = (value: string) => {
 	return typeof (value) === 'number' ? value : (Number(value.replace(/\D/g, "")) / 100);
 }
 
-export function CotacoesAbertas() {
+const CotacaoHome = () => {
 
 	const [isLargerThan600] = useMediaQuery('(min-width: 600px)');
 
@@ -63,7 +64,7 @@ export function CotacoesAbertas() {
 	const {
 		abrirModal, onClose, isOpen, icms, setIcms, frete, setFrete,
 		valorProduto, setValorProduto, st, setSt, mva, setMva, ipi, setIpi, desconto, setDesconto,
-		cotacao
+		cotacao, note, setNote
 	} = useItem();
 
 
@@ -298,7 +299,8 @@ export function CotacoesAbertas() {
 			data: moment(Date()).format('YYYYMMDDHHmm'),
 			contratoEmpresa: "",
 			codigoEmpresa: dadosUrl?.numeroEmpresa || "",
-			desconto: undefined
+			desconto: undefined,
+			observacao: note
 		};
 
 		localStorage.setItem(`@App:${item.item}`, JSON.stringify(item));
@@ -329,7 +331,8 @@ export function CotacoesAbertas() {
 			data: moment(Date()).format('YYYYMMDDHHmm'),
 			contratoEmpresa: dadosUrl?.contratoEmpresa || "",
 			codigoEmpresa: dadosUrl?.numeroEmpresa || "",
-			desconto: Number(desconto)
+			desconto: Number(desconto),
+			observacao: note
 		};
 
 		try {
@@ -1005,7 +1008,7 @@ export function CotacoesAbertas() {
 								<Stepper.Step label="Passo 1" description="Preencher cotação" />
 								<Stepper.Step label="Passo 2" description="Enviar cotação" />
 							</Stepper>
-							<Table
+							{/* <Table
 								onRow={(record, rowIndex) => {
 									return {
 										onClick: event => { console.log(record) }, // click row
@@ -1020,7 +1023,9 @@ export function CotacoesAbertas() {
 								columns={isEnviado ? columnsEnviado : columns}
 								pagination={{ pageSize: 10 }}
 								scroll={{ y: "200px", x: 1500 }}
-							/>
+							/> */}
+
+							<TableComponent data={cotacoes?.data} isEnviado={isEnviado} columnsEnviado={columnsEnviado} columns={columns} />
 
 							{!isEnviado ?
 								<Flex>
@@ -1040,8 +1045,8 @@ export function CotacoesAbertas() {
 							: <></>
 						}
 					</Content>
-					<IntensCotacaoTabela desconto={desconto} setDesconto={setDesconto} onClose={onClose} isOpen={isOpen} cotacao={cotacao}
-						dataSource={dataSource} frete={frete} setFrete={setFrete} valorProduto={valorProduto}
+					<IntensCotacaoTabela observacaoItem={note} setObservacaoItem={setNote} desconto={desconto} setDesconto={setDesconto} onClose={onClose} isOpen={isOpen} cotacao={cotacao}
+						dataSource={dataSource} note={note} setNote={setNote} frete={frete} setFrete={setFrete} valorProduto={valorProduto}
 						setValorProduto={setValorProduto} st={st} setSt={setSt} icms={icms} setIcms={setIcms}
 						mva={mva} setMva={setMva} ipi={ipi} setIpi={setIpi} verificarHistorico={verificarHistorico} isAllPreenchido={isAllPreenchido}
 						isLoading={isLoading} />
@@ -1050,5 +1055,7 @@ export function CotacoesAbertas() {
 		</>
 	);
 }
+
+export const CotacoesAbertas = memo(CotacaoHome);
 
 

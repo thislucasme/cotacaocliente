@@ -1,6 +1,7 @@
 import { Flex, HStack, Spacer, Text, useDisclosure, useMediaQuery, VStack } from '@chakra-ui/react';
 import { Button } from '@mantine/core';
 import { useNotifications } from '@mantine/notifications';
+import { HiOutlinePrinter } from 'react-icons/hi';
 import moment from "moment";
 import React, { useContext, useEffect, useState } from "react";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -10,6 +11,7 @@ import { CotacaoContext } from '../context/CotacaoContext';
 import { ModalDesconto } from '../pages/ModalDesconto';
 import { imprimir } from '../lib/printer'
 import { InfoEmpresaContext } from '../context/InfoEmpresaContext';
+import { styles } from '../style/style';
 
 
 
@@ -86,8 +88,8 @@ export const QuantidadeTotalCotacaoFinalizada = (props: Props) => {
 						<Text fontWeight={"semibold"}>{(total + frete - totalDesconto).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
 					</VStack>
 					<Spacer />
-					<Button style={{ boxShadow: "none", width: isLargerThan600 ? "" : "100%" }} disabled={false} onClick={onGenerateReport}>
-						Baixar relatório
+					<Button leftIcon={<HiOutlinePrinter />} style={{ boxShadow: "none", width: isLargerThan600 ? "" : "100%" }} disabled={false} onClick={onGenerateReport}>
+						Gerar relatório
 					</Button>
 
 					{
@@ -103,49 +105,49 @@ export const QuantidadeTotalCotacaoFinalizada = (props: Props) => {
 
 				</HStack>
 				:
-				<VStack w="full" mb={5}>
+				<VStack w="full" mb={10}>
 					<Flex w={"full"}>
-						<Text fontSize={"14px"} fontFamily={"Roboto"} style={{ fontWeight: 500 }}>
+						<Text style={styles.font14Apple}>
 							Subtotal
 						</Text>
 						<Spacer />
-						<Text fontSize={"14px"} fontFamily={"Roboto"} style={{ fontWeight: 500 }}>
+						<Text style={styles.font14Apple}>
 							{Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(total)}
 						</Text>
 					</Flex>
 
 					<Flex w={"full"}>
-						<Text fontSize={"14px"} fontFamily={"Roboto"} style={{ fontWeight: 500 }}>
+						<Text style={styles.font14Apple}>
 							Frete
 						</Text>
 						<Spacer />
-						<Text fontSize={"14px"} fontFamily={"Roboto"} style={{ fontWeight: 500 }}>
+						<Text style={styles.font14Apple}>
 							{Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(frete)}
 						</Text>
 					</Flex>
 
 					<Flex w={"full"}>
-						<Text fontSize={"14px"} fontFamily={"Roboto"} style={{ fontWeight: 500 }}>
+						<Text style={styles.font14Apple}>
 							Desconto
 						</Text>
 						<Spacer />
-						<Text fontSize={"14px"} fontFamily={"Roboto"} style={{ fontWeight: 500 }}>
+						<Text style={styles.font14Apple}>
 							{Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(totalDesconto)}
 						</Text>
 					</Flex>
 
 					<Flex w={"full"}>
-						<Text fontSize={"14px"} fontFamily={"Roboto"} style={{ fontWeight: 500 }}>
+						<Text style={styles.font14Apple}>
 							Total Geral
 						</Text>
 						<Spacer />
-						<Text fontSize={"14px"} fontFamily={"Roboto"} style={{ fontWeight: 500 }}>
+						<Text style={styles.font14Apple}>
 							{(total + frete - totalDesconto).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
 						</Text>
 					</Flex>
 
-					<Button style={{ boxShadow: "none", width: isLargerThan600 ? "" : "100%" }} disabled={false} onClick={onGenerateReport}>
-						Baixar relatório
+					<Button leftIcon={<HiOutlinePrinter />} style={{ boxShadow: "none", width: isLargerThan600 ? "" : "100%" }} disabled={false} onClick={onGenerateReport}>
+						Gerar relatório
 					</Button>
 				</VStack>
 			}

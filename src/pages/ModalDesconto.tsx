@@ -1,10 +1,9 @@
-import { FormControl, FormLabel, HStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, Text } from "@chakra-ui/react";
+import { FormControl, FormLabel, HStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, SimpleGrid, Text, useMediaQuery } from "@chakra-ui/react";
 import { Button } from '@mantine/core';
 import { Input, message, Space } from "antd";
 import React, { useContext, useEffect, useState } from "react";
 import CurrencyInput from "react-currency-input-field";
 import { KeyedMutator } from "swr";
-import { percentual } from "../context/atom";
 import { CotacaoContext } from "../context/CotacaoContext";
 import { UrlContext } from "../context/UrlContext";
 import { FormaPagamento, TipoDesconto } from "../enuns/enuns";
@@ -12,8 +11,6 @@ import { useDesconto } from "../hooks/useDesconto";
 import { useToReal } from "../hooks/useToReal";
 import { DescontoGeral } from "../lib/types";
 import { styles } from "../style/style";
-
-const percent = require("percent-value")
 
 //lucas
 
@@ -32,6 +29,8 @@ export const ModalDesconto = (props: Props) => {
 	const dadosUrl = useContext(UrlContext);
 	const { toReal } = useToReal();
 
+	const [isLargerThan600] = useMediaQuery('(min-width: 722px)');
+
 
 	const [, setIsLoading] = useState(false);
 
@@ -44,7 +43,7 @@ export const ModalDesconto = (props: Props) => {
 	//const { } = useDesconto()
 	const [desconto, setDesconto] = useState<number>(0);
 	const [frete, setFrete] = useState<number>(0);
-	const [total, setTotal] = useState<number>(0);
+	const [, setTotal] = useState<number>(0);
 
 	const price = useContext(CotacaoContext);
 
@@ -109,18 +108,19 @@ export const ModalDesconto = (props: Props) => {
 			<Modal
 				isOpen={props.isOpen}
 				onClose={props.onClose}>
+				size={isLargerThan600 ? "xl" : "xs"}
 
 				<ModalOverlay />
-				<ModalContent>
+				<ModalContent margin={10}>
 					<ModalHeader fontWeight="normal">
 						<HStack>
 							<Text>Editar</Text>
 						</HStack>
 					</ModalHeader>
 					<ModalCloseButton _focus={{ boxShadow: "none" }} />
-					<ModalBody>
-						<HStack>
-							<FormControl mt={0}>
+					<ModalBody pb={6} >
+						<SimpleGrid columns={[1, 2, 2]} spacing='10px'>
+							<FormControl mt={4}>
 								<FormLabel fontSize={"16px"}>Tipo desconto</FormLabel>
 								<Select fontSize={styles.Font16.width} defaultValue={tipoValor} _focus={{ boxShadow: "none" }} onChange={(event: any) => { setTipoValor(Number.parseInt(event.target.value)) }} size="sm">
 									<option value={TipoDesconto.VALOR}>R$</option>
@@ -159,7 +159,7 @@ export const ModalDesconto = (props: Props) => {
 							}
 
 
-						</HStack>
+						</SimpleGrid>
 						<FormControl mt={4}>
 							<FormLabel fontSize={styles.Font16.width}>Pagamento</FormLabel>
 							<Select fontSize={"16px"} defaultValue={formaPagamento} _focus={{ boxShadow: "none" }} onChange={(event: any) => { setFormaPagamento(Number.parseInt(event.target.value)) }} size="sm">

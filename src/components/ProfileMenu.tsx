@@ -7,21 +7,23 @@ import {
 } from "@chakra-ui/react";
 import { Button } from '@mantine/core';
 import { Checkbox, Input, Space, Typography } from "antd";
-import React, { useContext, useEffect, useState } from "react";
-import { BsInfoCircleFill } from 'react-icons/bs';
-import { UrlContext } from '../context/UrlContext';
-import { apiGetEmpresa } from '../lib/api';
+import React, { memo, useContext, useEffect, useState } from "react";
+import { MdExpandMore } from "react-icons/md";
+import { InfoFornecedorContext } from "../context/InfoFornecedorContext";
 import { styles } from '../style/style';
 const { Text } = Typography;
 
-export const ProfileMenu = () => {
+const ProfileMenuComponent = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure()
 	const [fornecedor, setFornecedor] = useState<any>();
 
 	const [isLargerThan600] = useMediaQuery('(min-width: 722px)');
 
 
-	const dadosUrl = useContext(UrlContext);
+
+	const infoFornecedor = useContext(InfoFornecedorContext);
+
+	console.log("Fornedor", infoFornecedor.data)
 
 	const firstLetterUpperCase = (word: string) => {
 		return word.toLowerCase().replace(/(?:^|\s)\S/g, function (a) {
@@ -31,15 +33,10 @@ export const ProfileMenu = () => {
 
 
 	useEffect(() => {
-
-		//const data: UrlData = JSON.parse(localStorage.getItem('urlData') as string);
-		const url = 'empresa/fornecedor/' + dadosUrl.contratoEmpresa + '/' + dadosUrl.codigoFornecedor + '/' + dadosUrl.numeroEmpresa
-		const result = apiGetEmpresa(url)
-		result.then((result) => {
-			setFornecedor(result.data)
-		}).catch(error => {
-		})
-	}, [dadosUrl])
+		if (infoFornecedor?.data?.data) {
+			setFornecedor(infoFornecedor?.data?.data)
+		}
+	}, [infoFornecedor])
 
 	return (
 		<>
@@ -49,11 +46,11 @@ export const ProfileMenu = () => {
 					isLargerThan600 ?
 
 						<HStack borderRadius={5} marginRight={2} >
-							<HStack><Text style={styles.Profile} >Razão social:</Text><Text strong style={styles.Profile} >{firstLetterUpperCase(fornecedor?.nome.trim().toLowerCase())}</Text></HStack>
-							<HStack><Text style={styles.Profile}>CNPJ:</Text><Text style={styles.Profile} strong>{fornecedor?.cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5")}</Text></HStack>
-							<BsInfoCircleFill color='#538EC6' cursor={"pointer"} />
+							<HStack><Text style={styles.Profile} >Razão social:</Text><Text style={styles.Profile} >{firstLetterUpperCase(fornecedor?.nome.trim().toLowerCase())}</Text></HStack>
+							<HStack><Text style={styles.Profile}>CNPJ:</Text><Text style={styles.Profile} >{fornecedor?.cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5")}</Text></HStack>
+							{/* <BsInfoCircleFill color='#538EC6' cursor={"pointer"} /> */}
 
-							<Button style={{ boxShadow: "none" }} variant='light' onClick={onOpen} >Ver detalhes</Button>
+							<Button leftIcon={<MdExpandMore />} style={{ boxShadow: "none" }} variant='gradient' onClick={onOpen} >Ver detalhes</Button>
 						</HStack>
 						:
 						<></>
@@ -110,3 +107,5 @@ export const ProfileMenu = () => {
 		</>
 	);
 }
+
+export const ProfileMenu = memo(ProfileMenuComponent)

@@ -15,6 +15,8 @@ export const useItem = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [cotacao, setCotacao] = useState<CotacaoTDO>();
 
+	const [note, setNote] = useState('');
+
 
 	function abrirModal(cotacao: CotacaoTDO, value: string) {
 
@@ -26,6 +28,7 @@ export const useItem = () => {
 		setValorProduto(cotacao.valordoproduto !== null ? cotacao?.valordoproduto.toString() : '')
 		setFrete(cotacao.frete !== null ? cotacao.frete.toString() : '')
 		setDesconto(cotacao.desconto !== null ? cotacao.desconto.toString() : '')
+		setNote(cotacao.observacao !== null ? cotacao?.observacao : '')
 		onOpen()
 	}
 
@@ -41,6 +44,8 @@ export const useItem = () => {
 		setSt,
 		valorProduto,
 		setValorProduto,
+		note,
+		setNote,
 		frete,
 		setFrete,
 		setDesconto,

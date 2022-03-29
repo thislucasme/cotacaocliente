@@ -7,7 +7,7 @@ const pdf = pdfMake;
 pdf.vfs = pdfFonts.pdfMake.vfs;
 
 const corHeadTable = '#D6E7FF'
-const corHeadTableGray = '#D9D9D9'
+// const corHeadTableGray = '#D9D9D9'
 
 const fontSize = 9;
 
@@ -40,7 +40,7 @@ export const imprimir = (itens: any[], download: boolean, totalS: number, totalD
 	if (download) {
 		pdfMake.createPdf(definition).download();
 	} else {
-		pdfMake.createPdf(definition).open();
+		pdfMake.createPdf(definition).print();
 	}
 
 }
@@ -220,6 +220,7 @@ export const getFormaPagamentoToString = (formaPagamamento: number) => {
 			return formaPagamentoString = "Pix"
 
 		default:
+			// eslint-disable-next-line @typescript-eslint/no-unused-vars
 			formaPagamentoString = "Nenhum"
 			break;
 	}

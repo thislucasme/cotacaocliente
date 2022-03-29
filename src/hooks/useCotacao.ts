@@ -10,7 +10,7 @@ export const useCotacao = () => {
 
 
 	const { data, error, mutate, isValidating } = useSWR(dadosUrl?.numeroCotacao + '/' + dadosUrl?.codigoFornecedor + '/' + dadosUrl?.contratoEmpresa + '/' + dadosUrl?.numeroEmpresa, apiGetCotacao, {
-		revalidateIfStale: true,
+		revalidateIfStale: false,
 		revalidateOnFocus: false,
 		revalidateOnReconnect: false
 	});

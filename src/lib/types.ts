@@ -27,6 +27,7 @@ export type CotacaoTDO = {
 	mva: number;
 	codbarras: string;
 	desconto: number;
+	observacao: string;
 
 }
 export type CotacaoTDOPayload = {
@@ -47,7 +48,7 @@ export type ItemCotacaoTDO = {
 	marca: string | undefined;
 	quantidade: number | undefined;
 	valorProduto: number | undefined;
-	// valordoproduto: number | undefined;
+	observacao: string | undefined;
 	frete: number | undefined;
 	st: number | undefined;
 	icms: number | undefined;

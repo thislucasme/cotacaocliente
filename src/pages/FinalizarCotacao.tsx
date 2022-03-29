@@ -37,15 +37,18 @@ export const FinalizarCotacao = (props: Props) => {
 	const error = () => {
 		message.error('Fornecedor não foi encontrado na base de dados', 1);
 	};
-	const msgErro = (text: string) => {
-		message.error(text, 1);
+	const msgErro = (text: string, duration: number) => {
+		message.error(text, duration);
 	};
 
 	const { isOpen, onOpen, onClose } = useDisclosure()
 
 	const [isLoading, setIsLoading] = useState(false);
 
-	const { apiPostFlagFornecedor } = useFlagFornecedor();
+	const { apiPostFlagFornecedor, apiPostOfferInfo } = useFlagFornecedor();
+
+	const [note, setNote] = useState('');
+	const [deliveryTime, setDeliveryTime] = useState('');
 
 	const dadosUrl = useContext(UrlContext);
 
@@ -73,6 +76,23 @@ export const FinalizarCotacao = (props: Props) => {
 
 		const result = await apiPostFlagFornecedor(payLoad)
 		if (result.data.data === 201) {
+
+			//*Criar o objeto e passar ele como parameteo na função apiPostOfferInfo */
+
+			const data = {
+				...payLoad,
+				dados: {
+					observacao: "something here",
+					tempoEntrega: 12
+				}
+			}
+
+			await apiPostOfferInfo(data).then((result: any) => {
+				if (result?.error) {
+					msgErro("Ocorreu um erro ao salvar a observação; " + result.error, 3)
+				}
+			})
+
 			onClose();
 			success();
 			setIsLoading(false)
@@ -81,7 +101,7 @@ export const FinalizarCotacao = (props: Props) => {
 			//localStorage.clear();
 		}
 		else if (result.data.data === 400) {
-			msgErro('Ocorreu um erro na payload');
+			msgErro('Ocorreu um erro na payload:', 2);
 		}
 		else {
 			onClose();
@@ -96,7 +116,7 @@ export const FinalizarCotacao = (props: Props) => {
 			<Text style={{ color: "#228BE6	" }}>	Antes de efetuar o envio, certifique-se de preencher todos os itens da tabela.</Text>
 		</Alert> */}
 		<Button style={{ boxShadow: "none", width: isLargerThan600 ? "" : "100%" }} disabled={false} onClick={() => { salvar() }}>
-			Próximo
+			Finalizar cotação
 		</Button>
 
 		<Space />
@@ -116,6 +136,8 @@ export const FinalizarCotacao = (props: Props) => {
 				<ModalBody>
 					<Text style={styles.Font16}>Após a confirmação a cotação não poderá mais ser editada.</Text>
 					<Textarea
+						value={note}
+						onChange={(e) => setNote(e.target.value)}
 						mt={5}
 						placeholder="Observação"
 						label="Deixe aqui sua observação"
@@ -123,7 +145,7 @@ export const FinalizarCotacao = (props: Props) => {
 						minRows={2}
 					/>
 
-					<Input mt={5} variant="default" placeholder="Prazo entrega em dias" />
+					<Input value={deliveryTime} onChange={(e: any) => setDeliveryTime(e.target.value)} mt={5} variant="default" placeholder="Prazo entrega em dias" />
 
 				</ModalBody>
 

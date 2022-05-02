@@ -63,8 +63,8 @@ const CotacaoHome = () => {
 	const [quantidade] = useState('');
 	const {
 		abrirModal, onClose, isOpen, icms, setIcms, frete, setFrete,
-		valorProduto, setValorProduto, st, setSt, mva, setMva, ipi, setIpi, desconto, setDesconto,
-		cotacao, note, setNote
+		valorProduto, setValorProduto, st, setSt, mva, setMva, ipi, setIpi, desconto, setDesconto, prazo, setPrazo,
+		cotacao, note, setNote, setFormaPagamento, formaPagamento
 	} = useItem();
 
 
@@ -291,7 +291,7 @@ const CotacaoHome = () => {
 			frete: Number(frete),
 			st: Number(st),
 			icms: Number(icms),
-			formaPagamento: 0,
+			formaPagamento: Number.parseInt(formaPagamento),
 			ipi: Number(ipi),
 			mva: Number(mva),
 			status: true,
@@ -300,7 +300,8 @@ const CotacaoHome = () => {
 			contratoEmpresa: "",
 			codigoEmpresa: dadosUrl?.numeroEmpresa || "",
 			desconto: undefined,
-			observacao: note
+			observacao: note,
+			prazo: Number(prazo)
 		};
 
 		localStorage.setItem(`@App:${item.item}`, JSON.stringify(item));
@@ -323,7 +324,7 @@ const CotacaoHome = () => {
 			frete: Number(frete),
 			st: Number(st),
 			icms: Number(icms),
-			formaPagamento: 0,
+			formaPagamento: Number.parseInt(formaPagamento),
 			ipi: Number(ipi),
 			mva: Number(mva),
 			status: false,
@@ -332,7 +333,8 @@ const CotacaoHome = () => {
 			contratoEmpresa: dadosUrl?.contratoEmpresa || "",
 			codigoEmpresa: dadosUrl?.numeroEmpresa || "",
 			desconto: Number(desconto),
-			observacao: note
+			observacao: note,
+			prazo: Number(prazo)
 		};
 
 		try {
@@ -1045,11 +1047,11 @@ const CotacaoHome = () => {
 							: <></>
 						}
 					</Content>
-					<IntensCotacaoTabela observacaoItem={note} setObservacaoItem={setNote} desconto={desconto} setDesconto={setDesconto} onClose={onClose} isOpen={isOpen} cotacao={cotacao}
+					<IntensCotacaoTabela formaPagamento={formaPagamento} setFormaPagamento={setFormaPagamento} prazo={prazo} setPrazo={setPrazo} observacaoItem={note} setObservacaoItem={setNote} desconto={desconto} setDesconto={setDesconto} onClose={onClose} isOpen={isOpen} cotacao={cotacao}
 						dataSource={dataSource} note={note} setNote={setNote} frete={frete} setFrete={setFrete} valorProduto={valorProduto}
 						setValorProduto={setValorProduto} st={st} setSt={setSt} icms={icms} setIcms={setIcms}
 						mva={mva} setMva={setMva} ipi={ipi} setIpi={setIpi} verificarHistorico={verificarHistorico} isAllPreenchido={isAllPreenchido}
-						isLoading={isLoading} />
+						isLoading={isLoading} isEnviado={isEnviado} />
 
 				</>}
 		</>

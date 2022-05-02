@@ -4,7 +4,7 @@ import {
 	ModalBody,
 	ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure, useMediaQuery
 } from "@chakra-ui/react";
-import { Button, Textarea, Input } from '@mantine/core';
+import { Button, Modal as ModalMantine } from '@mantine/core';
 import { message, Space, Typography } from "antd";
 import React, { useContext, useState } from "react";
 import { KeyedMutator } from "swr";
@@ -31,14 +31,18 @@ export const FinalizarCotacao = (props: Props) => {
 
 	//const { dados } = useCotacaoFlag(payload);
 
+	const [opened, setOpened] = useState(false);
+
 	const success = () => {
 		message.success('Dados enviados com sucesso!');
+
 	};
 	const error = () => {
 		message.error('Fornecedor não foi encontrado na base de dados', 1);
 	};
 	const msgErro = (text: string, duration: number) => {
 		message.error(text, duration);
+
 	};
 
 	const { isOpen, onOpen, onClose } = useDisclosure()
@@ -47,8 +51,7 @@ export const FinalizarCotacao = (props: Props) => {
 
 	const { apiPostFlagFornecedor, apiPostOfferInfo } = useFlagFornecedor();
 
-	const [note, setNote] = useState('');
-	const [deliveryTime, setDeliveryTime] = useState('');
+
 
 	const dadosUrl = useContext(UrlContext);
 
@@ -62,6 +65,7 @@ export const FinalizarCotacao = (props: Props) => {
 	function salvar() {
 		onOpen();
 	}
+
 
 	async function updateFlagFornecedor() {
 		setIsLoading(true)
@@ -92,7 +96,7 @@ export const FinalizarCotacao = (props: Props) => {
 					msgErro("Ocorreu um erro ao salvar a observação; " + result.error, 3)
 				}
 			})
-
+			setOpened(true)
 			onClose();
 			success();
 			setIsLoading(false)
@@ -135,7 +139,7 @@ export const FinalizarCotacao = (props: Props) => {
 				<ModalCloseButton _focus={{ boxShadow: "none" }} />
 				<ModalBody>
 					<Text style={styles.Font16}>Após a confirmação a cotação não poderá mais ser editada.</Text>
-					<Textarea
+					{/* <Textarea
 						value={note}
 						onChange={(e) => setNote(e.target.value)}
 						mt={5}
@@ -145,7 +149,7 @@ export const FinalizarCotacao = (props: Props) => {
 						minRows={2}
 					/>
 
-					<Input value={deliveryTime} onChange={(e: any) => setDeliveryTime(e.target.value)} mt={5} variant="default" placeholder="Prazo entrega em dias" />
+					<Input value={deliveryTime} onChange={(e: any) => setDeliveryTime(e.target.value)} mt={5} variant="default" placeholder="Prazo entrega em dias" /> */}
 
 				</ModalBody>
 
@@ -164,5 +168,13 @@ export const FinalizarCotacao = (props: Props) => {
 		{/*EDITAR AQUI*/}
 
 		<ModalDesconto mutate={props.mutate} isOpen={isOpenDesconto} onClose={onCloseDesconto} onOpen={onOpenDesconto} total={0} totalDesconto={0} totalFrete={0} />
+
+		<ModalMantine
+			opened={opened}
+			onClose={() => setOpened(false)}
+			title="Introduce yourself!"
+		>
+			{/* Modal content */}
+		</ModalMantine>
 	</>
 }

@@ -28,6 +28,7 @@ export type CotacaoTDO = {
 	codbarras: string;
 	desconto: number;
 	observacao: string;
+	prazo: number;
 
 }
 export type CotacaoTDOPayload = {
@@ -60,6 +61,7 @@ export type ItemCotacaoTDO = {
 	data: string;
 	codbarras: string | undefined;
 	desconto: number | undefined;
+	prazo: number | undefined;
 }
 export type Fornecedor = {
 	email: string;

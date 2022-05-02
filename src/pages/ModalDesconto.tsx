@@ -8,11 +8,9 @@ import { CotacaoContext } from "../context/CotacaoContext";
 import { UrlContext } from "../context/UrlContext";
 import { FormaPagamento, TipoDesconto } from "../enuns/enuns";
 import { useDesconto } from "../hooks/useDesconto";
-import { useToReal } from "../hooks/useToReal";
 import { DescontoGeral } from "../lib/types";
 import { styles } from "../style/style";
 
-//lucas
 
 type Props = {
 	isOpen: boolean,
@@ -27,7 +25,7 @@ type Props = {
 export const ModalDesconto = (props: Props) => {
 
 	const dadosUrl = useContext(UrlContext);
-	const { toReal } = useToReal();
+
 
 	const [isLargerThan600] = useMediaQuery('(min-width: 722px)');
 
@@ -71,11 +69,12 @@ export const ModalDesconto = (props: Props) => {
 			tipo: tipoValor,
 			formaPagamento: formaPagamento
 		}
+
 		setIsLoading(true);
 		const status = await off.desconto(data);
 
 		if (status === 201) {
-			message.success(`Desconto de ${tipoValor === TipoDesconto.VALOR ? toReal(desconto.toString()) : descontoEmPercentual + "%"} aplicado.`);
+			message.success(`Os dados foram atualizados`);
 		} else if (status === 401) {
 			message.warn('Ocorreu um erro ao aplicar o desconto!');
 		}

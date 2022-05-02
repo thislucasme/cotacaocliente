@@ -1,9 +1,10 @@
-import { Alert, AlertIcon, FormControl, FormLabel, HStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, SimpleGrid, useMediaQuery } from "@chakra-ui/react";
+import { Alert, AlertIcon, FormControl, FormLabel, HStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, SimpleGrid, useMediaQuery, VStack } from "@chakra-ui/react";
 import { Button } from "@mantine/core";
 import { Input, Space, Typography } from "antd";
 import TextArea from "antd/lib/input/TextArea";
 import React, { useState } from "react";
 import CurrencyInput from "react-currency-input-field";
+import { FormaPagamento } from "../enuns/enuns";
 import { CotacaoTDO } from "../lib/types";
 import { styles } from "../style/style";
 
@@ -32,10 +33,14 @@ type Props = {
 	setIpi: React.Dispatch<React.SetStateAction<string>>,
 	observacaoItem: string,
 	setObservacaoItem: React.Dispatch<React.SetStateAction<string>>,
+	setPrazo: React.Dispatch<React.SetStateAction<string>>,
+	prazo: string,
 	verificarHistorico(): Promise<void>,
 	isAllPreenchido: boolean,
 	isLoading: boolean,
-
+	isEnviado: boolean,
+	setFormaPagamento: React.Dispatch<React.SetStateAction<string>>,
+	formaPagamento: string,
 	note: string,
 	setNote: React.Dispatch<React.SetStateAction<string>>,
 
@@ -46,6 +51,8 @@ export const IntensCotacaoTabela = (props: Props) => {
 
 	const [alertCusto, setAlertCusto] = useState(false);
 	const [showForm] = useState(true);
+
+
 
 	const [isLargerThan600] = useMediaQuery('(min-width: 722px)');
 	function verificarHistorico() {
@@ -190,6 +197,7 @@ export const IntensCotacaoTabela = (props: Props) => {
 									<FormControl>
 										<FormLabel fontSize={"16px"}>Frete</FormLabel>
 										<CurrencyInput
+											disabled={props.isEnviado}
 											style={styles.Font16}
 											className="ant-input"
 											id="input-example"
@@ -207,6 +215,7 @@ export const IntensCotacaoTabela = (props: Props) => {
 									<FormControl>
 										<FormLabel fontSize={"16px"}>Desconto</FormLabel>
 										<CurrencyInput
+											disabled={props.isEnviado}
 											style={styles.Font16}
 											className="ant-input"
 											id="input-example"
@@ -224,6 +233,7 @@ export const IntensCotacaoTabela = (props: Props) => {
 									<FormControl mt={{ sm: 0, md: 0, lg: 0 }}>
 										<FormLabel fontSize={"16px"}>Custo</FormLabel>
 										<CurrencyInput
+											disabled={props.isEnviado}
 											style={styles.Font16}
 											className="ant-input"
 											id="input-custo-produto"
@@ -246,29 +256,47 @@ export const IntensCotacaoTabela = (props: Props) => {
 										/>
 
 									</FormControl>
+									<FormControl mt={2}>
+										<FormLabel fontSize={"16px"}>Prazo da entrega do produto (em dias).</FormLabel>
+										<Input disabled={props.isEnviado} type={"number"} style={styles.Font16} name={props.prazo} onChange={(e) => { props.setPrazo(e.target.value) }} value={props.prazo} placeholder='Prazo para entraga' />
+									</FormControl>
+									<FormControl mt={2}>
+										<FormLabel fontSize={styles.Font16.width}>Pagamento</FormLabel>
+										<Select fontSize={"16px"} defaultValue={props.formaPagamento} _focus={{ boxShadow: "none" }} onChange={(event: any) => { props.setFormaPagamento(event.target.value) }} size="sm">
+											<option value={FormaPagamento.BOLETO_BANCARIO}>Boleto Bancário</option>
+											<option value={FormaPagamento.DINHEIRO}>Dinheiro</option>
+											<option value={FormaPagamento.CHEQUE}>Cheque</option>
+											<option value={FormaPagamento.CARTAO_CREDITO}>Cartão de Crédito</option>
+											<option value={FormaPagamento.CARTAO_DEBITO}>Cartão de débito</option>
+											<option value={FormaPagamento.PIX}>PIX</option>
+											<option value={FormaPagamento.OUTROS}>Outros</option>
+											<option value={FormaPagamento.NENHUM}>Nenhum</option>
+										</Select>
+									</FormControl>
+
 								</SimpleGrid>
 								<FormControl>
-									<TextArea value={props.note} onChange={(e) => { props.setNote(e.target.value) }} placeholder="Sua observaçpão aqui..." style={{ marginTop: 5 }} showCount maxLength={100} />
+									<TextArea disabled={props.isEnviado} value={props.note} onChange={(e) => { props.setNote(e.target.value) }} placeholder="Oberservação do produto..." style={{ marginTop: 5 }} showCount maxLength={58} />
 								</FormControl>
 
 								<SimpleGrid columns={[2, 2, 4]} spacing='10px'>
 
 									<FormControl mt={4}>
 										<FormLabel fontSize={"16px"}>% ST</FormLabel>
-										<Input style={styles.Font16} name={props.st} value={props.st} onChange={(e) => { props.setSt(e.target.value) }} placeholder='ST' />
+										<Input disabled={props.isEnviado} style={styles.Font16} name={props.st} value={props.st} onChange={(e) => { props.setSt(e.target.value) }} placeholder='ST' />
 									</FormControl>
 									<FormControl mt={4}>
 										<FormLabel fontSize={"16px"}>% ICMS</FormLabel>
-										<Input style={styles.Font16} name={props.icms} value={props.icms} onChange={(e) => { props.setIcms(e.target.value) }} placeholder='ICMS' />
+										<Input disabled={props.isEnviado} style={styles.Font16} name={props.icms} value={props.icms} onChange={(e) => { props.setIcms(e.target.value) }} placeholder='ICMS' />
 									</FormControl>
 									<FormControl mt={4}>
 										<FormLabel fontSize={"16px"}>% MVA</FormLabel>
-										<Input style={styles.Font16} name={props.mva?.toString()} value={props.mva} onChange={(e) => { props.setMva(e.target.value) }} placeholder='MVA' />
+										<Input disabled={props.isEnviado} style={styles.Font16} name={props.mva?.toString()} value={props.mva} onChange={(e) => { props.setMva(e.target.value) }} placeholder='MVA' />
 									</FormControl>
 									<FormControl mt={4}>
 										<FormLabel fontSize={"16px"}>% IPI</FormLabel>
 
-										<Input style={styles.Font16} name={props.ipi} onChange={(e) => { props.setIpi(e.target.value) }} value={props.ipi} placeholder='IPI' />
+										<Input disabled={props.isEnviado} style={styles.Font16} name={props.ipi} onChange={(e) => { props.setIpi(e.target.value) }} value={props.ipi} placeholder='IPI' />
 									</FormControl>
 								</SimpleGrid>
 
@@ -296,12 +324,14 @@ export const IntensCotacaoTabela = (props: Props) => {
 					</ModalBody>
 
 					<ModalFooter>
-						<Space>
-							<Button disabled={props.isAllPreenchido} loading={props.isLoading} onClick={() => { verificarHistorico() }}>
-								Salvar
-							</Button>
-							<Button variant="outline" onClick={props.onClose}>Cancelar</Button>
-						</Space>
+						<VStack >
+							<Space>
+								<Button disabled={props.isEnviado} loading={props.isLoading} onClick={() => { verificarHistorico() }}>
+									Salvar
+								</Button>
+								<Button disabled={props.isEnviado} variant="outline" onClick={props.onClose}>Cancelar</Button>
+							</Space>
+						</VStack>
 					</ModalFooter>
 				</ModalContent>
 			</Modal>

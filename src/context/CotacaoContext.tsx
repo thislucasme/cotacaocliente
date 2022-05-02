@@ -1,5 +1,6 @@
 import React, { createContext, ReactNode } from "react";
 import { usePrice } from "../hooks/usePrice";
+import { ContradoNaoExiste } from "../components/erros/ContratoNaoExiste";
 
 
 export const CotacaoContext = createContext<any>(null);
@@ -14,7 +15,7 @@ export function CotacaoProvider({ children }: CotacaoProviderProps) {
 
 	return (
 		<CotacaoContext.Provider value={cotacao}>
-			{children}
+			{cotacao?.error ? <ContradoNaoExiste /> : children}
 		</CotacaoContext.Provider>
 	);
 }

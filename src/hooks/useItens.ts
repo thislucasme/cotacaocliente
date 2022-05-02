@@ -12,8 +12,10 @@ export const useItem = () => {
 	const [desconto, setDesconto] = useState('');
 	//const [formaPagamento, setFormaPagamento] = useState('');
 	const [ipi, setIpi] = useState('');
+	const [prazo, setPrazo] = useState('');
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [cotacao, setCotacao] = useState<CotacaoTDO>();
+	const [formaPagamento, setFormaPagamento] = useState('0');
 
 	const [note, setNote] = useState('');
 
@@ -29,6 +31,8 @@ export const useItem = () => {
 		setFrete(cotacao.frete !== null ? cotacao.frete.toString() : '')
 		setDesconto(cotacao.desconto !== null ? cotacao.desconto.toString() : '')
 		setNote(cotacao.observacao !== null ? cotacao?.observacao : '')
+		setPrazo(cotacao.prazo !== null ? cotacao?.prazo.toString() : '')
+		setFormaPagamento(cotacao.formaPagamento !== null ? cotacao?.formaPagamento?.toString() : '0');
 		onOpen()
 	}
 
@@ -54,6 +58,10 @@ export const useItem = () => {
 		onOpen,
 		onClose,
 		isOpen,
-		cotacao
+		cotacao,
+		prazo,
+		setPrazo,
+		formaPagamento,
+		setFormaPagamento
 	}
 }

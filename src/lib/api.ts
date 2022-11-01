@@ -1,8 +1,8 @@
 import axios from "axios";
 import { CotacaoTDO, CotacaoTDOPayload, DescontoGeral } from "./types";
 
-export const apiEndPoint = 'http://localhost:3000';
-
+export const apiEndPoint = 'https://apicotacao.successsistemas.com';
+//
 export const api = axios.create({
 	baseURL: apiEndPoint,
 

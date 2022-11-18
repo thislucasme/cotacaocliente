@@ -1,4 +1,4 @@
-import { Button, Editable, EditableInput, EditablePreview, Tag, Tooltip, useDisclosure } from "@chakra-ui/react";
+import { Button, Editable, EditableInput, EditablePreview, Tag, Text, Tooltip, useDisclosure } from "@chakra-ui/react";
 import { ColumnType } from "antd/lib/table";
 import React, { useMemo, useState } from "react";
 import { BiEdit } from "react-icons/bi";
@@ -124,6 +124,22 @@ export const useTabela = () => {
 				render: (value: string, record: any) => {
 					return <Tooltip title={value}>
 						<Text style={{ fontSize: "12px" }}>{value}</Text>
+					</Tooltip>
+				},
+
+			},
+			{
+				title: 'Observação',
+				dataIndex: 'observacao',
+				key: 'observacao',
+				width: '140px',
+				shouldCellUpdate: () => false,
+				ellipsis: {
+					showTitle: false
+				},
+				render: (value: string, record: any) => {
+					return <Tooltip style={{ fontSize: "12px" }} title={value}>
+						{value}
 					</Tooltip>
 				},
 

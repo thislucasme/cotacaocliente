@@ -500,6 +500,23 @@ export function CotacaoFinalizada() {
 						<Text style={styles.Font14}>{firstLetterUpperCase(value)}</Text>
 					</Tooltip>
 				},
+				
+
+			},
+			{
+				title: 'Observação',
+				dataIndex: 'observacao',
+				key: 'observacao',
+				width: '140px',
+				shouldCellUpdate: () => false,
+				ellipsis: {
+					showTitle: false
+				},
+				render: (value: string, record: any) => {
+					return <Tooltip style={{ fontSize: "12px" }} title={value}>
+						{value}
+					</Tooltip>
+				},
 
 			},
 			{

@@ -50,7 +50,7 @@ const ProfileMenuComponent = () => {
 							<HStack><Text style={styles.Profile}>CNPJ:</Text><Text style={styles.Profile} >{fornecedor?.cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5")}</Text></HStack>
 							{/* <BsInfoCircleFill color='#538EC6' cursor={"pointer"} /> */}
 
-							<Button leftIcon={<MdExpandMore />} style={{ boxShadow: "none" }} variant='gradient' onClick={onOpen} >Ver detalhes</Button>
+							{/* <Button leftIcon={<MdExpandMore />} style={{ boxShadow: "none" }} variant='gradient' onClick={onOpen} >Ver detalhes</Button> */}
 						</HStack>
 						:
 						<></>
@@ -68,7 +68,7 @@ const ProfileMenuComponent = () => {
 			>
 				<ModalOverlay />
 				<ModalContent>
-					<ModalHeader alignItems="center" fontSi fontWeight="normal" >
+					<ModalHeader alignItems="center"  fontWeight="normal" >
 						<Text>Identificação do vendedor</Text>
 					</ModalHeader>
 					<ModalCloseButton _focus={{ boxShadow: 'none' }} />

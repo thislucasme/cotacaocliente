@@ -1,8 +1,12 @@
 import axios from "axios";
-import { CotacaoTDO, CotacaoTDOPayload, DescontoGeral } from "./types";
-
-export const apiEndPoint = 'https://apicotacao.successsistemas.com';
+import { CotacaoTDO, CotacaoTDOPayload, DescontoGeral, ObservacaoGeralTDO } from "./types";
+import {config} from "dotenv"
+config({path: ".env"});
+var uri_backend = process.env.PORT;
+console.log('NODE', uri_backend)
+//export const apiEndPoint = 'https://apicotacao.successsistemas.com';
 //
+export const apiEndPoint = 'http://localhost:3000';
 export const api = axios.create({
 	baseURL: apiEndPoint,
 
@@ -108,3 +112,21 @@ export const apiPostCalcularItens = async (cotacaoTDOPayload: CotacaoTDOPayload)
 		return { data: 201, error: e };
 	}
 }
+export const criarObservacaoCotacao = async (observacaoGeral: ObservacaoGeralTDO) => {
+	try {
+		const res = await api.post('observacao-cotacao', observacaoGeral);
+		return res;
+	} catch (e: any) {
+		return { data: 201, error: e };
+	}
+}
+export const getObservacaoCotacao = async (observacaoGeral: ObservacaoGeralTDO) => {
+	try {
+		const res = await api.post('observacao-cotacao/get', observacaoGeral);
+		return res;
+	} catch (e: any) {
+		return { data: 201, error: e };
+	}
+}
+
+

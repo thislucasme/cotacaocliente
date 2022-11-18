@@ -85,9 +85,9 @@ const TesteLayoutComponent = () => {
 				<Sider theme="light" trigger={null} collapsible collapsed={collapsed} hidden={!isLargerThan600}>
 					{collapsed ? <Image className={"logo"} src={LogoMenor} /> : <Image className={"logo"} src={LogoMaior} />}
 					<Menu theme="light" mode="inline" defaultSelectedKeys={['2']}>
-						<Menu.Item onClick={() => { navigate('home/' + url) }} key="1" icon={<BiHomeAlt />}>
+						{/* <Menu.Item onClick={() => { navigate('home/' + url) }} key="1" icon={<BiHomeAlt />}>
 							Home
-						</Menu.Item>
+						</Menu.Item> */}
 						<Menu.Item onClick={() => { navigate('cotacao/' + url) }} key="2" icon={<FolderOpenOutlined />}>
 							Cotações abertas
 						</Menu.Item>

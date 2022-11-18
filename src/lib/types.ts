@@ -39,6 +39,12 @@ export type CotacaoTDOPayload = {
 	contratoEmpresa: string | undefined;
 
 }
+export type ObservacaoGeralTDO = {
+	codigoEmpresa: string;
+	contratoEmpresa: string;
+	observacao: string;
+	cotacao:string;
+}
 export type ItemCotacaoTDO = {
 	codigoEmpresa: string;
 	contratoEmpresa: string;

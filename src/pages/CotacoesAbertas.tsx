@@ -479,7 +479,7 @@ const CotacaoHome = () => {
 				dataIndex: 'produto',
 				key: 'produto',
 				align: 'center',
-				width: "70px",
+				width: "90px",
 				ellipsis: {
 					showTitle: false
 				},
@@ -496,6 +496,22 @@ const CotacaoHome = () => {
 				title: 'Descrição',
 				dataIndex: 'descricao',
 				key: 'descricao',
+				width: '140px',
+				shouldCellUpdate: () => false,
+				ellipsis: {
+					showTitle: false
+				},
+				render: (value: string, record: any) => {
+					return <Tooltip title={firstLetterUpperCase(value)}>
+						<Text style={styles.Font14}>{firstLetterUpperCase(value)}</Text>
+					</Tooltip>
+				},
+
+			},
+			{
+				title: 'Observação',
+				dataIndex: 'observacao',
+				key: 'observacao',
 				width: '140px',
 				shouldCellUpdate: () => false,
 				ellipsis: {
@@ -791,7 +807,7 @@ const CotacaoHome = () => {
 
 			},
 			{
-				title: 'marca',
+				title: 'marcad',
 				dataIndex: 'marca',
 				align: 'center',
 				key: 'marca',

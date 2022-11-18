@@ -2,16 +2,17 @@
 import {
 	HStack, Modal,
 	ModalBody,
-	ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure, useMediaQuery
+	ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Textarea, useDisclosure, useMediaQuery
 } from "@chakra-ui/react";
 import { Button, Modal as ModalMantine } from '@mantine/core';
 import { message, Space, Typography } from "antd";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { KeyedMutator } from "swr";
 import { UrlContext } from "../context/UrlContext";
 import { Flag } from "../enuns/enuns";
 import { useFlagFornecedor } from '../hooks/useFlagFornecedor';
-import { CotacaoTDOPayload } from "../lib/types";
+import { criarObservacaoCotacao, getObservacaoCotacao } from "../lib/api";
+import { CotacaoTDOPayload, ObservacaoGeralTDO } from "../lib/types";
 import { ModalDesconto } from '../pages/ModalDesconto';
 import { styles } from "../style/style";
 
@@ -30,15 +31,24 @@ export const FinalizarCotacao = (props: Props) => {
 	const [isLargerThan600] = useMediaQuery('(min-width: 600px)');
 
 	//const { dados } = useCotacaoFlag(payload);
+	const [observacao, setObservacao] = useState('');
 
 	const [opened, setOpened] = useState(false);
 
+	const [isConfirmarLoading, setConfirmarLoading] = useState(false);
 	const success = () => {
 		message.success('Dados enviados com sucesso!');
 
 	};
+	const showMensagemSuccess = (text:String) => {
+		message.success(text);
+
+	};
 	const error = () => {
 		message.error('Fornecedor não foi encontrado na base de dados', 1);
+	};
+	const showError = (txt:String) => {
+		message.error(txt, 1);
 	};
 	const msgErro = (text: string, duration: number) => {
 		message.error(text, duration);
@@ -60,7 +70,41 @@ export const FinalizarCotacao = (props: Props) => {
 	const { isOpen: isOpenDesconto, onOpen: onOpenDesconto, onClose: onCloseDesconto } = useDisclosure()
 
 
+	useEffect(()=>{
+		const observacaoTDO: ObservacaoGeralTDO = {
+			codigoEmpresa: dadosUrl?.numeroEmpresa ?? '',
+			contratoEmpresa: dadosUrl?.contratoEmpresa ?? '',
+			observacao: observacao,
+			cotacao: dadosUrl.numeroCotacao ?? ''
+		}
 
+			getObservacaoCotacao(observacaoTDO).then((result:any) => {
+				if(result?.request?.status === 201){
+					setObservacao(result?.data?.observacao)
+				}
+				if(result?.error?.response?.status){
+					showError("Ocorreu um erro ao buscar 'observação', statusCode: "+result?.error?.response?.status)
+				}
+			})
+	}, [isConfirmarLoading])
+
+	function salvarObservacao() {
+
+		setConfirmarLoading(true)
+		const observacaoTDO: ObservacaoGeralTDO = {
+			codigoEmpresa: dadosUrl?.numeroEmpresa ?? '',
+			contratoEmpresa: dadosUrl?.contratoEmpresa ?? '',
+			observacao: observacao,
+			cotacao: dadosUrl.numeroCotacao ?? ''
+		}
+
+		criarObservacaoCotacao(observacaoTDO).then((result) => {
+			success();
+			onClose();
+			setConfirmarLoading(false)
+
+		})
+	}
 
 	function salvar() {
 		onOpen();
@@ -97,9 +141,14 @@ export const FinalizarCotacao = (props: Props) => {
 				}
 			})
 			setOpened(true)
-			onClose();
+
+			salvarObservacao();
+
+		
 			success();
+
 			setIsLoading(false)
+
 			props.setAllPreenchido(true);
 			props.setEnviado(true)
 			//localStorage.clear();
@@ -112,6 +161,7 @@ export const FinalizarCotacao = (props: Props) => {
 			setIsLoading(false)
 			error();
 		}
+		
 	}
 
 	return <>
@@ -139,17 +189,17 @@ export const FinalizarCotacao = (props: Props) => {
 				<ModalCloseButton _focus={{ boxShadow: "none" }} />
 				<ModalBody>
 					<Text style={styles.Font16}>Após a confirmação a cotação não poderá mais ser editada.</Text>
-					{/* <Textarea
-						value={note}
-						onChange={(e) => setNote(e.target.value)}
+
+					<Textarea
 						mt={5}
 						placeholder="Observação"
-						label="Deixe aqui sua observação"
-						autosize
-						minRows={2}
+						value={observacao}
+						onChange={(e) => {
+							setObservacao(e.target.value)
+						}}
+
 					/>
 
-					<Input value={deliveryTime} onChange={(e: any) => setDeliveryTime(e.target.value)} mt={5} variant="default" placeholder="Prazo entrega em dias" /> */}
 
 				</ModalBody>
 

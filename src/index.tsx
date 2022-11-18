@@ -5,6 +5,8 @@ import { BrowserRouter } from "react-router-dom";
 import { App } from "./App";
 import theme from './theme/index';
 import './wdyr';
+import {config} from "dotenv"
+config({path: ".env"});
 
 ReactDOM.render(
   <React.StrictMode>

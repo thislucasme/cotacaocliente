@@ -26,6 +26,8 @@ export const ModalDesconto = (props: Props) => {
 
 	const dadosUrl = useContext(UrlContext);
 
+	console.log(props.totalDesconto)
+
 
 	const [isLargerThan600] = useMediaQuery('(min-width: 722px)');
 
@@ -53,7 +55,7 @@ export const ModalDesconto = (props: Props) => {
 			setFormaPagamento(price.formaPagamento)
 			setTotal(price.total)
 		}
-	}, [price])
+	}, [price, props.totalDesconto])
 
 	async function salvarDesconto() {
 		//setDesconto(desconto);

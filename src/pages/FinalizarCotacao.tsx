@@ -77,7 +77,7 @@ export const FinalizarCotacao = (props: Props) => {
 			observacao: observacao,
 			cotacao: dadosUrl.numeroCotacao ?? ''
 		}
-		//ho
+		//hod
 
 			getObservacaoCotacao(observacaoTDO).then((result:any) => {
 				if(result?.request?.status === 201){

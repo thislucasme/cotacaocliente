@@ -40,10 +40,10 @@ export const FinalizarCotacao = (props: Props) => {
 		message.success('Dados enviados com sucesso!');
 
 	};
-	const showMensagemSuccess = (text:String) => {
-		message.success(text);
+	// const showMensagemSuccess = (text:String) => {
+	// 	message.success(text);
 
-	};
+	// };
 	const error = () => {
 		message.error('Fornecedor não foi encontrado na base de dados', 1);
 	};
@@ -77,7 +77,7 @@ export const FinalizarCotacao = (props: Props) => {
 			observacao: observacao,
 			cotacao: dadosUrl.numeroCotacao ?? ''
 		}
-		//hodd
+		//hddd
 
 			getObservacaoCotacao(observacaoTDO).then((result:any) => {
 				if(result?.request?.status === 201){

@@ -3,7 +3,6 @@ import { Box, chakra, Flex, Image, Modal, ModalBody, ModalCloseButton, ModalCont
 import { Button, Divider, Layout, Menu } from "antd";
 import 'antd/dist/antd.css';
 import React, { memo, useContext, useEffect, useState } from "react";
-import { BiHomeAlt } from 'react-icons/bi';
 import { Outlet, useNavigate } from "react-router-dom";
 import LogoMenor from '../assets/logo-icon-48x48.png';
 import LogoMaior from '../assets/logonomesuc.f5f52e7a.png';

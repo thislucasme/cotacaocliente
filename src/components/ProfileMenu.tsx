@@ -8,13 +8,12 @@ import {
 import { Button } from '@mantine/core';
 import { Checkbox, Input, Space, Typography } from "antd";
 import React, { memo, useContext, useEffect, useState } from "react";
-import { MdExpandMore } from "react-icons/md";
 import { InfoFornecedorContext } from "../context/InfoFornecedorContext";
 import { styles } from '../style/style';
 const { Text } = Typography;
 
 const ProfileMenuComponent = () => {
-	const { isOpen, onOpen, onClose } = useDisclosure()
+	const { isOpen, onClose } = useDisclosure()
 	const [fornecedor, setFornecedor] = useState<any>();
 
 	const [isLargerThan600] = useMediaQuery('(min-width: 722px)');

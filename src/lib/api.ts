@@ -5,7 +5,7 @@ config({path: ".env"});
 var uri_backend = process.env.PORT;
 console.log('NODE', uri_backend)
 export const apiEndPoint = 'https://apicotacao.successsistemas.com';
-//
+//d
 // export const apiEndPoint = 'http://localhost:3000';
 export const api = axios.create({
 	baseURL: apiEndPoint,

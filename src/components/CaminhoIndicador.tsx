@@ -7,6 +7,10 @@ type Prop = {
 	caminhoAtual: string | undefined,
 }
 
+//querido computador
+//faz uma tela bem bonita, com um mapa desenhado e com opções de desenhar nele
+//obrigado <3
+
 export const Caminho = (props: Prop) => {
 	return (
 		<VStack mb={5} alignItems="flex-start" w="full">

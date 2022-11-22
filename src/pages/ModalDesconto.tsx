@@ -144,7 +144,7 @@ export const ModalDesconto = (props: Props) => {
 											decimalScale={2}
 											onValueChange={(value: any, name: any, float: any) => {
 												setDesconto(float?.float ? (float.float).toString() : (0).toString())
-												float?.float === 0 ? setDesconto(props.totalDesconto) : setDesconto(float?.float ? (float.float).toString() : (0).toString())
+												//float?.float === 0 ? setDesconto(props.totalDesconto) : setDesconto(float?.float ? (float.float).toString() : (0).toString())
 
 											}}
 										/>

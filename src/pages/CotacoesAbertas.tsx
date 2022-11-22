@@ -807,7 +807,23 @@ const CotacaoHome = () => {
 
 			},
 			{
-				title: 'marcad',
+				title: 'Observação',
+				dataIndex: 'observacao',
+				key: 'observacao',
+				width: '140px',
+				shouldCellUpdate: () => false,
+				ellipsis: {
+					showTitle: false
+				},
+				render: (value: string, record: any) => {
+					return <Tooltip style={{ fontSize: "12px" }} title={value}>
+						{value}
+					</Tooltip>
+				},
+
+			},
+			{
+				title: 'marca',
 				dataIndex: 'marca',
 				align: 'center',
 				key: 'marca',
@@ -823,6 +839,7 @@ const CotacaoHome = () => {
 					</Tooltip>
 				},
 			},
+
 			{
 				title: 'quantidade',
 				dataIndex: 'quantidade',

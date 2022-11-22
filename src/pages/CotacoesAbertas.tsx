@@ -103,7 +103,7 @@ const CotacaoHome = () => {
 
 	const dadosUrl = useContext(UrlContext);
 
-
+ //f
 
 
 	//aastat

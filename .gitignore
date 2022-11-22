@@ -11,7 +11,7 @@
 .VSCodeCounter/
 # production
 /build
-.yarn/
+#.yarn/
 # misc
 .DS_Store
 .env.local

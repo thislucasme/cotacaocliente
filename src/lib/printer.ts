@@ -128,11 +128,11 @@ export const getItemTable = (item: any) => {
 
 					],
 					[
-						{ text: item.item.toLowerCase(), fontSize: fontSize },
-						{ text: item.produto.toLowerCase(), fontSize: fontSize },
-						{ text: item.descricao.toLowerCase(), fontSize: fontSize },
+						{ text: item.item?.toLowerCase(), fontSize: fontSize },
+						{ text: item.produto?.toLowerCase(), fontSize: fontSize },
+						{ text: item.descricao?.toLowerCase(), fontSize: fontSize },
 						{ text: item.codbarras, fontSize: fontSize },
-						{ text: item.marca.toLowerCase(), fontSize: fontSize },
+						{ text: item.marca?.toLowerCase(), fontSize: fontSize },
 						{ text: item.quantidade, fontSize: fontSize },
 						{ text: item.valordoproduto, fontSize: fontSize },
 						{ text: item.desconto, fontSize: fontSize },

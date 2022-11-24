@@ -199,8 +199,9 @@ export const getTotal = (totalS: number, totalDesconto: number, totalFrete: numb
 export const getFormaPagamentoToString = (formaPagamamento: number) => {
 
 	let formaPagamentoString = "";
+	console.warn(FormaPagamento.BOLETO_BANCARIO, formaPagamamento)
 
-	switch (formaPagamamento) {
+	switch (Number(formaPagamamento)) {
 		case FormaPagamento.BOLETO_BANCARIO:
 			return formaPagamentoString = "Boleto bancário"
 
@@ -219,12 +220,8 @@ export const getFormaPagamentoToString = (formaPagamamento: number) => {
 		case FormaPagamento.PIX:
 			return formaPagamentoString = "Pix"
 
-		default:
-			// eslint-disable-next-line @typescript-eslint/no-unused-vars
-			formaPagamentoString = "Nenhum"
-			break;
 	}
 
-	return formaPagamamento;
+	return formaPagamentoString;
 
 }

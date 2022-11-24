@@ -71,7 +71,7 @@ export const QuantidadeTotalCotacaoFinalizada = (props: Props) => {
 
 					<VStack px={3} alignItems={"start"} >
 						<Text color={"gray.500"}>Subtotal</Text>
-						<Text mr={3} fontWeight={"semibold"}>{Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(total)}</Text>
+						<Text mr={3} fontWeight={"semibold"}>{Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(total - frete)}</Text>
 					</VStack>
 
 					<VStack px={3} alignItems={"start"} >
@@ -85,7 +85,7 @@ export const QuantidadeTotalCotacaoFinalizada = (props: Props) => {
 					</VStack>
 					<VStack alignItems={"start"}>
 						<Text color={"gray.500"}>Total geral</Text>
-						<Text fontWeight={"semibold"}>{(total + frete - totalDesconto).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
+						<Text fontWeight={"semibold"}>{((total) - (totalDesconto)).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
 					</VStack>
 					<Spacer />
 					<Button leftIcon={<HiOutlinePrinter />} style={{ boxShadow: "none", width: isLargerThan600 ? "" : "100%" }} disabled={false} onClick={onGenerateReport}>
@@ -112,7 +112,7 @@ export const QuantidadeTotalCotacaoFinalizada = (props: Props) => {
 						</Text>
 						<Spacer />
 						<Text style={styles.font14Apple}>
-							{Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(total)}
+							{Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(total - frete)}
 						</Text>
 					</Flex>
 
@@ -142,7 +142,7 @@ export const QuantidadeTotalCotacaoFinalizada = (props: Props) => {
 						</Text>
 						<Spacer />
 						<Text style={styles.font14Apple}>
-							{(total + frete - totalDesconto).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
+							{((total) - (totalDesconto)).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
 						</Text>
 					</Flex>
 

@@ -36,6 +36,7 @@ export const QuantidadeTotal = (props: Props) => {
 			setTotal(price.total);
 			setFrete(price.totalFrete)
 			setTotalDesconto(price.totalDesconto)
+			console.log(total, frete, totalDesconto )
 		}
 	}, [price])
 
@@ -46,7 +47,7 @@ export const QuantidadeTotal = (props: Props) => {
 
 					<VStack px={3} alignItems={"start"} >
 						<Text color={"gray.500"}>Subtotal</Text>
-						<Text mr={3} fontWeight={"semibold"}>{Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(total)}</Text>
+						<Text mr={3} fontWeight={"semibold"}>{Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(total - frete)}</Text>
 					</VStack>
 
 					<VStack px={3} alignItems={"start"} >
@@ -56,12 +57,11 @@ export const QuantidadeTotal = (props: Props) => {
 
 					<VStack px={3} alignItems={"start"} >
 						<Text color={"gray.500"}>Desconto</Text>
-						<Text fontWeight={"semibold"}>{Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(totalDesconto)}</Text>
+						<Text fontWeight={"semibold"}>-{Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(totalDesconto)}</Text>
 					</VStack>
 					<VStack alignItems={"start"}>
 						<Text color={"gray.500"}>Total geral</Text>
-						{console.warn(total, frete, totalDesconto)}
-						<Text fontWeight={"semibold"}>{((total + frete) - totalDesconto).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
+						<Text fontWeight={"semibold"}>{((total) - (totalDesconto)).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
 					</VStack>
 					<motion.div
 						style={{ paddingLeft: 3, paddingRight: 3 }}
@@ -93,7 +93,7 @@ export const QuantidadeTotal = (props: Props) => {
 						</Text>
 						<Spacer />
 						<Text fontSize={"14px"} fontFamily={"Roboto"} style={{ fontWeight: 500 }}>
-							{Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(total)}
+							{Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(total-frete)}
 						</Text>
 					</Flex>
 
@@ -123,7 +123,7 @@ export const QuantidadeTotal = (props: Props) => {
 						</Text>
 						<Spacer />
 						<Text fontSize={"14px"} fontFamily={"Roboto"} style={{ fontWeight: 500 }}>
-							{(total + frete - totalDesconto).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
+							{((total) - (totalDesconto)).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
 						</Text>
 					</Flex>
 

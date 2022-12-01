@@ -85,7 +85,7 @@ export const QuantidadeTotalCotacaoFinalizada = (props: Props) => {
 					</VStack>
 					<VStack alignItems={"start"}>
 						<Text color={"gray.500"}>Total geral</Text>
-						<Text fontWeight={"semibold"}>{((total) - (totalDesconto)).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
+						<Text fontWeight={"semibold"}>{((total +frete) - (totalDesconto)).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
 					</VStack>
 					<Spacer />
 					<Button leftIcon={<HiOutlinePrinter />} style={{ boxShadow: "none", width: isLargerThan600 ? "" : "100%" }} disabled={false} onClick={onGenerateReport}>
@@ -142,7 +142,7 @@ export const QuantidadeTotalCotacaoFinalizada = (props: Props) => {
 						</Text>
 						<Spacer />
 						<Text style={styles.font14Apple}>
-							{((total) - (totalDesconto)).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
+							{((total + frete) - (totalDesconto)).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
 						</Text>
 					</Flex>
 

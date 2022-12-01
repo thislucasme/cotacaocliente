@@ -61,7 +61,7 @@ export const QuantidadeTotal = (props: Props) => {
 					</VStack>
 					<VStack alignItems={"start"}>
 						<Text color={"gray.500"}>Total geral</Text>
-						<Text fontWeight={"semibold"}>{((total) - (totalDesconto)).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
+						<Text fontWeight={"semibold"}>{((total + frete) - (totalDesconto)).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
 					</VStack>
 					<motion.div
 						style={{ paddingLeft: 3, paddingRight: 3 }}
@@ -123,7 +123,7 @@ export const QuantidadeTotal = (props: Props) => {
 						</Text>
 						<Spacer />
 						<Text fontSize={"14px"} fontFamily={"Roboto"} style={{ fontWeight: 500 }}>
-							{((total) - (totalDesconto)).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
+							{((total + frete) - (totalDesconto)).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
 						</Text>
 					</Flex>
 

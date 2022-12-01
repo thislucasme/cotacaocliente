@@ -187,7 +187,7 @@ export const getTotal = (totalS: number, totalDesconto: number, totalFrete: numb
 						{ text: Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(totalS), fontSize: fontSize },
 						{ text: Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(totalFrete), fontSize: fontSize },
 						{ text: Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(totalDesconto), fontSize: fontSize },
-						{ text: Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(totalS  - totalDesconto), fontSize: fontSize }
+						{ text: Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format((totalS + totalFrete) - totalDesconto), fontSize: fontSize }
 					]
 				]
 			},

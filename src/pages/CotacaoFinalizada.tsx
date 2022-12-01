@@ -729,7 +729,7 @@ export function CotacaoFinalizada() {
 						<Divider />
 						<>
 							<Stepper style={{ marginTop: "20px", marginBottom: "20px" }} color="green" size="md" active={1}>
-								<Stepper.Step label="Passo 1" description="Preencher cotação" />
+								<Stepper.Step label="Passo 1" description={"Preencher cotação "+dadosUrl?.numeroCotacao} />
 								<Stepper.Step label="Passo 2" description="Enviar cotação" />
 							</Stepper>
 							<Table

@@ -14,6 +14,7 @@ import { InfoEmpresa } from "../components/InfoEmpresa";
 import { QuantidadeTotal } from "../components/QuantidadeTotal";
 import { QuantidadeTotalCotacaoFinalizada } from "../components/QuantidadeTotalCotacaoFinalizada";
 import { TableComponent } from "../components/TableComponent";
+import { CotacaoContext } from "../context/CotacaoContext";
 import { UrlContext } from "../context/UrlContext";
 import { useCotacao } from "../hooks/useCotacao";
 import { useHistorico } from '../hooks/useHistorico';
@@ -92,18 +93,22 @@ const CotacaoHome = () => {
 	const { isEnviado, statusLocalmente, setEnviado } = useSetStatusLocalmente();
 
 	//const price = useContext(CotacaoContext);
-
-
+	const price = useContext(CotacaoContext)
+	const [codCotacao, setCodCotacao] = useState();
 
 	useEffect(() => {
 		statusLocalmente();
-	}, [])
+		if (price !== undefined) {
+			setCodCotacao(price?.numeroCotacao)
+
+		}
+	}, [price])
 
 	// const [, setGerandoPDF] = useState(false);
 
 	const dadosUrl = useContext(UrlContext);
 
- //f
+	//f
 
 
 	//aastat
@@ -1039,8 +1044,13 @@ const CotacaoHome = () => {
 						<Divider />
 
 						<>
+							<HStack>
+							<Text>{"Preencher cotação "}</Text>
+							<Text style={{fontWeight: "bold"}}>{codCotacao}</Text>
+							</HStack>
 							<Stepper style={{ marginTop: "20px", marginBottom: "20px" }} color="green" size={isLargerThan600 ? "md" : "sm"} active={!isEnviado ? 1 : 2}>
-								<Stepper.Step label="Passo 1" description="Preencher cotação" />
+								<Stepper.Step label="Passo 1" description={"Preencher cotação "} />
+
 								<Stepper.Step label="Passo 2" description="Enviar cotação" />
 							</Stepper>
 							{/* <Table

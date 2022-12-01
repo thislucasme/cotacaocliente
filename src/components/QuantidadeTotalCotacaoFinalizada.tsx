@@ -71,7 +71,7 @@ export const QuantidadeTotalCotacaoFinalizada = (props: Props) => {
 
 					<VStack px={3} alignItems={"start"} >
 						<Text color={"gray.500"}>Subtotal</Text>
-						<Text mr={3} fontWeight={"semibold"}>{Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(total - frete)}</Text>
+						<Text mr={3} fontWeight={"semibold"}>{Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(total)}</Text>
 					</VStack>
 
 					<VStack px={3} alignItems={"start"} >
@@ -112,7 +112,7 @@ export const QuantidadeTotalCotacaoFinalizada = (props: Props) => {
 						</Text>
 						<Spacer />
 						<Text style={styles.font14Apple}>
-							{Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(total - frete)}
+							{Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(total)}
 						</Text>
 					</Flex>
 

@@ -9,6 +9,7 @@ import { BiErrorCircle } from 'react-icons/bi';
 import { useNavigate } from "react-router-dom";
 // import { useUsuario } from "../hooks/useUsuario";
 import { apiFornecedorLogin, apiFornecedorVerificarCredenciais, apiFornecedorVerificarEmail } from "../lib/apiUsuario";
+import axios from "axios"
 export const FormularioLogin = () => {
 
 
@@ -104,6 +105,12 @@ export const FormularioLogin = () => {
 			fazerLogin();
 		}
 	}
+	const teste = () => {
+		axios.post("http://success.vps-kinghost.net:3054/cripto/encrypt", {
+			"cifra": "01",
+			"chave": "Success2021"
+		})
+	}
 	return (
 		<>
 			<VStack paddingX={3} w="full">
@@ -118,12 +125,12 @@ export const FormularioLogin = () => {
 							</Alert>}
 					</>}
 
-				{isEmailValid ? <></> : <Input onKeyPress={(event) => { handleKeyPressEmail(event) }} onChange={(e) => { setEmail(e.target.value) }} name={email} label="Email" placeholder='Email' />}
+				{isEmailValid ? <></> : <Input onKeyPress={(event) => { handleKeyPressEmail(event) }} onChange={(e) => { setEmail(e.target.value) }} name={email} placeholder='Email' />}
 				{isEmailValid ?
 
 					<Input w="full" onKeyPress={(event) => { handleKeyPressSenha(event) }} type="password" onChange={(e) => { setSenha(e.target.value) }} name={senha} placeholder='Senha' />
 					: <> </>}
-				<Button fontWeight={"normal"} isLoading={loading} onClick={() => { passo === 2 ? fazerLogin() : verificarEmailExiste(email) }} w={"full"} colorScheme='blue'>Continuar</Button>
+				<Button fontWeight={"normal"} isLoading={loading} onClick={() => {teste() }} w={"full"} colorScheme='blue'>Continuar</Button>
 				<Button fontWeight={"normal"} colorScheme="teal" fontSize="sm" w="full" variant="ghost">Cadastrar novo usuário</Button>
 			</VStack >
 			<Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>

@@ -106,7 +106,7 @@ export const FormularioLogin = () => {
 		}
 	}
 	const teste = () => {
-		axios.post("http://success.vps-kinghost.net:3054/cripto/encrypt", {
+		axios.post("https://apicriptografiateste.successsistemas.com/cripto/encrypt", {
 			"cifra": "01",
 			"chave": "Success2021"
 		})

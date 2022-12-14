@@ -79,14 +79,14 @@ export const FinalizarCotacao = (props: Props) => {
 		}
 		//hddd
 
-			getObservacaoCotacao(observacaoTDO).then((result:any) => {
-				if(result?.request?.status === 201){
-					setObservacao(result?.data?.observacao)
-				}
-				if(result?.error?.response?.status){
-					showError("Ocorreu um erro ao buscar 'observação', statusCode: "+result?.error?.response?.status)
-				}
-			})
+			// getObservacaoCotacao(observacaoTDO).then((result:any) => {
+			// 	if(result?.request?.status === 201){
+			// 		setObservacao(result?.data?.observacao)
+			// 	}
+			// 	if(result?.error?.response?.status){
+			// 		showError("Ocorreu um erro ao buscar 'observação', statusCode: "+result?.error?.response?.status)
+			// 	}
+			// })
 	}, [isConfirmarLoading])
 
 	function salvarObservacao() {
@@ -191,7 +191,7 @@ export const FinalizarCotacao = (props: Props) => {
 				<ModalBody>
 					<Text style={styles.Font16}>Após a confirmação a cotação não poderá mais ser editada.</Text>
 
-					<Textarea
+					{/* <Textarea
 						mt={5}
 						placeholder="Observação"
 						value={observacao}
@@ -199,7 +199,7 @@ export const FinalizarCotacao = (props: Props) => {
 							setObservacao(e.target.value)
 						}}
 
-					/>
+					/> */}
 
 
 				</ModalBody>

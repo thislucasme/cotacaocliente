@@ -1,20 +1,27 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { Text as TextChakra } from "@chakra-ui/react";
 import {
+	Editable,
+	EditableInput,
+	EditablePreview,
 	HStack, Modal,
 	ModalBody,
-	ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Textarea, useDisclosure, useMediaQuery
+	Badge,
+	ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Textarea, useDisclosure, useMediaQuery, VStack
 } from "@chakra-ui/react";
 import { Button, Modal as ModalMantine } from '@mantine/core';
-import { message, Space, Typography } from "antd";
-import React, { useContext, useEffect, useState } from "react";
+import { message, Space, Tooltip, Typography } from "antd";
+import React, { useContext, useEffect, useState, useMemo } from "react";
 import { KeyedMutator } from "swr";
 import { UrlContext } from "../context/UrlContext";
 import { Flag } from "../enuns/enuns";
 import { useFlagFornecedor } from '../hooks/useFlagFornecedor';
 import { criarObservacaoCotacao, getObservacaoCotacao } from "../lib/api";
-import { CotacaoTDOPayload, ObservacaoGeralTDO } from "../lib/types";
+import { CotacaoTDO, CotacaoTDOPayload, ObservacaoGeralTDO } from "../lib/types";
 import { ModalDesconto } from '../pages/ModalDesconto';
 import { styles } from "../style/style";
+import Table, { ColumnType } from "antd/lib/table";
+import { Button as ButtonAnt, Layout } from "antd";
 
 
 const { Text } = Typography;
@@ -23,12 +30,23 @@ type Props = {
 	loading: boolean,
 	setEnviado: React.Dispatch<React.SetStateAction<boolean>>,
 	mutate: KeyedMutator<any>,
-	readyToSend: boolean
+	readyToSend: boolean,
+	cotacoes: any
 
+}
+
+const firstLetterUpperCase = (word: string) => {
+	return word?.toLowerCase().replace(/(?:^|\s)\S/g, function (a) {
+		return a?.toUpperCase();
+	});
 }
 export const FinalizarCotacao = (props: Props) => {
 
 	const [isLargerThan600] = useMediaQuery('(min-width: 600px)');
+
+	const [listaItensNaoPreenchidos, setListaItensNaoPreenchidos] = useState<any[]>([]);
+
+	console.log(props?.cotacoes?.data)
 
 	//const { dados } = useCotacaoFlag(payload);
 	const [observacao, setObservacao] = useState('');
@@ -36,6 +54,8 @@ export const FinalizarCotacao = (props: Props) => {
 	const [opened, setOpened] = useState(false);
 
 	const [isConfirmarLoading, setConfirmarLoading] = useState(false);
+
+	const [existItemNaoPreenchido, setExistItemNaoPreenchido] = useState(false);
 	const success = () => {
 		message.success('Dados enviados com sucesso!');
 
@@ -47,7 +67,7 @@ export const FinalizarCotacao = (props: Props) => {
 	const error = () => {
 		message.error('Fornecedor não foi encontrado na base de dados', 1);
 	};
-	const showError = (txt:String) => {
+	const showError = (txt: String) => {
 		message.error(txt, 1);
 	};
 	const msgErro = (text: string, duration: number) => {
@@ -69,24 +89,136 @@ export const FinalizarCotacao = (props: Props) => {
 
 	const { isOpen: isOpenDesconto, onOpen: onOpenDesconto, onClose: onCloseDesconto } = useDisclosure()
 
+	const toReal = (value: string) => {
+		return Number(value).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+	}
+	const columns: ColumnType<any>[] = useMemo(
+		() => [
+			{
+				title: 'Status',
+				dataIndex: 'status',
+				key: 'status',
+				align: "center",
+				shouldCellUpdate: () => true,
+				width: '100px',
+				render: (value: boolean, record: CotacaoTDO) => {
 
-	useEffect(()=>{
+					if (record?.valordoproduto > 0) {
+						return <>
+							<Badge style={styles.Badge} variant="dot" color={"green"}>Preenchido</Badge>
+						</>
+					} else {
+						return <>
+							<Badge style={styles.Badge} variant="dot" color={"orange"}>Pendente</Badge>
+						</>
+					}
+				},
+			},
+			{
+				title: 'Item',
+				dataIndex: 'item',
+				key: 'item',
+				width: '50px',
+				align: "center",
+				ellipsis: {
+					showTitle: false
+				},
+				shouldCellUpdate: () => false,
+				render: (value: string, record: any) => {
+					return (
+						<Tooltip title={value}>
+							<Text style={styles.Font14}>{value}</Text>
+						</Tooltip>
+					)
+				},
+			},
+			{
+				title: 'Marca',
+				dataIndex: 'marca',
+				align: 'center',
+				key: 'marca',
+				width: '60px',
+				shouldCellUpdate: () => false,
+				ellipsis: {
+					showTitle: false
+				},
+				render: (value: string, record: any) => {
+					return <Tooltip style={styles.Font14
+					} title={value}>
+						<Text style={styles.Font14}>{firstLetterUpperCase(value)}</Text>
+					</Tooltip>
+				},
+			},
+			{
+				title: 'Quantidade',
+				dataIndex: 'quantidade',
+				key: 'quantidade',
+				align: 'center',
+				width: '60px',
+				ellipsis: {
+					showTitle: false
+				},
+				shouldCellUpdate: () => true,
+				render: (value: string, record: any) => {
+					return <Tooltip title={value}>
+						<Editable fontSize={styles.Font14.width}>
+							<EditablePreview />
+							<Text style={styles.Font14}>{value}</Text>
+							<EditableInput />
+						</Editable>
+					</Tooltip>
+				},
+			},
+			{
+				title: 'Custo',
+				dataIndex: 'valordoproduto',
+				key: 'valordoproduto',
+				align: 'right',
+				ellipsis: {
+					showTitle: false
+				},
+				shouldCellUpdate: () => true,
+				width: '70px',
+				render: (value: string, record: any) => {
+					return <Editable fontSize={styles.Font14.width} >
+						<Text style={styles.Font14}>	{Number(value).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
+						<EditablePreview />
+						<EditableInput />
+					</Editable>;
+				},
+
+			},
+		], []
+	)
+
+	function retornaItensNaoPreenchidos(lista: any[]) {
+		let quantItens = 0;
+		let newList: any[] = [];
+		lista?.forEach((element) => {
+			if (element?.valordoproduto <= 0) {
+				newList.push(element)
+
+			}
+
+		})
+		//	setListaItensNaoPreenchidos(newList)
+		// if(quantItens > 0){
+		// 	setExistItemNaoPreenchido(true)
+		// }else{
+		// 	setExistItemNaoPreenchido(false)
+		// }
+		// console.log(lista)
+		return newList;
+	}
+
+	useEffect(() => {
 		const observacaoTDO: ObservacaoGeralTDO = {
 			codigoEmpresa: dadosUrl?.numeroEmpresa ?? '',
 			contratoEmpresa: dadosUrl?.contratoEmpresa ?? '',
 			observacao: observacao,
 			cotacao: dadosUrl.numeroCotacao ?? ''
 		}
-		//hddd
 
-			// getObservacaoCotacao(observacaoTDO).then((result:any) => {
-			// 	if(result?.request?.status === 201){
-			// 		setObservacao(result?.data?.observacao)
-			// 	}
-			// 	if(result?.error?.response?.status){
-			// 		showError("Ocorreu um erro ao buscar 'observação', statusCode: "+result?.error?.response?.status)
-			// 	}
-			// })
 	}, [isConfirmarLoading])
 
 	function salvarObservacao() {
@@ -145,7 +277,7 @@ export const FinalizarCotacao = (props: Props) => {
 
 			salvarObservacao();
 
-		
+
 			success();
 
 			setIsLoading(false)
@@ -162,7 +294,7 @@ export const FinalizarCotacao = (props: Props) => {
 			setIsLoading(false)
 			error();
 		}
-		
+
 	}
 
 	return <>
@@ -176,7 +308,8 @@ export const FinalizarCotacao = (props: Props) => {
 
 		<Space />
 
-		<Modal
+		<Modal	
+			size={"lg"}
 			isOpen={isOpen}
 			onClose={onClose}>
 
@@ -200,13 +333,23 @@ export const FinalizarCotacao = (props: Props) => {
 						}}
 
 					/> */}
+					{
+						retornaItensNaoPreenchidos(props?.cotacoes?.data).length > 0 ?
+							<VStack alignItems={"start"}>
+								<TextChakra  color={"red"}>Estes itens devem ser preenchidos antes de finalizar a cotação.</TextChakra>
+								<Table pagination={false} style={{ maxHeight: "300px", overflowY: "auto" }}
+									dataSource={retornaItensNaoPreenchidos(props?.cotacoes?.data)} columns={columns} />
+							</VStack>
+							: <></>
+					}
+
 
 
 				</ModalBody>
 
 				<ModalFooter>
 					<Space>
-						<Button loading={isLoading} onClick={() => { updateFlagFornecedor() }} >
+						<Button disabled={retornaItensNaoPreenchidos(props?.cotacoes?.data).length > 0 ? true : false} loading={isLoading} onClick={() => { updateFlagFornecedor() }} >
 							Confirmar
 						</Button>
 

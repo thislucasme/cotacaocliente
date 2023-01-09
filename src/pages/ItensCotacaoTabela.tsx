@@ -260,7 +260,7 @@ export const IntensCotacaoTabela = (props: Props) => {
 										<FormLabel fontSize={"16px"}>Prazo da entrega do produto (em dias).</FormLabel>
 										<Input disabled={props.isEnviado} type={"number"} style={styles.Font16} name={props.prazo} onChange={(e) => { props.setPrazo(e.target.value) }} value={props.prazo} placeholder='Prazo para entraga' />
 									</FormControl>
-									<FormControl mt={2}>
+									{/* <FormControl mt={2}>
 										<FormLabel fontSize={styles.Font16.width}>Pagamento</FormLabel>
 										<Select fontSize={"16px"} defaultValue={props.formaPagamento} _focus={{ boxShadow: "none" }} onChange={(event: any) => { props.setFormaPagamento(event.target.value) }} size="sm">
 											<option value={FormaPagamento.BOLETO_BANCARIO}>Boleto Bancário</option>
@@ -272,7 +272,7 @@ export const IntensCotacaoTabela = (props: Props) => {
 											<option value={FormaPagamento.OUTROS}>Outros</option>
 											<option value={FormaPagamento.NENHUM}>Nenhum</option>
 										</Select>
-									</FormControl>
+									</FormControl> */}
 
 								</SimpleGrid>
 								<FormControl>

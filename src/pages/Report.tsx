@@ -167,7 +167,7 @@ export const Report = () => {
 	const columns: ColumnType<any>[] = useMemo(
 		() => [
 			{
-				title: 'status',
+				title: 'Status',
 				dataIndex: 'status',
 				key: 'status',
 				align: "center",
@@ -260,7 +260,7 @@ export const Report = () => {
 
 			},
 			{
-				title: 'marca',
+				title: 'Marca',
 				dataIndex: 'marca',
 				key: 'marca',
 				width: '10%',
@@ -275,7 +275,7 @@ export const Report = () => {
 				},
 			},
 			{
-				title: 'quantidade',
+				title: 'Quantidade',
 				dataIndex: 'quantidade',
 				key: 'quantidade',
 				align: 'center',

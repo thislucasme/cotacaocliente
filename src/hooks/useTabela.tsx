@@ -35,7 +35,7 @@ export const useTabela = () => {
 				},
 			},
 			{
-				title: 'status',
+				title: 'Status',
 				dataIndex: 'status',
 				key: 'status',
 				align: "center",
@@ -145,7 +145,7 @@ export const useTabela = () => {
 
 			},
 			{
-				title: 'marca',
+				title: 'Marca',
 				dataIndex: 'marca',
 				key: 'marca',
 				width: '10%',
@@ -160,7 +160,7 @@ export const useTabela = () => {
 				},
 			},
 			{
-				title: 'quantidade',
+				title: 'Quantidade',
 				dataIndex: 'quantidade',
 				key: 'quantidade',
 				align: 'center',

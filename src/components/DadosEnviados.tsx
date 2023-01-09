@@ -30,7 +30,7 @@ export const DadosEnviados = () => {
 	const columns: ColumnType<any>[] = useMemo(
 		() => [
 			{
-				title: 'status',
+				title: 'Status',
 				dataIndex: 'status',
 				key: 'status',
 				align: "center",
@@ -138,7 +138,7 @@ export const DadosEnviados = () => {
 
 			},
 			{
-				title: 'marca',
+				title: 'Marca',
 				dataIndex: 'marca',
 				align: 'center',
 				key: 'marca',
@@ -155,7 +155,7 @@ export const DadosEnviados = () => {
 				},
 			},
 			{
-				title: 'quantidade',
+				title: 'Quantidade',
 				dataIndex: 'quantidade',
 				key: 'quantidade',
 				align: 'center',
@@ -194,7 +194,7 @@ export const DadosEnviados = () => {
 
 			},
 			{
-				title: 'desconto',
+				title: 'Desconto',
 				dataIndex: 'desconto',
 				key: 'desconto',
 				align: 'right',

@@ -422,7 +422,7 @@ const CotacaoHome = () => {
 			},
 
 			{
-				title: 'status',
+				title: 'Status',
 				dataIndex: 'status',
 				key: 'status',
 				align: "center",
@@ -530,7 +530,7 @@ const CotacaoHome = () => {
 
 			},
 			{
-				title: 'marca',
+				title: 'Marca',
 				dataIndex: 'marca',
 				align: 'center',
 				key: 'marca',
@@ -547,7 +547,7 @@ const CotacaoHome = () => {
 				},
 			},
 			{
-				title: 'quantidade',
+				title: 'Quantidade',
 				dataIndex: 'quantidade',
 				key: 'quantidade',
 				align: 'center',
@@ -586,7 +586,7 @@ const CotacaoHome = () => {
 
 			},
 			{
-				title: 'desconto',
+				title: 'Desconto',
 				dataIndex: 'desconto',
 				key: 'desconto',
 				align: 'right',
@@ -828,7 +828,7 @@ const CotacaoHome = () => {
 
 			},
 			{
-				title: 'marca',
+				title: 'Marca',
 				dataIndex: 'marca',
 				align: 'center',
 				key: 'marca',
@@ -846,7 +846,7 @@ const CotacaoHome = () => {
 			},
 
 			{
-				title: 'quantidade',
+				title: 'Quantidade',
 				dataIndex: 'quantidade',
 				key: 'quantidade',
 				align: 'center',
@@ -885,7 +885,7 @@ const CotacaoHome = () => {
 
 			},
 			{
-				title: 'desconto',
+				title: 'Desconto',
 				dataIndex: 'desconto',
 				key: 'desconto',
 				align: 'right',
@@ -1077,7 +1077,7 @@ const CotacaoHome = () => {
 									<QuantidadeTotal totalFrete={totalFrete.data === undefined ? 0 : totalFrete?.data[0]?.totalFrete} mutate={mutate} totalDesconto={totalDesconto.data === undefined ? 0 : totalDesconto?.data[0]?.totalDesconto} total={total.data === undefined ? 0 : total?.data[0]?.total} />
 									<Spacer />
 									{isLargerThan600 ?
-										<FinalizarCotacao readyToSend={isReady?.data ? isReady?.data[0].isReady : false} mutate={mutate} setEnviado={setEnviado} loading={!isEnviado} setAllPreenchido={setAllPreenchido} />
+										<FinalizarCotacao cotacoes={cotacoes} readyToSend={isReady?.data ? isReady?.data[0].isReady : false} mutate={mutate} setEnviado={setEnviado} loading={!isEnviado} setAllPreenchido={setAllPreenchido} />
 										: <></>}
 								</Flex>
 								:
@@ -1086,7 +1086,7 @@ const CotacaoHome = () => {
 						</>
 
 						{!isLargerThan600 && !isEnviado ?
-							<FinalizarCotacao readyToSend={isReady?.data ? isReady?.data[0].isReady : false} mutate={mutate} setEnviado={setEnviado} loading={!isEnviado} setAllPreenchido={setAllPreenchido} />
+							<FinalizarCotacao  cotacoes={cotacoes} readyToSend={isReady?.data ? isReady?.data[0].isReady : false} mutate={mutate} setEnviado={setEnviado} loading={!isEnviado} setAllPreenchido={setAllPreenchido} />
 							: <></>
 						}
 					</Content>

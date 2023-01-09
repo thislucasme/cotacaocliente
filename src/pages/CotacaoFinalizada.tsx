@@ -411,7 +411,7 @@ export function CotacaoFinalizada() {
 				},
 			},
 			{
-				title: 'status',
+				title: 'Status',
 				dataIndex: 'status',
 				key: 'status',
 				align: "center",
@@ -520,7 +520,7 @@ export function CotacaoFinalizada() {
 
 			},
 			{
-				title: 'marca',
+				title: 'Marca',
 				dataIndex: 'marca',
 				align: 'center',
 				key: 'marca',
@@ -537,7 +537,7 @@ export function CotacaoFinalizada() {
 				},
 			},
 			{
-				title: 'quantidade',
+				title: 'Quantidade',
 				dataIndex: 'quantidade',
 				key: 'quantidade',
 				align: 'center',
@@ -576,7 +576,7 @@ export function CotacaoFinalizada() {
 
 			},
 			{
-				title: 'desconto',
+				title: 'Desconto',
 				dataIndex: 'desconto',
 				key: 'desconto',
 				align: 'right',

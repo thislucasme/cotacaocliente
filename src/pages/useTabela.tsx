@@ -37,7 +37,7 @@ export const useTabela = <T extends Cotacao>() => {
         },
       },
       {
-        title: 'Código interno',
+        title: 'Código Interno',
         dataIndex: 'produto',
         key: 'produto',
         shouldCellUpdate: () => false,

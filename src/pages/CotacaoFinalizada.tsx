@@ -469,7 +469,7 @@ export function CotacaoFinalizada() {
 				},
 			},
 			{
-				title: 'Código interno',
+				title: 'Código Interno',
 				dataIndex: 'produto',
 				key: 'produto',
 				align: 'center',

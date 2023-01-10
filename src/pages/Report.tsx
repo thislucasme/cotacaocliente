@@ -214,7 +214,7 @@ export const Report = () => {
 				},
 			},
 			{
-				title: 'Código interno',
+				title: 'Código Interno',
 				dataIndex: 'produto',
 				key: 'produto',
 				width: '100px',

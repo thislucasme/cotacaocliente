@@ -52,7 +52,7 @@ export const IntensCotacaoTabela = (props: Props) => {
 	const [alertCusto, setAlertCusto] = useState(false);
 	const [showForm] = useState(true);
 
-
+	
 
 	const [isLargerThan600] = useMediaQuery('(min-width: 722px)');
 	function verificarHistorico() {
@@ -194,6 +194,32 @@ export const IntensCotacaoTabela = (props: Props) => {
 						{showForm ?
 							<>
 								<SimpleGrid columns={[1, 1, 1]} spacing='10px'>
+								<FormControl mt={{ sm: 0, md: 0, lg: 0 }}>
+										<FormLabel fontSize={"16px"}>Custo</FormLabel>
+										<CurrencyInput	
+											disabled={props.isEnviado}
+											autoFocus={true}
+											style={styles.Font16}
+											className="ant-input"
+											id="input-custo-produto"
+											name="input-name"
+											placeholder="Please enter a number"
+											defaultValue={Number(props.valorProduto)}
+											prefix="R$"
+											decimalScale={2}
+											onValueChange={(value: any, name: any, float: any) => {
+												props.setValorProduto(float?.float ? (float.float).toString() : (0).toString())
+
+												if (float?.float ? true : false) {
+													const valor = Number.parseFloat(float.float);
+													if (valor !== 0 || valor > 0) {
+														setAlertCusto(false)
+													}
+												}
+											}}
+										/>
+
+									</FormControl>
 									<FormControl>
 										<FormLabel fontSize={"16px"}>Frete</FormLabel>
 										<CurrencyInput
@@ -230,32 +256,6 @@ export const IntensCotacaoTabela = (props: Props) => {
 										/>
 									</FormControl>
 
-									<FormControl mt={{ sm: 0, md: 0, lg: 0 }}>
-										<FormLabel fontSize={"16px"}>Custo</FormLabel>
-										<CurrencyInput
-											disabled={props.isEnviado}
-											style={styles.Font16}
-											className="ant-input"
-											id="input-custo-produto"
-											name="input-name"
-											placeholder="Please enter a number"
-											defaultValue={Number(props.valorProduto)}
-											prefix="R$"
-											decimalScale={2}
-											onValueChange={(value: any, name: any, float: any) => {
-												props.setValorProduto(float?.float ? (float.float).toString() : (0).toString())
-
-												if (float?.float ? true : false) {
-													const valor = Number.parseFloat(float.float);
-													if (valor !== 0 || valor > 0) {
-														setAlertCusto(false)
-													}
-												}
-												console.log("valorProduto", props.valorProduto);
-											}}
-										/>
-
-									</FormControl>
 									<FormControl mt={2}>
 										<FormLabel fontSize={"16px"}>Prazo da entrega do produto (em dias).</FormLabel>
 										<Input disabled={props.isEnviado} type={"number"} style={styles.Font16} name={props.prazo} onChange={(e) => { props.setPrazo(e.target.value) }} value={props.prazo} placeholder='Prazo para entraga' />

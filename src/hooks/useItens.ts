@@ -22,6 +22,7 @@ export const useItem = () => {
 
 	function abrirModal(cotacao: CotacaoTDO, value: string) {
 
+
 		setCotacao(cotacao)
 		setIpi(cotacao.ipi !== null ? cotacao?.ipi.toString() : '')
 		setIcms(cotacao.icms !== null ? cotacao?.icms.toString() : '')

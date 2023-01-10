@@ -349,7 +349,7 @@ export const FinalizarCotacao = (props: Props) => {
 
 				<ModalFooter>
 					<Space>
-						<Button disabled={retornaItensNaoPreenchidos(props?.cotacoes?.data).length > 0 ? true : false} loading={isLoading} onClick={() => { updateFlagFornecedor() }} >
+						<Button loading={isLoading} onClick={() => { updateFlagFornecedor() }} >
 							Confirmar
 						</Button>
 

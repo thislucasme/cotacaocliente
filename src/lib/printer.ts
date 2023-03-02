@@ -130,13 +130,13 @@ export const getItemTable = (item: any) => {
 					[
 						{ text: item.item?.toLowerCase(), fontSize: fontSize },
 						{ text: item.produto?.toLowerCase(), fontSize: fontSize },
-						{ text: item.descricao?.toLowerCase(), fontSize: fontSize },
+						{ text: firstLetterUpperCase(item.descricao?.toLowerCase()), fontSize: fontSize },
 						{ text: item.codbarras, fontSize: fontSize },
 						{ text: item.marca?.toLowerCase(), fontSize: fontSize },
 						{ text: item.quantidade, fontSize: fontSize },
 						{ text: item.valordoproduto, fontSize: fontSize },
 						{ text: item.desconto, fontSize: fontSize },
-						{ text: "1245.33", fontSize: fontSize }
+						{ text: item.frete, fontSize: fontSize }
 					]
 				]
 			},
@@ -224,4 +224,9 @@ export const getFormaPagamentoToString = (formaPagamamento: number) => {
 
 	return formaPagamentoString;
 
+}
+const firstLetterUpperCase = (word: string) => {
+	return word.toLowerCase().replace(/(?:^|\s)\S/g, function (a) {
+		return a.toUpperCase();
+	});
 }

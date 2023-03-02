@@ -258,7 +258,7 @@ export const IntensCotacaoTabela = (props: Props) => {
 
 									<FormControl mt={2}>
 										<FormLabel fontSize={"16px"}>Prazo da entrega do produto (em dias).</FormLabel>
-										<Input disabled={props.isEnviado} type={"number"} style={styles.Font16} name={props.prazo} onChange={(e) => { props.setPrazo(e.target.value) }} value={props.prazo} placeholder='Prazo para entraga' />
+										<Input disabled={props.isEnviado} type={"number"} style={styles.Font16} name={props.prazo} onChange={(e) => { props.setPrazo(e.target.value) }} value={props.prazo} placeholder='Prazo para entrega' />
 									</FormControl>
 									{/* <FormControl mt={2}>
 										<FormLabel fontSize={styles.Font16.width}>Pagamento</FormLabel>

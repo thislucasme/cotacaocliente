@@ -97,7 +97,7 @@ const getCabecalho = (dadosEmpresa: any, codigoCotacao: string) => {
 						{ text: 'Cidade' },
 						{ text: 'Cotação' }
 					],
-					[dadosEmpresa.razao.toLowerCase(), dadosEmpresa.cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5"), dadosEmpresa.cidade.toLowerCase(), codigoCotacao]
+					[formatStringIgnoringSomeWords(dadosEmpresa.razao.toLowerCase()), dadosEmpresa.cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5"), formatStringIgnoringSomeWords(dadosEmpresa.cidade.toLowerCase()), codigoCotacao]
 				]
 			},
 			layout: 'lightHorizontalLines'
@@ -130,7 +130,7 @@ export const getItemTable = (item: any) => {
 					[
 						{ text: item.item?.toLowerCase(), fontSize: fontSize },
 						{ text: item.produto?.toLowerCase(), fontSize: fontSize },
-						{ text: firstLetterUpperCase(item.descricao?.toLowerCase()), fontSize: fontSize },
+						{ text: formatStringIgnoringSomeWords(item.descricao?.toLowerCase()), fontSize: fontSize },
 						{ text: item.codbarras, fontSize: fontSize },
 						{ text: item.marca?.toLowerCase(), fontSize: fontSize },
 						{ text: item.quantidade, fontSize: fontSize },
@@ -230,3 +230,23 @@ const firstLetterUpperCase = (word: string) => {
 		return a.toUpperCase();
 	});
 }
+
+function formatStringIgnoringSomeWords(str:string) {
+	const articles = ["de", "da", "do", "e"];
+	const words = str.split(" ");
+	
+	// Transforma a primeira palavra em maiúscula
+	words[0] = words[0].charAt(0).toUpperCase() + words[0].slice(1);
+	
+	// Verifica se as outras palavras são artigos e as mantém em minúsculo
+	for (let i = 1; i < words.length; i++) {
+	  if (articles.includes(words[i])) {
+		words[i] = words[i].toLowerCase();
+	  } else {
+		words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
+	  }
+	}
+	
+	// Retorna a string formatada
+	return words.join(" ");
+  }

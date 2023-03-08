@@ -306,6 +306,8 @@ export function CotacaoFinalizada() {
 	}
 	async function salvarItem() {
 
+		console.warn("quantidade")
+//
 
 		setUpdateLoading(true);
 		const item: ItemCotacaoTDO = {

@@ -16,13 +16,14 @@ export const useItem = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [cotacao, setCotacao] = useState<CotacaoTDO>();
 	const [formaPagamento, setFormaPagamento] = useState('0');
+	const [quantidade, setQuantidade] = useState(0);
 
 	const [note, setNote] = useState('');
 
 
 	function abrirModal(cotacao: CotacaoTDO, value: string) {
 
-
+		setQuantidade(Number(cotacao?.quantidade))
 		setCotacao(cotacao)
 		setIpi(cotacao.ipi !== null ? cotacao?.ipi.toString() : '')
 		setIcms(cotacao.icms !== null ? cotacao?.icms.toString() : '')
@@ -39,6 +40,7 @@ export const useItem = () => {
 
 
 	return {
+		quantidade,
 		ipi,
 		setIpi,
 		icms,

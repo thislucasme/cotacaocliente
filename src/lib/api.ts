@@ -83,6 +83,7 @@ export const apiPutDescontoAll = async (descontoTO: DescontoGeral | null): Promi
 	const res = await api.put('desconto/dev', descontoTO);
 	return res;
 }
+
 export const apiGetEmpresa = async (numero: string) => {
 	try {
 		const res = await api.get(numero);

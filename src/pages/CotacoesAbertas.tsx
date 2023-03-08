@@ -61,11 +61,11 @@ const CotacaoHome = () => {
 	// const pdfGerado = () => {
 	// 	message.success('Relatório gerado com sucesso!');
 	// };
-	const [quantidade] = useState('');
+	
 	const {
 		abrirModal, onClose, isOpen, icms, setIcms, frete, setFrete,
 		valorProduto, setValorProduto, st, setSt, mva, setMva, ipi, setIpi, desconto, setDesconto, prazo, setPrazo,
-		cotacao, note, setNote, setFormaPagamento, formaPagamento
+		cotacao, note, setNote, setFormaPagamento, formaPagamento, quantidade
 	} = useItem();
 
 
@@ -314,6 +314,7 @@ const CotacaoHome = () => {
 		salvarItem();
 	}
 	async function salvarItem() {
+		console.warn("salvar log", "{"+quantidade+"}")
 
 
 		setUpdateLoading(true);

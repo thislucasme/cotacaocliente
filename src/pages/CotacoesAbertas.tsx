@@ -587,6 +587,25 @@ const CotacaoHome = () => {
 
 			},
 			{
+				title: 'Tributo',
+				dataIndex: 'valorComTributo',
+				key: 'valorComTributo',
+				align: 'right',
+				ellipsis: {
+					showTitle: false
+				},
+				shouldCellUpdate: () => true,
+				width: '70px',
+				render: (value: string, record: any) => {
+					return <Editable fontSize={styles.Font14.width} >
+						<Text style={styles.Font14}>	{Number(value).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
+						<EditablePreview />
+						<EditableInput />
+					</Editable>;
+				},
+
+			},
+			{
 				title: 'Desconto',
 				dataIndex: 'desconto',
 				key: 'desconto',
@@ -623,7 +642,7 @@ const CotacaoHome = () => {
 				},
 			},
 			{
-				title: '% ST',
+				title: '%ST',
 				dataIndex: 'st',
 				key: 'st',
 				align: 'center',

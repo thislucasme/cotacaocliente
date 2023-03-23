@@ -4,9 +4,9 @@ import {config} from "dotenv"
 config({path: ".env"});
 var uri_backend = process.env.PORT;
 console.log('NODE', uri_backend)
-export const apiEndPoint = 'https://apicotacaoteste.successsistemas.com';
+//export const apiEndPoint = 'https://apicotacaoteste.successsistemas.com';
 //export const apiEndPoint = 'https://apicotacao.successsistemas.com';
-//export const apiEndPoint = 'http://localhost:3050';
+export const apiEndPoint = 'http://localhost:3050';
 export const api = axios.create({
 	baseURL: apiEndPoint,
 

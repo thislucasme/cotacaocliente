@@ -84,7 +84,7 @@ export const useTabela = () => {
 				},
 			},
 			{
-				title: 'Código/barras',
+				title: 'Código/barrasd',
 				dataIndex: 'codbarras',
 				key: 'codbarras',
 				width: '20%',

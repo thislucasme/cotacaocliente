@@ -46,7 +46,6 @@ export const FinalizarCotacao = (props: Props) => {
 
 	const [listaItensNaoPreenchidos, setListaItensNaoPreenchidos] = useState<any[]>([]);
 
-	console.log(props?.cotacoes?.data)
 
 	//const { dados } = useCotacaoFlag(payload);
 	const [observacao, setObservacao] = useState('');
@@ -207,7 +206,6 @@ export const FinalizarCotacao = (props: Props) => {
 		// }else{
 		// 	setExistItemNaoPreenchido(false)
 		// }
-		// console.log(lista)
 		return newList;
 	}
 

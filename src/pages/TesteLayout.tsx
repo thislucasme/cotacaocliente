@@ -6,9 +6,12 @@ import React, { memo, useContext, useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import LogoMenor from '../assets/logo-icon-48x48.png';
 import LogoMaior from '../assets/logonomesuc.f5f52e7a.png';
+import { CotacaoBloqueada } from '../components/erros/CotacaoBloqueada';
+import { CotacaoVencida } from '../components/erros/CotacaoVencida';
 import { Loading } from '../components/Loading';
 import { ProfileMenu } from "../components/ProfileMenu";
 import { Result } from '../components/Result';
+import { CotacaoBloqueadoContext } from '../context/CotacaoBloqueadoContext';
 import { InfoFornecedorContext } from '../context/InfoFornecedorContext';
 import { UrlContext } from '../context/UrlContext';
 import { useVendedor } from '../hooks/useVendedor';
@@ -39,9 +42,16 @@ const TesteLayoutComponent = () => {
 	//aqui é pego a url que é passada através do context
 	const dadosUrl = useContext(UrlContext);
 
+	//status cotação
+	const statusCotacao = useContext(CotacaoBloqueadoContext)
+	//console.log(statusCotacao)
+	//	console.warn(statusCotacao)
+
 	const { isOpen, onOpen, onClose } = useDisclosure()
 
 	const infoFornecedor = useContext(InfoFornecedorContext);
+	const [status, setStatusCotacao] = useState();
+	const [statusCode, setStatusCode] = useState();
 
 
 
@@ -59,10 +69,19 @@ const TesteLayoutComponent = () => {
 		if (dadosUrl !== undefined) {
 			setUrl(dadosUrl.parametroUrl)
 		}
+		if (statusCotacao !== undefined) {
+
+			setStatusCode(statusCotacao?.data?.status)
+			setStatusCotacao(statusCotacao?.data?.data?.status)
+
+			console.log(statusCotacao?.data?.data?.status)
+			console.log(statusCotacao?.data?.status)
+		}
+
 
 		//if (vendedor?.data === null) navigate('/')
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [dadosUrl, infoFornecedor])
+	}, [dadosUrl, infoFornecedor, statusCotacao])
 
 	if (loading) {
 		return (<Loading />);
@@ -135,7 +154,8 @@ const TesteLayoutComponent = () => {
 							overflow: "auto"
 						}}
 					>
-						<Outlet />
+						{status === 'B' ? <CotacaoBloqueada/> : 	<Outlet />}
+					
 					</Content>
 				</Layout>
 			</LayoutChakara >

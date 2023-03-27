@@ -22,7 +22,6 @@ const ProfileMenuComponent = () => {
 
 	const infoFornecedor = useContext(InfoFornecedorContext);
 
-	console.log("Fornedor", infoFornecedor.data)
 
 	const firstLetterUpperCase = (word: string) => {
 		return word.toLowerCase().replace(/(?:^|\s)\S/g, function (a) {

@@ -36,7 +36,6 @@ export const QuantidadeTotal = (props: Props) => {
 			setTotal(price.total);
 			setFrete(price.totalFrete)
 			setTotalDesconto(price.totalDesconto)
-			console.log(total, frete, totalDesconto )
 		}
 	}, [price])
 

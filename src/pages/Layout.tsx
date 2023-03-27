@@ -1,4 +1,5 @@
 import React from "react"
+import { CotacaoBloqueadoProvider } from "../context/CotacaoBloqueadoContext"
 import { CotacaoProvider } from "../context/CotacaoContext"
 import { InfoEmpresaProvider } from "../context/InfoEmpresaContext"
 import { InfoFornecedorInfoProvider } from "../context/InfoFornecedorContext"
@@ -12,7 +13,9 @@ export const Layout = () => {
 			<CotacaoProvider>
 				<InfoEmpresaProvider>
 					<InfoFornecedorInfoProvider>
+						<CotacaoBloqueadoProvider>
 						<TesteLayout />
+						</CotacaoBloqueadoProvider>
 					</InfoFornecedorInfoProvider >
 				</InfoEmpresaProvider>
 			</CotacaoProvider>

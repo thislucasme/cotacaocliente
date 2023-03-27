@@ -6,7 +6,7 @@ import { CotacoesAbertas } from "../pages/CotacoesAbertas";
 export const VerificarData = () => {
 	const dadosUrl = useContext(UrlContext);
 	return (
-		<>	{dadosUrl.isVencido ? <CotacaoVencida /> : <CotacoesAbertas />}</>
+		<>	{dadosUrl.isVencido ? <CotacaoVencida data={dadosUrl.dataValidade ?? 'Data inválida'} /> : <CotacoesAbertas />}</>
 
 	);
 }

@@ -1,6 +1,7 @@
 import { Center, Image, Text, VStack } from "@chakra-ui/react";
 import React from "react";
 import Locked from '../../assets/padlock.png';
+//teste
 
 export const CotacaoBloqueada = () => {
 	return (

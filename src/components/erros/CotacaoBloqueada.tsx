@@ -14,7 +14,8 @@ export const CotacaoBloqueada = () => {
 				<Text align={"center"} w={"80%"} color={"gray"} fontSize={"md"}>
 				Desculpe-nos, mas a cotação solicitada está bloqueada
 				ou encerrada.
-				Por favor, entre em contato com a empresa solicitante para mais informações. Obrigado.
+				Por favor, entre em contato com a empresa solicitante para mais informações.
+				Obrigado.
 				</Text>
 			</VStack>
 		</Center>

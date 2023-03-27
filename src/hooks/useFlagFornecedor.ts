@@ -10,6 +10,14 @@ export const useFlagFornecedor = () => {
 			return { data: 201, error: e };
 		}
 	}
+	const apiIsFlagBLoqueado = async (cotacaoTDOPayload: CotacaoTDOPayload) => {
+		try {
+			const res = await api.post('flag/finalizar-cotacao', cotacaoTDOPayload);
+			return res;
+		} catch (e: any) {
+			return { data: 201, error: e };
+		}
+	}
 
 	const apiPostOfferInfo = async (dados: any) => {
 		try {
@@ -32,6 +40,7 @@ export const useFlagFornecedor = () => {
 	return {
 		apiPostFlagFornecedor: apiPostFlagFornecedor,
 		apiPostVerificarFlagFornecedor: apiPostVerificarFlagFornecedor,
+		apiIsFlagBLoqueado,
 		apiPostOfferInfo
 	}
 }

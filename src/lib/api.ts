@@ -3,10 +3,9 @@ import { CotacaoTDO, CotacaoTDOPayload, DescontoGeral, ObservacaoGeralTDO } from
 import {config} from "dotenv"
 config({path: ".env"});
 var uri_backend = process.env.PORT;
-console.log('NODE', uri_backend)
-//export const apiEndPoint = 'https://apicotacaoteste.successsistemas.com';
+export const apiEndPoint = 'https://apicotacaoteste.successsistemas.com';
 //export const apiEndPoint = 'https://apicotacao.successsistemas.com';
-export const apiEndPoint = 'http://localhost:3050';
+//export const apiEndPoint = 'http://localhost:3050';
 export const api = axios.create({
 	baseURL: apiEndPoint,
 
@@ -100,6 +99,14 @@ export const apiGetEmpresa = async (numero: string) => {
 export const apiPostVerificarFlagFornecedor = async (cotacaoTDOPayload: CotacaoTDOPayload) => {
 	try {
 		const res = await api.post('cotacao/verificar-flags/', cotacaoTDOPayload);
+		return res;
+	} catch (e: any) {
+		return { data: 201, error: e };
+	}
+}
+export const apiIsBloqueadoCotacao = async (cotacaoTDOPayload: any) => {
+	try {
+		const res = await api.post('flag/verificar-flags-bloqueado/', cotacaoTDOPayload);
 		return res;
 	} catch (e: any) {
 		return { data: 201, error: e };

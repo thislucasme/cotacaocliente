@@ -26,7 +26,6 @@ export const ModalDesconto = (props: Props) => {
 
 	const dadosUrl = useContext(UrlContext);
 
-	console.log(props.totalDesconto)
 
 
 	const [isLargerThan600] = useMediaQuery('(min-width: 722px)');
@@ -96,7 +95,6 @@ export const ModalDesconto = (props: Props) => {
 			// const valorTotalItens = total;
 			// const percentual = Number.parseFloat(descontoEmPercentual) / 100;
 			// const valorFinal = percentual * valorTotalItens;
-			// console.log(valorFinal, total)
 
 			const valorDesconto = Number.parseFloat(descontoEmPercentual.toString());
 			return valorDesconto;
@@ -155,7 +153,6 @@ export const ModalDesconto = (props: Props) => {
 									:
 									<FormControl>
 										<FormLabel fontSize={styles.Font16.width}>ex: 0,34</FormLabel>
-										<Input style={styles.Font16} type={"number"} value={descontoEmPercentual} step="0.01" onChange={(e) => { setDescontoEmPercentual(e.target.value); console.log(descontoEmPercentual) }} />
 									</FormControl>
 							}
 

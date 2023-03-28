@@ -10,7 +10,7 @@ export const api = axios.create({
 	baseURL: apiEndPoint,
 
 });
-
+//
 
 api.interceptors.request.use(
 	config => {

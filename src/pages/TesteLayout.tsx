@@ -73,9 +73,6 @@ const TesteLayoutComponent = () => {
 
 			setStatusCode(statusCotacao?.data?.status)
 			setStatusCotacao(statusCotacao?.data?.data?.status)
-
-			console.log(statusCotacao?.data?.data?.status)
-			console.log(statusCotacao?.data?.status)
 		}
 
 

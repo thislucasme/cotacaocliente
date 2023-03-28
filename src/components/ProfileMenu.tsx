@@ -23,6 +23,7 @@ const ProfileMenuComponent = () => {
 	const infoFornecedor = useContext(InfoFornecedorContext);
 
 
+
 	const firstLetterUpperCase = (word: string) => {
 		return word.toLowerCase().replace(/(?:^|\s)\S/g, function (a) {
 			return a.toUpperCase();

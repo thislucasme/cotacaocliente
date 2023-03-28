@@ -7,4 +7,6 @@ export const dataToString = (data: Date) => {
 export const stringToData = (data: string) => {
   return parse(data, 'yyyyMMdd', new Date())
 }
-
+export const formatedTelefoneNumber = (telefone:string) => {
+return  telefone?.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
+}

@@ -3,9 +3,9 @@ import { CotacaoTDO, CotacaoTDOPayload, DescontoGeral, ObservacaoGeralTDO } from
 import {config} from "dotenv"
 config({path: ".env"});mailto:
 var uri_backend = process.env.PORT;
-//export const apiEndPoint = 'https://apicotacaoteste.successsistemas.com';
+export const apiEndPoint = 'https://apicotacaoteste.successsistemas.com';
 //export const apiEndPoint = 'https://apicotacao.successsistemas.com';
-export const apiEndPoint = 'http://localhost:3050';
+//export const apiEndPoint = 'http://localhost:3050';
 export const api = axios.create({
 	baseURL: apiEndPoint,
 
@@ -16,7 +16,6 @@ api.interceptors.request.use(
 	config => {
 		const token = localStorage.getItem('@App:token');
 		if (token) {
-
 			config.headers['Authorization'] = `Bearer ${token}`
 		}
 

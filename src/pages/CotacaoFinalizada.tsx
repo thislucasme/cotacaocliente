@@ -483,7 +483,7 @@ export function CotacaoFinalizada() {
 				render: (value: string, record: any) => {
 					return (
 						<Tooltip title={value}>
-							<Text style={styles.Font14}>{firstLetterUpperCase(value)}</Text>
+							<Text style={styles.Font14}>{(value)}</Text>
 						</Tooltip>
 					)
 				},

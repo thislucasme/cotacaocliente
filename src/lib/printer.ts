@@ -9,7 +9,7 @@ pdf.vfs = pdfFonts.pdfMake.vfs;
 const corHeadTable = '#D6E7FF'
 // const corHeadTableGray = '#D9D9D9'
 
-const fontSize = 9;
+const fontSize = 6;
 
 
 export const generateADocument = () => {
@@ -22,7 +22,7 @@ export const generateADocument = () => {
 	return documentDefinition;
 }
 
-export const imprimir = (itens: any[], download: boolean, totalS: number, totalDesconto: number, totalFrete: number, formaPagamento: number, dadosEmpresa: any) => {
+export const imprimir = (itens: any[], download: boolean, totalS: number, totalDesconto: number, totalFrete: number, formaPagamento: number, dadosEmpresa: any, totalSemTributos:number) => {
 	let definition: TDocumentDefinitions = generateADocument();
 	const arrayItens: any[] = []
 
@@ -31,7 +31,7 @@ export const imprimir = (itens: any[], download: boolean, totalS: number, totalD
 		arrayItens.push(getItemTable(item))
 	}
 
-	const total: any[] = getTotal(totalS, totalDesconto, totalFrete, formaPagamento);
+	const total: any[] = getTotal(totalS, totalDesconto, totalFrete, formaPagamento, totalSemTributos);
 
 	definition.content = [...getCabecalho(dadosEmpresa, itens[0].codigo), ...arrayItens, ...total];
 
@@ -129,14 +129,14 @@ export const getItemTable = (item: any) => {
 					],
 					[
 						{ text: item.item?.toLowerCase(), fontSize: fontSize },
-						{ text: item.produto?.toLowerCase(), fontSize: fontSize },
+						{ text: item.produto, fontSize: fontSize },
 						{ text: formatStringIgnoringSomeWords(item.descricao?.toLowerCase()), fontSize: fontSize },
 						{ text: item.codbarras, fontSize: fontSize },
 						{ text: item.marca?.toLowerCase(), fontSize: fontSize },
 						{ text: item.quantidade, fontSize: fontSize },
-						{ text: item.valordoproduto, fontSize: fontSize },
-						{ text: item.desconto, fontSize: fontSize },
-						{ text: item.frete, fontSize: fontSize }
+						{ text: Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(item?.valordoproduto), fontSize: fontSize },
+						{ text: Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(item?.desconto), fontSize: fontSize },
+						{ text: Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(item?.frete), fontSize: fontSize }
 					]
 				]
 			},
@@ -155,7 +155,7 @@ export const getItemTable = (item: any) => {
 
 						{ text: 'Total', fillColor: corHeadTable, fontSize: fontSize }
 					],
-					[{ text: item.st + '%', fontSize: fontSize }, { text: item.mva + '%', fontSize: fontSize }, { text: item.icms + '%', fontSize: fontSize }, { text: item.ipi + '%', fontSize: fontSize }, { text: 12.76, fontSize: fontSize }]
+					[{ text: item.st + '%', fontSize: fontSize }, { text: item.mva + '%', fontSize: fontSize }, { text: item.icms + '%', fontSize: fontSize }, { text: item.ipi + '%', fontSize: fontSize }, { text: Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(item?.valorComTributo), fontSize: fontSize }]
 				]
 			},
 			layout: 'noBorders',
@@ -164,7 +164,7 @@ export const getItemTable = (item: any) => {
 	return itemTable;
 }
 
-export const getTotal = (totalS: number, totalDesconto: number, totalFrete: number, formaPagamento: number): any[] => {
+export const getTotal = (totalS: number, totalDesconto: number, totalFrete: number, formaPagamento: number, totalSemTributos:number): any[] => {
 	return [
 		{
 			text: "", margin: [0, 10],
@@ -184,10 +184,10 @@ export const getTotal = (totalS: number, totalDesconto: number, totalFrete: numb
 					],
 					[
 						{ text: getFormaPagamentoToString(formaPagamento), fontSize: fontSize },
-						{ text: Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(totalS), fontSize: fontSize },
+						{ text: Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(totalSemTributos), fontSize: fontSize },
 						{ text: Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(totalFrete), fontSize: fontSize },
 						{ text: Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(totalDesconto), fontSize: fontSize },
-						{ text: Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format((totalS + totalFrete) - totalDesconto), fontSize: fontSize }
+						{ text: Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(totalS), fontSize: fontSize }
 					]
 				]
 			},

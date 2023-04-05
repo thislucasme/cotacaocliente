@@ -28,15 +28,9 @@ export const CotacaoBloqueada = () => {
 				Acesso à cotação bloqueado.
 				</Text>
 				<Text align={"center"} w={"80%"} color={"gray"} fontSize={"md"}>
-				Pedimos desculpas, mas a cotação que você solicitou está bloqueada
-				ou encerrada. Por favor, entre em contato com
-				a {dadosEmpresa?.data?.data?.razao}, a empresa solicitante,
-				para obter mais informações. Você pode entrar em contato com eles
-				através do número
-			
-				</Text>
-				<Text align={"center"} w={"80%"} color={"gray"} fontSize={"md"}>
-				{formatedTelefoneNumber(dadosEmpresa?.data?.data?.telefone)}.
+				Pedimos desculpas, mas a cotação que você solicitou já está encerrada 
+				ou foi bloqueada. Para mais informações entre em contato com a empresa 
+				{dadosEmpresa?.data?.data?.razao} através do telefone {formatedTelefoneNumber(dadosEmpresa?.data?.data?.telefone)}.
 				</Text>
 			</VStack>
 		</Center>

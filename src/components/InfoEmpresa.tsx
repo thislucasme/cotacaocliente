@@ -20,7 +20,7 @@ export const InfoEmpresa = () => {
 	const price = useContext(CotacaoContext)
 
 	const dadosEmpresa = useContext(InfoEmpresaContext)
-console.log(dadosEmpresa)
+
 
 
 	const [codCotacao, setCodCotacao] = useState();

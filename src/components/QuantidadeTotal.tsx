@@ -8,6 +8,7 @@ import { CotacaoContext } from '../context/CotacaoContext';
 import { ModalDesconto } from '../pages/ModalDesconto';
 import { motion } from 'framer-motion'
 import { Tooltip } from 'antd';
+import { retornarTotal } from '../lib/utils';
 type Props = {
 	total: number,
 	totalDesconto: number,
@@ -29,9 +30,10 @@ export const QuantidadeTotal = (props: Props) => {
 	const [total, setTotal] = useState<number>(0);
 	const [frete, setFrete] = useState<number>(0);
 	const [totalDesconto, setTotalDesconto] = useState<number>(0);
+	const [totalSemTributos, setTotalSemTributos] = useState(0); 
 
 	useEffect(() => {
-
+		setTotalSemTributos(retornarTotal(price?.cotacoes))
 		if (price.total !== undefined && price.totalFrete !== undefined && price.totalDesconto !== undefined) {
 			setTotal(price.total);
 			setFrete(price.totalFrete)
@@ -46,7 +48,7 @@ export const QuantidadeTotal = (props: Props) => {
 
 					<VStack px={3} alignItems={"start"} >
 						<Text color={"gray.500"}>Subtotal</Text>
-						<Text mr={3} fontWeight={"semibold"}>{Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(total)}</Text>
+						<Text mr={3} fontWeight={"semibold"}>{Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(totalSemTributos)}</Text>
 					</VStack>
 
 					<VStack px={3} alignItems={"start"} >
@@ -60,7 +62,7 @@ export const QuantidadeTotal = (props: Props) => {
 					</VStack>
 					<VStack alignItems={"start"}>
 						<Text color={"gray.500"}>Total geral</Text>
-						<Text fontWeight={"semibold"}>{((total + frete) - (totalDesconto)).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
+						<Text fontWeight={"semibold"}>{((total)).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
 					</VStack>
 					<motion.div
 						style={{ paddingLeft: 3, paddingRight: 3 }}
@@ -92,7 +94,7 @@ export const QuantidadeTotal = (props: Props) => {
 						</Text>
 						<Spacer />
 						<Text fontSize={"14px"} fontFamily={"Roboto"} style={{ fontWeight: 500 }}>
-							{Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(total)}
+							{Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(totalSemTributos)}
 						</Text>
 					</Flex>
 
@@ -122,7 +124,7 @@ export const QuantidadeTotal = (props: Props) => {
 						</Text>
 						<Spacer />
 						<Text fontSize={"14px"} fontFamily={"Roboto"} style={{ fontWeight: 500 }}>
-							{((total + frete) - (totalDesconto)).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
+							{(total).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
 						</Text>
 					</Flex>
 

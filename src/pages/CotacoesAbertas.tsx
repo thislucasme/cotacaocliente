@@ -463,7 +463,7 @@ const CotacaoHome = () => {
 				},
 			},
 			{
-				title: 'Código/barras',
+				title: 'Cod.Barras',
 				dataIndex: 'codbarras',
 				key: 'codbarras',
 				width: '100px',
@@ -740,7 +740,7 @@ const CotacaoHome = () => {
 
 
 			{
-				title: 'status',
+				title: 'Status',
 				dataIndex: 'status',
 				key: 'status',
 				align: "center",
@@ -780,7 +780,7 @@ const CotacaoHome = () => {
 				},
 			},
 			{
-				title: 'Código/barras',
+				title: 'Cod.Barras',
 				dataIndex: 'codbarras',
 				key: 'codbarras',
 				width: '100px',

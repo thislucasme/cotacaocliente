@@ -22,7 +22,7 @@ export const generateADocument = () => {
 	return documentDefinition;
 }
 
-export const imprimir = (itens: any[], download: boolean, totalS: number, totalDesconto: number, totalFrete: number, formaPagamento: number, dadosEmpresa: any, totalSemTributos:number) => {
+export const imprimir = (itens: any[], download: boolean, totalS: number, totalDesconto: number, totalFrete: number, formaPagamento: number, dadosEmpresa: any, totalSemTributos: number) => {
 	let definition: TDocumentDefinitions = generateADocument();
 	const arrayItens: any[] = []
 
@@ -132,7 +132,7 @@ export const getItemTable = (item: any) => {
 						{ text: item.produto, fontSize: fontSize },
 						{ text: formatStringIgnoringSomeWords(item.descricao?.toLowerCase()), fontSize: fontSize },
 						{ text: item.codbarras, fontSize: fontSize },
-						{ text: item.marca?.toLowerCase(), fontSize: fontSize },
+						{ text: formatStringIgnoringSomeWords(item.marca?.toLowerCase()), fontSize: fontSize },
 						{ text: item.quantidade, fontSize: fontSize },
 						{ text: Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(item?.valordoproduto), fontSize: fontSize },
 						{ text: Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(item?.desconto), fontSize: fontSize },
@@ -148,10 +148,10 @@ export const getItemTable = (item: any) => {
 				widths: [100, '*', 100, '*', '*'],
 				body: [
 					[
-						{ text: '% st', fillColor: corHeadTable, fontSize: fontSize },
-						{ text: '% mva', fillColor: corHeadTable, fontSize: fontSize },
-						{ text: '% icms', fillColor: corHeadTable, fontSize: fontSize },
-						{ text: '% ipi', fillColor: corHeadTable, fontSize: fontSize },
+						{ text: '% ST', fillColor: corHeadTable, fontSize: fontSize },
+						{ text: '% MVA', fillColor: corHeadTable, fontSize: fontSize },
+						{ text: '% ICMS', fillColor: corHeadTable, fontSize: fontSize },
+						{ text: '% IPI', fillColor: corHeadTable, fontSize: fontSize },
 
 						{ text: 'Total', fillColor: corHeadTable, fontSize: fontSize }
 					],
@@ -164,7 +164,7 @@ export const getItemTable = (item: any) => {
 	return itemTable;
 }
 
-export const getTotal = (totalS: number, totalDesconto: number, totalFrete: number, formaPagamento: number, totalSemTributos:number): any[] => {
+export const getTotal = (totalS: number, totalDesconto: number, totalFrete: number, formaPagamento: number, totalSemTributos: number): any[] => {
 	return [
 		{
 			text: "", margin: [0, 10],
@@ -231,22 +231,26 @@ const firstLetterUpperCase = (word: string) => {
 	});
 }
 
-function formatStringIgnoringSomeWords(str:string) {
-	const articles = ["de", "da", "do", "e"];
-	const words = str.split(" ");
-	
-	// Transforma a primeira palavra em maiúscula
-	words[0] = words[0].charAt(0).toUpperCase() + words[0].slice(1);
-	
-	// Verifica se as outras palavras são artigos e as mantém em minúsculo
-	for (let i = 1; i < words.length; i++) {
-	  if (articles.includes(words[i])) {
-		words[i] = words[i].toLowerCase();
-	  } else {
-		words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
-	  }
+function formatStringIgnoringSomeWords(str: string) {
+	if (str) {
+		const articles = ["de", "da", "do", "e"];
+		const words = str.split(" ");
+
+		// Transforma a primeira palavra em maiúscula
+		words[0] = words[0].charAt(0).toUpperCase() + words[0].slice(1);
+
+		// Verifica se as outras palavras são artigos e as mantém em minúsculo
+		for (let i = 1; i < words.length; i++) {
+			if (articles.includes(words[i])) {
+				words[i] = words[i].toLowerCase();
+			} else {
+				words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
+			}
+		}
+
+		// Retorna a string formatada
+		return words.join(" ");
+	} else {
+		return ''
 	}
-	
-	// Retorna a string formatada
-	return words.join(" ");
-  }
+}

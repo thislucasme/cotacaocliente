@@ -467,7 +467,7 @@ const CotacaoHome = () => {
 				dataIndex: 'codbarras',
 				key: 'codbarras',
 				width: '100px',
-				align: "center",
+				align: 'left',
 				ellipsis: {
 					showTitle: false
 				},
@@ -484,7 +484,7 @@ const CotacaoHome = () => {
 				title: 'Código interno',
 				dataIndex: 'produto',
 				key: 'produto',
-				align: 'center',
+				align: 'left',
 				width: "90px",
 				ellipsis: {
 					showTitle: false
@@ -784,7 +784,7 @@ const CotacaoHome = () => {
 				dataIndex: 'codbarras',
 				key: 'codbarras',
 				width: '100px',
-				align: "center",
+				align: 'left',
 				ellipsis: {
 					showTitle: false
 				},
@@ -801,7 +801,7 @@ const CotacaoHome = () => {
 				title: 'Código Interno',
 				dataIndex: 'produto',
 				key: 'produto',
-				align: 'center',
+				align: 'left',
 				width: "70px",
 				ellipsis: {
 					showTitle: false

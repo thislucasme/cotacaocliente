@@ -87,6 +87,7 @@ const getCabecalho = (dadosEmpresa: any, codigoCotacao: string) => {
 		},
 		{
 			margin: [0, 10],
+			fontSize: 12,
 			style: 'tableExample',
 			table: {
 				widths: ['*', '*', '*', '*'],

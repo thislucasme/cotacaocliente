@@ -61,7 +61,7 @@ export const QuantidadeTotal = (props: Props) => {
 						<Text fontWeight={"semibold"}>-{Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(totalDesconto)}</Text>
 					</VStack>
 					<VStack alignItems={"start"}>
-						<Text color={"gray.500"}>Total geral</Text>
+						<Text color={"gray.500"}>Total Geral</Text>
 						<Text fontWeight={"semibold"}>{((total)).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
 					</VStack>
 					<motion.div

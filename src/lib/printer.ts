@@ -22,16 +22,16 @@ export const generateADocument = () => {
 	return documentDefinition;
 }
 
-export const imprimir = (itens: any[], download: boolean, totalS: number, totalDesconto: number, totalFrete: number, formaPagamento: number, dadosEmpresa: any, totalSemTributos: number) => {
+export const imprimir = (itens: any[], download: boolean, totalS: number, totalDesconto: number, totalFrete: number, formaPagamento: number, dadosEmpresa: any, totalSemTributos: number, tributos:number) => {
 	let definition: TDocumentDefinitions = generateADocument();
 	const arrayItens: any[] = []
 
-	for (let i = 0; i < itens.length; i++) {
+	for (let i = 0; i < itens?.length; i++) {
 		let item: any = itens[i];
 		arrayItens.push(getItemTable(item))
 	}
 
-	const total: any[] = getTotal(totalS, totalDesconto, totalFrete, formaPagamento, totalSemTributos);
+	const total: any[] = getTotal(totalS, totalDesconto, totalFrete, formaPagamento, totalSemTributos, tributos);
 
 	definition.content = [...getCabecalho(dadosEmpresa, itens[0].codigo), ...arrayItens, ...total];
 
@@ -165,7 +165,7 @@ export const getItemTable = (item: any) => {
 	return itemTable;
 }
 
-export const getTotal = (totalS: number, totalDesconto: number, totalFrete: number, formaPagamento: number, totalSemTributos: number): any[] => {
+export const getTotal = (totalS: number, totalDesconto: number, totalFrete: number, formaPagamento: number, totalSemTributos: number, tributos:number): any[] => {
 	return [
 		{
 			text: "", margin: [0, 10],
@@ -174,11 +174,12 @@ export const getTotal = (totalS: number, totalDesconto: number, totalFrete: numb
 		{
 			style: 'tableExample',
 			table: {
-				widths: ['*', '*', '*', '*', '*'],
+				widths: ['*', '*', '*', '*', '*', '*'],
 				body: [
 					[
 						{ text: 'Forma Pagamento', fontSize: fontSize, fillColor: corHeadTable },
 						{ text: 'Subtotal', fontSize: fontSize, fillColor: corHeadTable },
+						{ text: 'Tributos', fontSize: fontSize, fillColor: corHeadTable },
 						{ text: 'Frete', fontSize: fontSize, fillColor: corHeadTable },
 						{ text: 'Desconto. barras', fontSize: fontSize, fillColor: corHeadTable },
 						{ text: 'Total Geral', fontSize: fontSize, fillColor: corHeadTable },
@@ -186,6 +187,7 @@ export const getTotal = (totalS: number, totalDesconto: number, totalFrete: numb
 					[
 						{ text: getFormaPagamentoToString(formaPagamento), fontSize: fontSize },
 						{ text: Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(totalSemTributos), fontSize: fontSize },
+						{ text: Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(tributos), fontSize: fontSize },
 						{ text: Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(totalFrete), fontSize: fontSize },
 						{ text: Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(totalDesconto), fontSize: fontSize },
 						{ text: Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(totalS), fontSize: fontSize }

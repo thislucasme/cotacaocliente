@@ -32,6 +32,7 @@ export const usePrice = () => {
 		formaPagamento: data?.data[5][0].formaPagamento,
 		nomeFuncionario: data?.data[6][0]?.nomeFuncionario,
 		numeroCotacao: data?.data[7][0].numeroCotacao,
+		totalTributos: data?.data[8][0]?.totalTributos,
 		error,
 		mutate,
 		loading,

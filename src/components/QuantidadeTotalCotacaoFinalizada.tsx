@@ -42,12 +42,15 @@ export const QuantidadeTotalCotacaoFinalizada = (props: Props) => {
 
 	const dadosEmpresa = useContext(InfoEmpresaContext)
 	const [totalSemTributos, setTotalSemTributos] = useState(0); 
+	const [tributos, setTributos] = useState(0);
+
 	useEffect(() => {
 		setTotalSemTributos(retornarTotal(price?.cotacoes))
 		if (price.total !== undefined && price.totalFrete !== undefined && price.totalDesconto !== undefined) {
 			setTotal(price.total);
 			setFrete(price.totalFrete)
 			setTotalDesconto(price.totalDesconto)
+			setTributos(price?.totalTributos)
 		}
 	}, [price])
 
@@ -59,7 +62,7 @@ export const QuantidadeTotalCotacaoFinalizada = (props: Props) => {
 			color: 'green'
 		})
 
-		imprimir(price.cotacoes, false, price.total, price.totalDesconto, price.totalFrete, price.formaPagamento, dadosEmpresa?.data?.data, totalSemTributos)
+		imprimir(price.cotacoes, false, price.total, price.totalDesconto, price.totalFrete, price.formaPagamento, dadosEmpresa?.data?.data, totalSemTributos, tributos)
 
 	}
 
@@ -73,7 +76,10 @@ export const QuantidadeTotalCotacaoFinalizada = (props: Props) => {
 						<Text color={"gray.500"}>Subtotal</Text>
 						<Text mr={3} fontWeight={"semibold"}>{Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(totalSemTributos)}</Text>
 					</VStack>
-
+					<VStack px={3} alignItems={"start"} >
+						<Text color={"gray.500"}>Tributos</Text>
+						<Text mr={3} fontWeight={"semibold"}>{Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(tributos)}</Text>
+					</VStack>
 					<VStack px={3} alignItems={"start"} >
 						<Text color={"gray.500"}>Frete</Text>
 						<Text fontWeight={"semibold"}>{Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(frete)}</Text>
@@ -115,7 +121,15 @@ export const QuantidadeTotalCotacaoFinalizada = (props: Props) => {
 							{Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(totalSemTributos)}
 						</Text>
 					</Flex>
-
+					<Flex w={"full"}>
+						<Text style={styles.font14Apple}>
+							Tributos
+						</Text>
+						<Spacer />
+						<Text style={styles.font14Apple}>
+							{Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(tributos)}
+						</Text>
+					</Flex>
 					<Flex w={"full"}>
 						<Text style={styles.font14Apple}>
 							Frete

@@ -31,6 +31,7 @@ export const QuantidadeTotal = (props: Props) => {
 	const [frete, setFrete] = useState<number>(0);
 	const [totalDesconto, setTotalDesconto] = useState<number>(0);
 	const [totalSemTributos, setTotalSemTributos] = useState(0); 
+	const [tributos, setTributos] = useState(0);
 
 	useEffect(() => {
 		setTotalSemTributos(retornarTotal(price?.cotacoes))
@@ -38,6 +39,7 @@ export const QuantidadeTotal = (props: Props) => {
 			setTotal(price.total);
 			setFrete(price.totalFrete)
 			setTotalDesconto(price.totalDesconto)
+			setTributos(price?.totalTributos)
 		}
 	}, [price])
 
@@ -50,7 +52,10 @@ export const QuantidadeTotal = (props: Props) => {
 						<Text color={"gray.500"}>Subtotal</Text>
 						<Text mr={3} fontWeight={"semibold"}>{Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(totalSemTributos)}</Text>
 					</VStack>
-
+					<VStack px={3} alignItems={"start"} >
+						<Text color={"gray.500"}>Tributos</Text>
+						<Text mr={3} fontWeight={"semibold"}>{Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(tributos)}</Text>
+					</VStack>
 					<VStack px={3} alignItems={"start"} >
 						<Text color={"gray.500"}>Frete</Text>
 						<Text fontWeight={"semibold"}>{Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(frete)}</Text>
@@ -92,12 +97,18 @@ export const QuantidadeTotal = (props: Props) => {
 						<Text fontSize={"14px"} fontFamily={"Roboto"} style={{ fontWeight: 500 }}>
 							Subtotal
 						</Text>
+		
 						<Spacer />
 						<Text fontSize={"14px"} fontFamily={"Roboto"} style={{ fontWeight: 500 }}>
 							{Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(totalSemTributos)}
 						</Text>
 					</Flex>
-
+					<Flex w={"full"}>
+					<VStack px={3} alignItems={"start"} >
+						<Text color={"gray.500"}>Tributos</Text>
+						<Text mr={3} fontWeight={"semibold"}>{Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(tributos)}</Text>
+					</VStack>
+					</Flex>
 					<Flex w={"full"}>
 						<Text fontSize={"14px"} fontFamily={"Roboto"} style={{ fontWeight: 500 }}>
 							Frete

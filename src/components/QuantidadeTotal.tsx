@@ -75,7 +75,7 @@ export const QuantidadeTotal = (props: Props) => {
 					>
 						<Tooltip title={"Mais informações"}>
 							<Button style={{ boxShadow: "none" }} variant='subtle' onClick={onOpenDesconto}>
-								<CgEyeAlt color='gray' />
+								Frete/Desconto
 							</Button>
 						</Tooltip>
 					</motion.div>

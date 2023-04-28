@@ -65,20 +65,17 @@ export const QuantidadeTotal = (props: Props) => {
 						<Text color={"gray.500"}>Desconto</Text>
 						<Text fontWeight={"semibold"}>-{Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(totalDesconto)}</Text>
 					</VStack>
-					<VStack alignItems={"start"}>
+					<VStack mr={10} alignItems={"start"}>
 						<Text color={"gray.500"}>Total Geral</Text>
 						<Text fontWeight={"semibold"}>{((total)).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Text>
 					</VStack>
-					<motion.div
-						style={{ paddingLeft: 3, paddingRight: 3 }}
-						whileHover={{ scale: 1.2, color: "red" }}
-					>
+			
 						<Tooltip title={"Mais informações"}>
-							<Button style={{ boxShadow: "none" }} variant='subtle' onClick={onOpenDesconto}>
+							<Button style={{ boxShadow: "none" }} variant='filled' onClick={onOpenDesconto}>
 								Frete/Desconto
 							</Button>
 						</Tooltip>
-					</motion.div>
+				
 					{
 						// props.totalDesconto > 0 ?
 						// 	<VStack alignItems={"start"}>
@@ -139,7 +136,7 @@ export const QuantidadeTotal = (props: Props) => {
 						</Text>
 					</Flex>
 
-					<Button variant='subtle' onClick={onOpenDesconto}  >Ver mais detalhes</Button>
+					<Button style={{width: '100%'}} variant='filled' onClick={onOpenDesconto}  >Frete/Desconto</Button>
 				</VStack>
 			}
 

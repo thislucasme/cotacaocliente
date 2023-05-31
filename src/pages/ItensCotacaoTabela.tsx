@@ -276,7 +276,7 @@ export const IntensCotacaoTabela = (props: Props) => {
 
 								</SimpleGrid>
 								<FormControl>
-									<TextArea disabled={props.isEnviado} value={props.note} onChange={(e) => { props.setNote(e.target.value) }} placeholder="Oberservação do produto..." style={{ marginTop: 5 }} showCount maxLength={58} />
+									
 								</FormControl>
 
 								<SimpleGrid columns={[2, 2, 4]} spacing='10px'>
